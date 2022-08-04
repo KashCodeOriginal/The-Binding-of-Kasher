@@ -4,6 +4,11 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private float _speed;
+
+    [SerializeField] private Animator _animator;
+
+    private float horizontal;
+    private float vertical;
     
     public void MovePlayer(FloatingJoystick joystick)
     {
@@ -11,6 +16,23 @@ public class PlayerMovement : MonoBehaviour
         if (joystick.Horizontal != 0 || joystick.Vertical != 0)
         {
             transform.rotation = Quaternion.LookRotation(_rigidbody.velocity);
+            _animator.SetBool("IsWalking", true);
+
+            horizontal = joystick.Horizontal >= 0 ? horizontal = joystick.Horizontal : horizontal = -joystick.Horizontal;
+            vertical = joystick.Vertical >= 0 ? vertical = joystick.Vertical : vertical = -joystick.Vertical;
+
+            if (horizontal >= 0.6f)
+            {
+                _animator.SetFloat("WalkToRun", horizontal);
+            }
+            else if (vertical >= 0.6f)
+            {
+                _animator.SetFloat("WalkToRun", vertical);
+            }
+        }
+        else
+        {
+            _animator.SetBool("IsWalking", false);
         }
     }
     
