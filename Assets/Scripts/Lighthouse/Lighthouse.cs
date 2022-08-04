@@ -6,6 +6,8 @@ public class Lighthouse : MonoBehaviour
     [SerializeField] private int _woodAmount;
 
     [SerializeField] private LighthouseLight _lighthouseLight;
+
+    [SerializeField] private LighthouseFill _lighthouseFill;
     
     private float _currentWoodBurningTime;
 
@@ -35,5 +37,19 @@ public class Lighthouse : MonoBehaviour
         _woodAmount--;
 
         _lighthouseLight.LightsControll(true);
+    }
+
+    private void AddWoodToLightHouse(int amount)
+    {
+        _woodAmount += amount;
+    }
+
+    private void OnEnable()
+    {
+        _lighthouseFill.FillLightHouse += AddWoodToLightHouse;
+    }
+    private void OnDisable()
+    {
+        _lighthouseFill.FillLightHouse -= AddWoodToLightHouse;
     }
 }
