@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Stylized Water 1
   m_Shader: {fileID: 4800000, guid: c8110ef7c96474f73b2ee5f90e026b10, type: 3}
-  m_ShaderKeywords: FANCY_SHADOWS SAMPLE_SHADOWS SHADOWS
+  m_ShaderKeywords: FANCY_SHADOWS SAMPLE_SHADOWS
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -33,10 +33,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DepthDensity: 0.5
+    - _DepthDensity: 1
     - _DistanceDensity: 0.025
     - _EdgeFoamDepth: 0.25
-    - _FancyShadows: 1
+    - _FancyShadows: 0
     - _FoamContribution: 0.549
     - _FoamNoiseScale: 0.32
     - _FoamScale: 10
@@ -64,7 +64,7 @@ Material:
     m_Colors:
     - _DeepColor: {r: 0, g: 0.012465047, b: 0.122641504, a: 1}
     - _EdgeFoamColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FarColor: {r: 0.11863652, g: 0.47998604, b: 0.8113208, a: 1}
+    - _FarColor: {r: 0.017550694, g: 0.2928329, b: 0.5471698, a: 1}
     - _SSSColor: {r: 0.15222874, g: 0.2735849, b: 0.06323425, a: 1}
     - _ShadowColor: {r: 0.16220185, g: 0.2170624, b: 0.254717, a: 1}
     - _ShallowColor: {r: 0.44313726, g: 0.9137255, b: 0.6627451, a: 1}

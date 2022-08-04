@@ -21,13 +21,18 @@ public class PlayerMovement : MonoBehaviour
             horizontal = joystick.Horizontal >= 0 ? horizontal = joystick.Horizontal : horizontal = -joystick.Horizontal;
             vertical = joystick.Vertical >= 0 ? vertical = joystick.Vertical : vertical = -joystick.Vertical;
 
-            if (horizontal >= 0.6f)
+            if (horizontal >= 0.3f)
             {
                 _animator.SetFloat("WalkToRun", horizontal);
             }
-            else if (vertical >= 0.6f)
+            else if (vertical >= 0.3f)
             {
                 _animator.SetFloat("WalkToRun", vertical);
+            }
+            else
+            {
+                horizontal = 0;
+                vertical = 0;
             }
         }
         else

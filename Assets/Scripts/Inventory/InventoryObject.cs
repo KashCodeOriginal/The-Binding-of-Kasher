@@ -40,6 +40,8 @@ public class InventoryObject : ScriptableObject
                 }
                 break;
             }
+
+            
         }
     }
 }
