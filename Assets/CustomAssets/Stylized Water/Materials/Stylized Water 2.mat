@@ -31,6 +31,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _DepthDensity: 0.417
     - _DistanceDensity: 0.0075
@@ -69,3 +70,4 @@ Material:
     - _ShallowColor: {r: 0.16687432, g: 0.9983149, b: 1.4150944, a: 1}
     - _SparkleColor: {r: 0, g: 0, b: 0, a: 1}
     - _SunSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
