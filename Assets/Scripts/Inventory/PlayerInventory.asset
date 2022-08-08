@@ -12,4 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94e08826c6ecb8145b22724aa0f99870, type: 3}
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
-  _itemsContainer: []
+  _itemsContainer:
+  - _item: {fileID: 11400000, guid: 6b3a953307a2e1f4eb728f9160d2eaf1, type: 2}
+    _amount: 30
+    _maxSlotAmount: 0
+  - _item: {fileID: 11400000, guid: 6b3a953307a2e1f4eb728f9160d2eaf1, type: 2}
+    _amount: 30
+    _maxSlotAmount: 0
+  - _item: {fileID: 11400000, guid: 90782f4da46dc8c4eacd44a1b198298a, type: 2}
+    _amount: 30
+    _maxSlotAmount: 0
+  - _item: {fileID: 11400000, guid: 90782f4da46dc8c4eacd44a1b198298a, type: 2}
+    _amount: 30
+    _maxSlotAmount: 0
+  - _item: {fileID: 11400000, guid: 90782f4da46dc8c4eacd44a1b198298a, type: 2}
+    _amount: 30
+    _maxSlotAmount: 0
+  - _item: {fileID: 11400000, guid: 6b3a953307a2e1f4eb728f9160d2eaf1, type: 2}
+    _amount: 4
+    _maxSlotAmount: 26
+  _maxSlotsAmount: 5

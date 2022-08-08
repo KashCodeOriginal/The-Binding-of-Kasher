@@ -16,27 +16,30 @@ public class InventoryObject : ScriptableObject
 
         for(int i = 0; i < _itemsContainer.Count; i++)
         {
-            if (_itemsContainer[i].Item == item && _itemsContainer[i].MaxSlotAmount >= amount)
+            if (_itemsContainer[i].Item == item && _itemsContainer[i].MaxSlotAmount != 0)
             {
-                _itemsContainer[i].AddItemAmount(amount);
-                _hasItemInInventory = true;
-                break;
-            }
-            if(_itemsContainer[i].Item == item && _itemsContainer[i].MaxSlotAmount < amount)
-            {
-                _itemsContainer[i].AddItemAmount(_itemsContainer[i].MaxSlotAmount);
-                _hasItemInInventory = true;
-                
-                int itemOverAmount = amount - _itemsContainer[i].MaxSlotAmount;
-                _itemsContainer.Add(new InventorySlot(item, itemOverAmount));
-                break;
-            }
+                if (amount <= _itemsContainer[i].MaxSlotAmount)
+                {
+                    _itemsContainer[i].AddItemAmount(amount);
+                    _hasItemInInventory = true;
+                    break;
+                }
+                if (amount > _itemsContainer[i].MaxSlotAmount && _itemsContainer.Count <= _maxSlotsAmount)
+                {
+                    int _maxAmount = amount - _itemsContainer[i].MaxSlotAmount;
+                    _itemsContainer[i].AddItemAmount(_itemsContainer[i].MaxSlotAmount);
+                    AddNewItem(item, _maxAmount);
+                    _hasItemInInventory = true;
+                    break;
+                }
+            }   
         }
         if (_hasItemInInventory == false && _itemsContainer.Count <= _maxSlotsAmount)
         {
-            _itemsContainer.Add(new InventorySlot(item, amount));
+            AddNewItem(item, amount);
         }
     }
+    
 
     public void RemoveItemFromInventory(ItemsData item, int amount)
     {
@@ -53,4 +56,10 @@ public class InventoryObject : ScriptableObject
             }
         }
     }
+
+    private void AddNewItem(ItemsData item, int amount)
+    {
+        _itemsContainer.Add(new InventorySlot(item, amount));
+    }
+    
 }
