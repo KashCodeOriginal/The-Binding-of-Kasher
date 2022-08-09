@@ -40,8 +40,6 @@ public class InventoryObject : ScriptableObject
                     {
                         Debug.Log($"Выбросили: {overMaxAmount} {item.Name}");
                     }
-                    
-                    
                     _hasItemInInventory = true;
                     break;
                 }

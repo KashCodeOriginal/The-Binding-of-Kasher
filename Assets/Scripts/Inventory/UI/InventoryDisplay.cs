@@ -54,7 +54,7 @@ public class InventoryDisplay : MonoBehaviour
             {
                 var obj = Instantiate(_playerInventory.ItemContainer[i].Item.Prefab, Vector3.zero, Quaternion.identity, transform);
                 obj.GetComponent<RectTransform>().localPosition = GetItemPosition(i);
-                obj.GetComponentInChildren<Image>().sprite = _playerInventory.ItemContainer[i].Item.Icon;
+                obj.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _playerInventory.ItemContainer[i].Item.Icon;
                 obj.GetComponentInChildren<TextMeshProUGUI>().text = _playerInventory.ItemContainer[i].Amount.ToString("n0");
                 _itemsDisplayed.Add(_playerInventory.ItemContainer[i], obj);
             }

@@ -9,6 +9,7 @@ public class CollectWood : MonoBehaviour
     [SerializeField] private InventoryObject _playerInventory;
 
     [SerializeField] private ItemsData _wood;
+    [SerializeField] private ItemsData _apple;
 
     private void AddComboClick()
     {
@@ -18,6 +19,14 @@ public class CollectWood : MonoBehaviour
     private void AddWoodToInventory()
     {
         _playerInventory.AddItemToInventory(_wood, _comboClicks);
+
+        int value = Random.Range(0, 100);
+
+        if (value >= 50)
+        {
+            _playerInventory.AddItemToInventory(_apple, _comboClicks / 2);
+        }
+        
         _comboClicks = 0;
     }
 

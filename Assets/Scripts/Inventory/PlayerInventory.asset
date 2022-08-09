@@ -14,30 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemsContainer:
   - _item: {fileID: 11400000, guid: 6b3a953307a2e1f4eb728f9160d2eaf1, type: 2}
-    _amount: 30
-    _maxSlotAmount: 0
-  - _item: {fileID: 11400000, guid: 79c946dcaa7e63f448a0ae78a27bfc3d, type: 2}
-    _amount: 12
-    _maxSlotAmount: 15
-  - _item: {fileID: 11400000, guid: fb3aad8ecc16463479c633190d8965db, type: 2}
-    _amount: 3
-    _maxSlotAmount: 15
+    _amount: 5
+    _maxSlotAmount: 25
   - _item: {fileID: 11400000, guid: 90782f4da46dc8c4eacd44a1b198298a, type: 2}
-    _amount: 2
-    _maxSlotAmount: 15
-  - _item: {fileID: 11400000, guid: 90782f4da46dc8c4eacd44a1b198298a, type: 2}
-    _amount: 2
-    _maxSlotAmount: 15
-  - _item: {fileID: 11400000, guid: 90782f4da46dc8c4eacd44a1b198298a, type: 2}
-    _amount: 2
-    _maxSlotAmount: 15
-  - _item: {fileID: 11400000, guid: 90782f4da46dc8c4eacd44a1b198298a, type: 2}
-    _amount: 2
-    _maxSlotAmount: 15
-  - _item: {fileID: 11400000, guid: 90782f4da46dc8c4eacd44a1b198298a, type: 2}
-    _amount: 2
-    _maxSlotAmount: 15
-  - _item: {fileID: 11400000, guid: 6b3a953307a2e1f4eb728f9160d2eaf1, type: 2}
-    _amount: 28
-    _maxSlotAmount: 2
+    _amount: 1
+    _maxSlotAmount: 29
   _maxSlotsAmount: 16
