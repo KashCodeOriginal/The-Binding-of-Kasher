@@ -1,9 +1,13 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class SliderValueChanger : MonoBehaviour
 {
+   public event UnityAction ComboPointAdd;
+   
+   public event UnityAction ComboEnded;
+
    [SerializeField] private Slider _slider;
    [SerializeField] private bool _isSliderActivated;
    [SerializeField] private float _speed;
@@ -11,14 +15,14 @@ public class SliderValueChanger : MonoBehaviour
 
    [SerializeField] private SliderPoints _sliderPoints;
 
-   [SerializeField] private GameObject _woodCollectButton;
+   [SerializeField] private CollectWoodDisplay _collectWoodDisplay;
 
    public void StartSliderMoving()
    {
       _isSliderActivated = true;
       _sliderPoints.CreatePoints();
-      
-      _woodCollectButton.SetActive(true);
+
+      _collectWoodDisplay.CollectWoodButtonActive(true);
    }
 
    private void Update()
@@ -56,10 +60,16 @@ public class SliderValueChanger : MonoBehaviour
       {
          _speed += 0.5f;
          _sliderPoints.CreatePoints();
+         ComboPointAdd?.Invoke();
       }
       else
       {
+         ComboEnded?.Invoke();
+         _speed = 0.5f;
          _isSliderActivated = false;
+         _collectWoodDisplay.CollectWoodButtonActive(false);
+         _collectWoodDisplay.CollectWoodInterfaceActive(false);
+         
       }
    }
 }

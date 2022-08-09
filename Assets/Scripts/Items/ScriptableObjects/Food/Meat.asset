@@ -17,5 +17,5 @@ MonoBehaviour:
   _description: Red bloody meat
   _type: 0
   _icon: {fileID: 21300000, guid: d9b9252736a563e42978bc58ff8eb867, type: 3}
-  _prefab: {fileID: 7791207462462625111, guid: 6ea4b073adad1cb4390166c5fde7d083, type: 3}
+  _prefab: {fileID: 4472668011547576726, guid: 79dcd0a2b440f4a45af1ae05c36c7713, type: 3}
   _recoveryValue: 0

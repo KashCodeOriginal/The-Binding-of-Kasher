@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float horizontal;
     private float vertical;
-    
+
     public void MovePlayer(FloatingJoystick joystick)
     {
         _rigidbody.velocity = new Vector3(joystick.Horizontal * _speed, _rigidbody.velocity.y, joystick.Vertical * _speed);

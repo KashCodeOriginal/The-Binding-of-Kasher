@@ -7,7 +7,7 @@ public class InventoryObject : ScriptableObject
     [SerializeField] private List<InventorySlot> _itemsContainer = new List<InventorySlot>();
 
     [SerializeField] private int _maxSlotsAmount;
-    
+
     public List<InventorySlot> ItemContainer => _itemsContainer;
 
     public void AddItemToInventory(ItemsData item, int amount)
@@ -24,17 +24,30 @@ public class InventoryObject : ScriptableObject
                     _hasItemInInventory = true;
                     break;
                 }
-                if (amount > _itemsContainer[i].MaxSlotAmount && _itemsContainer.Count <= _maxSlotsAmount)
+                if (amount > _itemsContainer[i].MaxSlotAmount)
                 {
-                    int _maxAmount = amount - _itemsContainer[i].MaxSlotAmount;
+                    int maxAmount = amount - _itemsContainer[i].MaxSlotAmount;
+
+                    int overMaxAmount = amount - maxAmount;
+                    
                     _itemsContainer[i].AddItemAmount(_itemsContainer[i].MaxSlotAmount);
-                    AddNewItem(item, _maxAmount);
+                    
+                    if (_itemsContainer.Count < _maxSlotsAmount)
+                    {
+                        AddNewItem(item, maxAmount);
+                    }
+                    else
+                    {
+                        Debug.Log($"Выбросили: {overMaxAmount} {item.Name}");
+                    }
+                    
+                    
                     _hasItemInInventory = true;
                     break;
                 }
             }   
         }
-        if (_hasItemInInventory == false && _itemsContainer.Count <= _maxSlotsAmount)
+        if (_hasItemInInventory == false && _itemsContainer.Count < _maxSlotsAmount)
         {
             AddNewItem(item, amount);
         }

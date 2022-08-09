@@ -5,19 +5,20 @@ public class LighthouseFill : MonoBehaviour
 {
     [SerializeField] private ItemsData _wood;
 
-    [SerializeField] private Player _player;
-    public event UnityAction<int> FillLightHouse;
+    [SerializeField] private InventoryObject _playerInventory;
 
-    public event UnityAction<ItemsData, int> DeleteWoodFromInventory;
+    public event UnityAction<int> FillLightHouse;
+    
+    
 
     public void TryToFillLightHouse()
     {
-        for (int i = 0; i < _player.PlayerInventory.ItemContainer.Count; i++)
+        for (int i = 0; i < _playerInventory.ItemContainer.Count; i++)
         {
-            if (_player.PlayerInventory.ItemContainer[i].Item == _wood && _player.PlayerInventory.ItemContainer[i].Amount > 0)
+            if (_playerInventory.ItemContainer[i].Item == _wood && _playerInventory.ItemContainer[i].Amount > 0)
             {
-                FillLightHouse?.Invoke(_player.PlayerInventory.ItemContainer[i].Amount);
-                DeleteWoodFromInventory?.Invoke(_wood, _player.PlayerInventory.ItemContainer[i].Amount);
+                FillLightHouse?.Invoke(_playerInventory.ItemContainer[i].Amount);
+                _playerInventory.RemoveItemFromInventory(_wood, _playerInventory.ItemContainer[i].Amount);
             }
         }
     }
