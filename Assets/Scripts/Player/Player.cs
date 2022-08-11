@@ -11,9 +11,28 @@ public class Player : MonoBehaviour
 
     [SerializeField] private PlayerStatsChanger _playerStatsChanger;
 
+    [SerializeField] private InventoryObject _playerInventory;
+
     public int HealthPoint => _healthPoint;
     public int HungerPoint => _hungerPoint;
     public int WaterPoint => _waterPoint;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            _playerInventory.SaveInventory();
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            _playerInventory.LoadInventory();
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        _playerInventory.ItemContainer.Clear();
+    }
 
     private void OnTriggerEnter(Collider collider)
     {

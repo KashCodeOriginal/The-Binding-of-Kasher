@@ -1,12 +1,20 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "InventoryObject", menuName = "ScriptableObject/Inventory")]
-public class InventoryObject : ScriptableObject
+public class InventoryObject : ScriptableObject, ISerializationCallbackReceiver
 {
     [SerializeField] private List<InventorySlot> _itemsContainer = new List<InventorySlot>();
 
     [SerializeField] private int _maxSlotsAmount;
+
+    private DataBase _dataBase;
+
+    [SerializeField] private string _savingPath;
 
     public List<InventorySlot> ItemContainer => _itemsContainer;
 
@@ -70,7 +78,46 @@ public class InventoryObject : ScriptableObject
 
     private void AddNewItem(ItemsData item, int amount)
     {
-        _itemsContainer.Add(new InventorySlot(item, amount));
+        _itemsContainer.Add(new InventorySlot(_dataBase.GetID[item], item, amount));
+    }
+
+    public void SaveInventory()
+    {
+        string saveData = JsonUtility.ToJson(this, true);
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+        FileStream fileStream = File.Create(String.Concat(Application.persistentDataPath, _savingPath));
+        binaryFormatter.Serialize(fileStream, saveData);
+        fileStream.Close();
+    }
+    public void LoadInventory()
+    {
+        if (File.Exists(String.Concat(Application.persistentDataPath, _savingPath)))
+        {
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            FileStream fileStream = File.Open(String.Concat(Application.persistentDataPath, _savingPath), FileMode.Open);
+            JsonUtility.FromJsonOverwrite(binaryFormatter.Deserialize(fileStream).ToString(), this);
+            fileStream.Close();
+        }
     }
     
+    public void OnAfterDeserialize()
+    {
+        for (int i = 0; i < _itemsContainer.Count; i++)
+        {
+            _itemsContainer[i].SetItem(_dataBase.GetItemByID[_itemsContainer[i].ID]);
+        }
+    }
+
+    public void OnBeforeSerialize()
+    {
+    }
+
+    private void OnEnable()
+    {
+    #if UNITY_EDITOR
+        _dataBase = (DataBase)AssetDatabase.LoadAssetAtPath("Assets/Resources/ItemsDatabase.asset", typeof(DataBase));
+    #else 
+    _dataBase = Resources.Load<DataBase>("ItemsDatabase");
+    #endif
+    }
 }
