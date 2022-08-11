@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DayAndNightCycle : MonoBehaviour
@@ -12,11 +13,14 @@ public class DayAndNightCycle : MonoBehaviour
     [SerializeField] private AnimationCurve _skyboxCurve;
 
     [SerializeField] private RainEvent _rainEvent;
-    [SerializeField] private Material _daySkybox;
     [SerializeField] private Material _rainyDaySkybox;
+
+    [SerializeField] private List<Material> _daySkyboxes = new List<Material>();
+    
+    
     [SerializeField] private Material _nightSkybox;
 
-    private Material _currentDaySkybox;
+    [SerializeField] private Material _currentDaySkybox;
 
     [SerializeField] private Light _sun;
     [SerializeField] private Light _moon;
@@ -28,6 +32,8 @@ public class DayAndNightCycle : MonoBehaviour
     {
         _sunIntensity = _sun.intensity;
         _moonIntensity = _moon.intensity;
+        
+        _currentDaySkybox = _daySkyboxes[Random.Range(0, _daySkyboxes.Count - 1)];
 
         StartCoroutine(Delay());
     }
@@ -39,6 +45,8 @@ public class DayAndNightCycle : MonoBehaviour
         {
             _dayTime = 0;
             _totalDaysPassed++;
+
+            _currentDaySkybox = _daySkyboxes[Random.Range(0, _daySkyboxes.Count - 1)];
         }
 
         _sun.transform.localRotation = Quaternion.Euler(_dayTime * 360f, 0, 0);
@@ -53,11 +61,7 @@ public class DayAndNightCycle : MonoBehaviour
             {
                 _currentDaySkybox = _rainyDaySkybox;
             }
-            else
-            {
-                _currentDaySkybox = _daySkybox;
-            }
-            
+
             if (_dayTime >= 0.5f)
             {
                 _moon.enabled = true;
