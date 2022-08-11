@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class RainEvent : MonoBehaviour
 {
+    public bool IsRainStarted => _isRainStarted;
+    
     [SerializeField] private GameObject _rainParticle;
     
     [SerializeField] private float _rainChance;
@@ -16,7 +18,7 @@ public class RainEvent : MonoBehaviour
     [SerializeField] private int _maxRainPower;
 
     [SerializeField] private AnimationCurve _rainAppearanceCurve;
-
+    
     private bool _isRainStarted;
     float _totalPassedTime;
     float _rainDuration;
