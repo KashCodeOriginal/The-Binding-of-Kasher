@@ -12,11 +12,10 @@ public class DayAndNightCycle : MonoBehaviour
     [SerializeField] private AnimationCurve _moonCurve;
     [SerializeField] private AnimationCurve _skyboxCurve;
 
+    [SerializeField] private float _updateDelay;
+
     [SerializeField] private RainEvent _rainEvent;
     [SerializeField] private Material _rainyDaySkybox;
-
-    [SerializeField] private List<Material> _daySkyboxes = new List<Material>();
-    
     
     [SerializeField] private Material _nightSkybox;
 
@@ -24,6 +23,8 @@ public class DayAndNightCycle : MonoBehaviour
 
     [SerializeField] private Light _sun;
     [SerializeField] private Light _moon;
+    
+    
 
     private float _sunIntensity;
     private float _moonIntensity;
@@ -33,8 +34,6 @@ public class DayAndNightCycle : MonoBehaviour
         _sunIntensity = _sun.intensity;
         _moonIntensity = _moon.intensity;
         
-        _currentDaySkybox = _daySkyboxes[Random.Range(0, _daySkyboxes.Count - 1)];
-
         StartCoroutine(Delay());
     }
 
@@ -45,8 +44,6 @@ public class DayAndNightCycle : MonoBehaviour
         {
             _dayTime = 0;
             _totalDaysPassed++;
-
-            _currentDaySkybox = _daySkyboxes[Random.Range(0, _daySkyboxes.Count - 1)];
         }
 
         _sun.transform.localRotation = Quaternion.Euler(_dayTime * 360f, 0, 0);
@@ -57,11 +54,6 @@ public class DayAndNightCycle : MonoBehaviour
     {
         while (true)
         {
-            if (_rainEvent.IsRainStarted == true)
-            {
-                _currentDaySkybox = _rainyDaySkybox;
-            }
-
             if (_dayTime >= 0.5f)
             {
                 _moon.enabled = true;
@@ -69,13 +61,18 @@ public class DayAndNightCycle : MonoBehaviour
             else
             {
                 _moon.enabled = false;
-                RenderSettings.skybox.Lerp(_nightSkybox, _currentDaySkybox, _skyboxCurve.Evaluate(_dayTime));
-                RenderSettings.sun = _skyboxCurve.Evaluate(_dayTime) > 0.1f ? _sun : _moon;
-                DynamicGI.UpdateEnvironment();
-                _sun.intensity = _sunIntensity * _sunCurve.Evaluate(_dayTime);
-                _moon.intensity = _moonIntensity * _moonCurve.Evaluate(_dayTime);
-                yield return new WaitForSeconds(0.5f);
             }
+
+            if (_rainEvent.IsRainStarted == true)
+            {
+                _currentDaySkybox = _rainyDaySkybox;
+            }
+            RenderSettings.skybox.Lerp(_nightSkybox, _currentDaySkybox, _skyboxCurve.Evaluate(_dayTime));
+            RenderSettings.sun = _skyboxCurve.Evaluate(_dayTime) > 0.1f ? _sun : _moon;
+            DynamicGI.UpdateEnvironment();
+            _sun.intensity = _sunIntensity * _sunCurve.Evaluate(_dayTime);
+            _moon.intensity = _moonIntensity * _moonCurve.Evaluate(_dayTime);
+            yield return new WaitForSeconds(_updateDelay);
         }
     }
 }

@@ -1,46 +1,48 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using UnityEditor;
-using UnityEngine;
+ using System;
+ using System.IO;
+ using System.Runtime.Serialization;
+ using System.Runtime.Serialization.Formatters.Binary;
+ using Unity.VisualScripting;
+ using UnityEngine;
 
 [CreateAssetMenu(fileName = "InventoryObject", menuName = "ScriptableObject/Inventory")]
-public class InventoryObject : ScriptableObject, ISerializationCallbackReceiver
+public class InventoryObject : ScriptableObject
 {
-    [SerializeField] private List<InventorySlot> _itemsContainer = new List<InventorySlot>();
-
     [SerializeField] private int _maxSlotsAmount;
 
-    private DataBase _dataBase;
+    [SerializeField] private ItemsDataBase _itemsDataBase;
 
     [SerializeField] private string _savingPath;
 
-    public List<InventorySlot> ItemContainer => _itemsContainer;
+    [SerializeField] private Inventory _itemsContainer;
 
-    public void AddItemToInventory(ItemsData item, int amount)
+    public Inventory ItemsContainer => _itemsContainer;
+
+    public ItemsDataBase ItemsDataBase => _itemsDataBase;
+
+    public void AddItemToInventory(Item item, int amount)
     {
         bool _hasItemInInventory = false;
 
-        for(int i = 0; i < _itemsContainer.Count; i++)
+        for(int i = 0; i < _itemsContainer.Items.Count; i++)
         {
-            if (_itemsContainer[i].Item == item && _itemsContainer[i].MaxSlotAmount != 0)
+            if (_itemsContainer.Items[i].Item.ID == item.ID && _itemsContainer.Items[i].MaxSlotAmount != 0)
             {
-                if (amount <= _itemsContainer[i].MaxSlotAmount)
+                if (amount <= _itemsContainer.Items[i].MaxSlotAmount)
                 {
-                    _itemsContainer[i].AddItemAmount(amount);
+                    _itemsContainer.Items[i].AddItemAmount(amount);
                     _hasItemInInventory = true;
                     break;
                 }
-                if (amount > _itemsContainer[i].MaxSlotAmount)
+                if (amount > _itemsContainer.Items[i].MaxSlotAmount)
                 {
-                    int maxAmount = amount - _itemsContainer[i].MaxSlotAmount;
+                    int maxAmount = amount - _itemsContainer.Items[i].MaxSlotAmount;
 
                     int overMaxAmount = amount - maxAmount;
                     
-                    _itemsContainer[i].AddItemAmount(_itemsContainer[i].MaxSlotAmount);
+                    _itemsContainer.Items[i].AddItemAmount(_itemsContainer.Items[i].MaxSlotAmount);
                     
-                    if (_itemsContainer.Count < _maxSlotsAmount)
+                    if (_itemsContainer.Items.Count < _maxSlotsAmount)
                     {
                         AddNewItem(item, maxAmount);
                     }
@@ -53,71 +55,68 @@ public class InventoryObject : ScriptableObject, ISerializationCallbackReceiver
                 }
             }   
         }
-        if (_hasItemInInventory == false && _itemsContainer.Count < _maxSlotsAmount)
+        if (_hasItemInInventory == false && _itemsContainer.Items.Count < _maxSlotsAmount)
         {
             AddNewItem(item, amount);
         }
     }
     
 
-    public void RemoveItemFromInventory(ItemsData item, int amount)
+    public void RemoveItemFromInventory(Item item, int amount)
     {
-        for(int i = 0; i < _itemsContainer.Count; i++)
+        for(int i = 0; i < _itemsContainer.Items.Count; i++)
         {
-            if (_itemsContainer[i].Item == item)
+            if (_itemsContainer.Items[i].Item.ID == item.ID)
             {
-                _itemsContainer[i].RemoveItemAmount(amount);
-                if (_itemsContainer[i].Amount <= 0)
+                _itemsContainer.Items[i].RemoveItemAmount(amount);
+                if (_itemsContainer.Items[i].Amount <= 0)
                 {
-                    _itemsContainer.RemoveAt(i);
+                    _itemsContainer.Items.RemoveAt(i);
                 }
                 break;
             }
         }
     }
 
-    private void AddNewItem(ItemsData item, int amount)
+    private void AddNewItem(Item item, int amount)
     {
-        _itemsContainer.Add(new InventorySlot(_dataBase.GetID[item], item, amount));
+        _itemsContainer.Items.Add(new InventorySlot(item.ID, item, amount));
     }
 
     public void SaveInventory()
     {
+        /*
         string saveData = JsonUtility.ToJson(this, true);
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        FileStream fileStream = File.Create(String.Concat(Application.persistentDataPath, _savingPath));
+        FileStream fileStream = File.Create(string.Concat(Application.persistentDataPath, _savingPath));
         binaryFormatter.Serialize(fileStream, saveData);
         fileStream.Close();
+        */
+
+        IFormatter formatter = new BinaryFormatter();
+        Stream stream = new FileStream(string.Concat(Application.persistentDataPath, _savingPath), FileMode.Create, FileAccess.Write);
+        formatter.Serialize(stream, _itemsContainer);
+        stream.Close();
     }
     public void LoadInventory()
     {
         if (File.Exists(String.Concat(Application.persistentDataPath, _savingPath)))
         {
+            /*
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream fileStream = File.Open(String.Concat(Application.persistentDataPath, _savingPath), FileMode.Open);
             JsonUtility.FromJsonOverwrite(binaryFormatter.Deserialize(fileStream).ToString(), this);
             fileStream.Close();
-        }
-    }
-    
-    public void OnAfterDeserialize()
-    {
-        for (int i = 0; i < _itemsContainer.Count; i++)
-        {
-            _itemsContainer[i].SetItem(_dataBase.GetItemByID[_itemsContainer[i].ID]);
+            */
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(string.Concat(Application.persistentDataPath, _savingPath), FileMode.Open, FileAccess.Read);
+            _itemsContainer = (Inventory) formatter.Deserialize(stream);
+            stream.Close();
         }
     }
 
-    public void OnBeforeSerialize()
+    public void ClearInventory()
     {
-    }
-
-    private void OnEnable()
-    {
-    #if UNITY_EDITOR
-        _dataBase = (DataBase)AssetDatabase.LoadAssetAtPath("Assets/Resources/ItemsDatabase.asset", typeof(DataBase));
-    #else 
-    _dataBase = Resources.Load<DataBase>("ItemsDatabase");
-    #endif
+        _itemsContainer = new Inventory();
     }
 }

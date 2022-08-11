@@ -8,8 +8,8 @@ public class CollectWood : MonoBehaviour
 
     [SerializeField] private InventoryObject _playerInventory;
 
-    [SerializeField] private ItemsData _wood;
-    [SerializeField] private ItemsData _apple;
+    [SerializeField] private Item _wood;
+    [SerializeField] private Item _apple;
 
     private void AddComboClick()
     {

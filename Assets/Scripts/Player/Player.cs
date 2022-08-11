@@ -17,6 +17,11 @@ public class Player : MonoBehaviour
     public int HungerPoint => _hungerPoint;
     public int WaterPoint => _waterPoint;
 
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.S))
@@ -27,11 +32,10 @@ public class Player : MonoBehaviour
         {
             _playerInventory.LoadInventory();
         }
-    }
-
-    private void OnApplicationQuit()
-    {
-        _playerInventory.ItemContainer.Clear();
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            _playerInventory.ClearInventory();
+        }
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -40,6 +44,12 @@ public class Player : MonoBehaviour
         {
             _woodInterface.SetActive(true);
             _woodInterface.GetComponent<CollectWoodDisplay>().StartCollectWoodButton(true);
+        }
+
+        if (collider.GetComponent<GroundItem>() == true)
+        {
+            _playerInventory.AddItemToInventory(new Item(collider.GetComponent<GroundItem>().Item), 1);
+            Destroy(collider.gameObject);
         }
     }
     private void OnTriggerExit(Collider collider)
@@ -98,5 +108,10 @@ public class Player : MonoBehaviour
         _playerStatsChanger.HungerIsDecreased -= DecreaseHunger;
         _playerStatsChanger.WaterIsDecreased -= DecreaseWater;
         _playerStatsChanger.HealthIsDecreased -= DecreaseHealth;
+    }
+
+    private void OnApplicationQuit()
+    {
+        _playerInventory.ItemsContainer.Items.Clear();
     }
 }
