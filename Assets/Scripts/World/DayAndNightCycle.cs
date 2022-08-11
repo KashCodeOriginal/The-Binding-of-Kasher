@@ -6,6 +6,7 @@ public class DayAndNightCycle : MonoBehaviour
     [Range(0, 1)]
     [SerializeField] private float _dayTime;
     [SerializeField] private float _dayDuration;
+    [SerializeField] private int _totalDaysPassed;
 
     [SerializeField] private AnimationCurve _sunCurve;
     [SerializeField] private AnimationCurve _moonCurve;
@@ -35,6 +36,7 @@ public class DayAndNightCycle : MonoBehaviour
         if (_dayTime >= 1)
         {
             _dayTime = 0;
+            _totalDaysPassed++;
         }
         _sun.transform.localRotation = Quaternion.Euler(_dayTime * 360f, 0, 0);
         _moon.transform.localRotation = Quaternion.Euler(_dayTime * 360f + 180f, 0, 0);
