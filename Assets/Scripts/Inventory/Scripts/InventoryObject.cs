@@ -2,14 +2,11 @@
  using System.IO;
  using System.Runtime.Serialization;
  using System.Runtime.Serialization.Formatters.Binary;
- using Unity.VisualScripting;
  using UnityEngine;
 
 [CreateAssetMenu(fileName = "InventoryObject", menuName = "ScriptableObject/Inventory")]
 public class InventoryObject : ScriptableObject
 {
-    [SerializeField] private int _maxSlotsAmount;
-
     [SerializeField] private ItemsDataBase _itemsDataBase;
 
     [SerializeField] private string _savingPath;
@@ -24,9 +21,9 @@ public class InventoryObject : ScriptableObject
     {
         bool _hasItemInInventory = false;
 
-        for(int i = 0; i < _itemsContainer.Items.Count; i++)
+        for(int i = 0; i < _itemsContainer.Items.Length; i++)
         {
-            if (_itemsContainer.Items[i].Item.ID == item.ID && _itemsContainer.Items[i].MaxSlotAmount != 0)
+            if (_itemsContainer.Items[i].ID == item.ID && _itemsContainer.Items[i].MaxSlotAmount != 0)
             {
                 if (amount <= _itemsContainer.Items[i].MaxSlotAmount)
                 {
@@ -34,53 +31,88 @@ public class InventoryObject : ScriptableObject
                     _hasItemInInventory = true;
                     break;
                 }
+                
                 if (amount > _itemsContainer.Items[i].MaxSlotAmount)
                 {
                     int maxAmount = amount - _itemsContainer.Items[i].MaxSlotAmount;
-
-                    int overMaxAmount = amount - maxAmount;
+                
+                    //int overMaxAmount = amount - maxAmount;
                     
                     _itemsContainer.Items[i].AddItemAmount(_itemsContainer.Items[i].MaxSlotAmount);
                     
-                    if (_itemsContainer.Items.Count < _maxSlotsAmount)
-                    {
-                        AddNewItem(item, maxAmount);
-                    }
-                    else
-                    {
-                        Debug.Log($"Выбросили: {overMaxAmount} {item.Name}");
-                    }
+                    FindFirstEmptySlot(item, maxAmount);
+                    
                     _hasItemInInventory = true;
                     break;
                 }
             }   
+ 
         }
-        if (_hasItemInInventory == false && _itemsContainer.Items.Count < _maxSlotsAmount)
+        if (_hasItemInInventory == false)
         {
-            AddNewItem(item, amount);
+            FindFirstEmptySlot(item, amount);
         }
     }
     
-
+    
     public void RemoveItemFromInventory(Item item, int amount)
     {
-        for(int i = 0; i < _itemsContainer.Items.Count; i++)
+        for(int i = 0; i < _itemsContainer.Items.Length; i++)
         {
             if (_itemsContainer.Items[i].Item.ID == item.ID)
             {
-                _itemsContainer.Items[i].RemoveItemAmount(amount);
-                if (_itemsContainer.Items[i].Amount <= 0)
-                {
-                    _itemsContainer.Items.RemoveAt(i);
-                }
                 break;
             }
         }
     }
 
-    private void AddNewItem(Item item, int amount)
+    public void MoveItem(InventorySlot item1, InventorySlot item2)
     {
-        _itemsContainer.Items.Add(new InventorySlot(item.ID, item, amount));
+        InventorySlot temp = new InventorySlot(item2.ID, item2.Item, item2.Amount);
+        item2.UpdateSlot(item1.ID, item1.Item, item1.Amount);
+        item1.UpdateSlot(temp.ID, temp.Item, temp.Amount);
+    }
+
+    public void DropItem(Item item)
+    {
+        for (int i = 0; i < _itemsContainer.Items.Length; i++)
+        {
+            if (_itemsContainer.Items[i].Item == item)
+            {
+                var obj = _itemsDataBase.GetItemByID[_itemsContainer.Items[i].ID].Prefab;
+                var player = GameObject.FindWithTag("Player");
+                Instantiate(obj, new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z + 2), Quaternion.identity);
+                obj.GetComponent<Rigidbody>().AddForce(10, 0,0);
+                var component = obj.TryGetComponent(out GroundItem groundItem);
+                if (component == true)
+                {
+                    groundItem.SetAmount(_itemsContainer.Items[i].Amount);
+                }
+                _itemsContainer.Items[i].UpdateSlot(-1, null, 0);
+            }
+        }
+    }
+    
+
+    private InventorySlot FindFirstEmptySlot(Item item, int amount)
+    {
+        for (int i = 0; i < _itemsContainer.Items.Length; i++)
+        {
+            if (_itemsContainer.Items[i].ID <= -1)
+            {
+                _itemsContainer.Items[i].UpdateSlot(item.ID, item, amount);
+                return _itemsContainer.Items[i];
+            }
+        }
+        // if (_itemsContainer.Items.Count < _maxSlotsAmount)
+        // {
+        //     FindFirstEmptySlot(item, maxAmount);
+        // }
+        // else
+        // {
+        //     Debug.Log($"Выбросили: {overMaxAmount} {item.Name}");
+        // }
+        return null;
     }
 
     public void SaveInventory()
@@ -110,7 +142,11 @@ public class InventoryObject : ScriptableObject
             */
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(string.Concat(Application.persistentDataPath, _savingPath), FileMode.Open, FileAccess.Read);
-            _itemsContainer = (Inventory) formatter.Deserialize(stream);
+            Inventory newContainer = (Inventory)formatter.Deserialize(stream);
+            for (int i = 0; i < _itemsContainer.Items.Length; i++)
+            {
+                _itemsContainer.Items[i].UpdateSlot(newContainer.Items[i].ID, newContainer.Items[i].Item, newContainer.Items[i].Amount);
+            }
             stream.Close();
         }
     }

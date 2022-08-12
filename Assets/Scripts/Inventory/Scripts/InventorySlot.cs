@@ -15,6 +15,13 @@ public class InventorySlot
 
     public int MaxSlotAmount => _maxSlotAmount;
 
+    public InventorySlot()
+    {
+        _id = -1;
+        _item = null;
+        _amount = 0;
+        _maxSlotAmount -= 0;
+    }
     public InventorySlot(int id, Item item, int amount)
     {
         _id = id;
@@ -22,6 +29,14 @@ public class InventorySlot
         _amount = amount;
         _maxSlotAmount -= amount;
     }
+    public void UpdateSlot(int id, Item item, int amount)
+    {
+        _id = id;
+        _item = item;
+        _amount = amount;
+        _maxSlotAmount -= amount;
+    }
+
 
     public void AddItemAmount(int value)
     {

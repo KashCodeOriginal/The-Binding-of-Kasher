@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
 
         if (collider.GetComponent<GroundItem>() == true)
         {
-            _playerInventory.AddItemToInventory(new Item(collider.GetComponent<GroundItem>().Item), 1);
+            _playerInventory.AddItemToInventory(new Item(collider.GetComponent<GroundItem>().Item), collider.GetComponent<GroundItem>().Amount);
             Destroy(collider.gameObject);
         }
     }
@@ -112,6 +112,6 @@ public class Player : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        _playerInventory.ItemsContainer.Items.Clear();
+        _playerInventory.ItemsContainer.ClearItems();
     }
 }

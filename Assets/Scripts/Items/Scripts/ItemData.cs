@@ -9,6 +9,7 @@ public class ItemsData : ScriptableObject
     [SerializeField] private ItemType _type;
     [SerializeField] private Sprite _icon;
     [SerializeField] private Mesh _model;
+    [SerializeField] private GameObject _prefab;
     [SerializeField] private ItemBuff[] _itemBuffs;
 
     public Item CreateItem()
@@ -22,7 +23,8 @@ public class ItemsData : ScriptableObject
     public string Description => _description;
     public ItemType Type => _type;
     public Sprite Icon => _icon;
-    public Mesh Prefab => _model;
+    public Mesh Mesh => _model;
+    public GameObject Prefab => _prefab;
     public ItemBuff[] ItemBuffs => _itemBuffs;
     
     public void SetId(int id)

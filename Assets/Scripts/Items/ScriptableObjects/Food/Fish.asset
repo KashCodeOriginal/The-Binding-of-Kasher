@@ -17,7 +17,8 @@ MonoBehaviour:
   _description: Fresh slippery fish
   _type: 0
   _icon: {fileID: 21300000, guid: ed3cf98eac685b54faeba0adf4965bbb, type: 3}
-  _prefab: {fileID: 4472668011547576726, guid: 79dcd0a2b440f4a45af1ae05c36c7713, type: 3}
+  _model: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  _prefab: {fileID: 3148343034270809691, guid: 15382656c04d8cc4dbde03599b9068ac, type: 3}
   _itemBuffs:
   - _attribute: 0
     _value: 0
