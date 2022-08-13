@@ -11,7 +11,7 @@ public class Inventory
     {
         for (int i = 0; i < Items.Length; i++)
         {
-            Items[i].UpdateSlot(-1, new Item(), 0, 30);
+            Items[i].UpdateSlot(new Item(), 0, 30);
         }
     }
 }

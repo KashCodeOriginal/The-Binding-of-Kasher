@@ -10,7 +10,7 @@ public class StaticInterface : UserInterface
     public GameObject[] Slots => _slots;
     public override void CreateInventorySlots()
     {
-        _itemsDisplayed = new Dictionary<GameObject, InventorySlot>();
+        _slorsOnInterface = new Dictionary<GameObject, InventorySlot>();
 
         for (int i = 0; i < _playerInventory.ItemsContainer.Items.Length; i++)
         {
@@ -22,7 +22,7 @@ public class StaticInterface : UserInterface
             AddEvent(obj, EventTriggerType.EndDrag, delegate { OnEndDrag(obj); });
             AddEvent(obj, EventTriggerType.Drag, delegate { OnDrag(obj); });
             
-            _itemsDisplayed.Add(obj, _playerInventory.ItemsContainer.Items[i]);
+            _slorsOnInterface.Add(obj, _playerInventory.ItemsContainer.Items[i]);
         }
     }
 }

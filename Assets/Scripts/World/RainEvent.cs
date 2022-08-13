@@ -27,6 +27,7 @@ public class RainEvent : MonoBehaviour
     [SerializeField] private AnimationCurve _lightningCurve;
     
     [SerializeField] private Light _lightning;
+    [SerializeField] private int _rainPowerForLightning;
     
     private bool _isRainStarted;
     private bool _isLightningStarted;
@@ -74,7 +75,7 @@ public class RainEvent : MonoBehaviour
         _rainDuration = Random.Range(_minRainDuration, _maxRainDuration);
         _rainPower = Random.Range(_minRainPower, _maxRainPower);
 
-        if (_rainPower >= 300)
+        if (_rainPower >= _rainPowerForLightning)
         {
             StartCoroutine(LightningAppearance());
         }

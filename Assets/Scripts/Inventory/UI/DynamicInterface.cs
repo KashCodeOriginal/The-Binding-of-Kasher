@@ -9,12 +9,12 @@ public class DynamicInterface : UserInterface
     
     public override void CreateInventorySlots()
     {
-        _itemsDisplayed = new Dictionary<GameObject, InventorySlot>();
+        _slorsOnInterface = new Dictionary<GameObject, InventorySlot>();
 
         for (int i = 0; i < _playerInventory.ItemsContainer.Items.Length; i++)
         {
             var obj = Instantiate(_inventorySlotPrefab, Vector3.zero, Quaternion.identity, transform);
-            _itemsDisplayed.Add(obj, _playerInventory.ItemsContainer.Items[i]);
+            _slorsOnInterface.Add(obj, _playerInventory.ItemsContainer.Items[i]);
             
             AddEvent(obj, EventTriggerType.PointerEnter, delegate { OnEnter(obj); });
             AddEvent(obj, EventTriggerType.PointerExit, delegate { OnExit(obj); });

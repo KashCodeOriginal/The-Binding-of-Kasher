@@ -13,8 +13,6 @@ public class Player : MonoBehaviour
 
     [SerializeField] private InventoryObject _playerInventory;
     
-    public MouseItem MouseItem = new MouseItem();
-
     public int HealthPoint => _healthPoint;
     public int HungerPoint => _hungerPoint;
     public int WaterPoint => _waterPoint;
