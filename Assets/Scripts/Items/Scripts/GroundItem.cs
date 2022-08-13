@@ -4,9 +4,9 @@ using UnityEngine;
 public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 {
     [SerializeField] private ItemsData _item;
-    [SerializeField] private int amount = 1;
+    [SerializeField] private int _amount;
     public ItemsData Item => _item;
-    public int Amount => amount;
+    public int Amount => _amount;
     
     public void OnAfterDeserialize()
     {
@@ -20,7 +20,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 
     public void SetAmount(int value)
     {
-        amount = value;
+        _amount = value;
     }
 
 }

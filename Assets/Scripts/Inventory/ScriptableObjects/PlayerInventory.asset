@@ -16,114 +16,194 @@ MonoBehaviour:
   _savingPath: /inventory.save
   _itemsContainer:
     _items:
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0
       _maxSlotAmount: 30
-    - _item:
+    - AllowedItems: 
+      _item:
         _name: 
-        _id: 0
+        _id: -1
+        _itemBuffs: []
+      _id: -1
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _id: -1
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _id: -1
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _id: -1
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _id: -1
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _id: -1
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _id: -1
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _id: -1
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 
+      _item:
+        _name: 
+        _id: -1
         _itemBuffs: []
       _id: -1
       _amount: 0

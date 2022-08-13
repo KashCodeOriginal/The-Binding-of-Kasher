@@ -40,8 +40,13 @@ public enum ItemType
     Building,
     Tools,
     Equipment,
-    Other
+    Other,
+    Helmet,
+    ChestPlate,
+    Pants,
+    Shoes
 }
+
 public enum Attributes
 { 
     RecoveryValue

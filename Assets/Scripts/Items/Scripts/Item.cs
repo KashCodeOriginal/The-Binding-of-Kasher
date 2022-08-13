@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -11,6 +12,12 @@ public class Item
     public int ID => _id;
 
     public ItemBuff[] ItemBuffs => _itemBuffs;
+
+    public Item()
+    {
+        _name = "";
+        _id = -1;
+    }
 
     public Item(ItemsData item)
     {

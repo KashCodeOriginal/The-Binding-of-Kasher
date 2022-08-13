@@ -68,9 +68,9 @@ public class InventoryObject : ScriptableObject
 
     public void MoveItem(InventorySlot item1, InventorySlot item2)
     {
-        InventorySlot temp = new InventorySlot(item2.ID, item2.Item, item2.Amount);
-        item2.UpdateSlot(item1.ID, item1.Item, item1.Amount);
-        item1.UpdateSlot(temp.ID, temp.Item, temp.Amount);
+        InventorySlot temp = new InventorySlot(item2.ID, item2.Item, item2.Amount, item2.MaxSlotAmount);
+        item2.UpdateSlot(item1.ID, item1.Item, item1.Amount, item1.MaxSlotAmount);
+        item1.UpdateSlot(temp.ID, temp.Item, temp.Amount, temp.MaxSlotAmount);
     }
 
     public void DropItem(Item item)
@@ -79,16 +79,17 @@ public class InventoryObject : ScriptableObject
         {
             if (_itemsContainer.Items[i].Item == item)
             {
-                var obj = _itemsDataBase.GetItemByID[_itemsContainer.Items[i].ID].Prefab;
+                
+                var prefab = _itemsDataBase.GetItemByID[_itemsContainer.Items[i].ID].Prefab;
+           
                 var player = GameObject.FindWithTag("Player");
-                Instantiate(obj, new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z + 2), Quaternion.identity);
-                obj.GetComponent<Rigidbody>().AddForce(10, 0,0);
+                var obj = Instantiate(prefab, new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z + 2), Quaternion.identity);
                 var component = obj.TryGetComponent(out GroundItem groundItem);
                 if (component == true)
                 {
-                    groundItem.SetAmount(_itemsContainer.Items[i].Amount);
+                    obj.GetComponent<GroundItem>().SetAmount(_itemsContainer.Items[i].Amount);
                 }
-                _itemsContainer.Items[i].UpdateSlot(-1, null, 0);
+                _itemsContainer.Items[i].UpdateSlot(-1, null, 0, 30);
             }
         }
     }
@@ -100,7 +101,7 @@ public class InventoryObject : ScriptableObject
         {
             if (_itemsContainer.Items[i].ID <= -1)
             {
-                _itemsContainer.Items[i].UpdateSlot(item.ID, item, amount);
+                _itemsContainer.Items[i].UpdateSlot(item.ID, item, amount, _itemsContainer.Items[i].MaxSlotAmount - amount);
                 return _itemsContainer.Items[i];
             }
         }
@@ -145,7 +146,7 @@ public class InventoryObject : ScriptableObject
             Inventory newContainer = (Inventory)formatter.Deserialize(stream);
             for (int i = 0; i < _itemsContainer.Items.Length; i++)
             {
-                _itemsContainer.Items[i].UpdateSlot(newContainer.Items[i].ID, newContainer.Items[i].Item, newContainer.Items[i].Amount);
+                _itemsContainer.Items[i].UpdateSlot(newContainer.Items[i].ID, newContainer.Items[i].Item, newContainer.Items[i].Amount, newContainer.Items[i].MaxSlotAmount);
             }
             stream.Close();
         }
@@ -153,6 +154,6 @@ public class InventoryObject : ScriptableObject
 
     public void ClearInventory()
     {
-        _itemsContainer = new Inventory();
+        _itemsContainer.ClearItems();
     }
 }
