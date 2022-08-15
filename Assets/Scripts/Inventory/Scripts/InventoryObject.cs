@@ -29,7 +29,7 @@ public class InventoryObject : ScriptableObject
     public bool AddItemToInventory(Item item, int amount)
     {
         InventorySlot slot = FindItemInInventory(item);
-        
+
         if (EmptySlotCount <= 0)
         {
             return false;
@@ -38,18 +38,21 @@ public class InventoryObject : ScriptableObject
         if (_itemsDataBase.ItemsData[item.ID].Stackable == false || slot == null)
         {
             FindFirstEmptySlot(item, amount);
+            Debug.Log("Не мог сюда попасть");
             return true;
         }
 
         if (amount <= slot.MaxSlotAmount)
         {
             slot.AddItem(amount);
+            Debug.Log("Меньше максимума " + amount);
+            Debug.Log("Максимум " + slot.MaxSlotAmount);
             return true;
         }
         if (amount > slot.MaxSlotAmount)
         {
             int maxAmount = amount - slot.MaxSlotAmount;
-                
+
             //int overMaxAmount = amount - maxAmount;
                     
             slot.AddItem(slot.MaxSlotAmount);
@@ -71,7 +74,7 @@ public class InventoryObject : ScriptableObject
     {
         for (int i = 0; i < GetSlots.Length; i++)
         {
-            if (GetSlots[i].Item.ID == item.ID)
+            if (GetSlots[i].Item.ID == item.ID && GetSlots[i].Amount < 30)
             {
                 return GetSlots[i];
             }
@@ -144,10 +147,14 @@ public class InventoryObject : ScriptableObject
                 }
                 else if (newSlotItem.CanPlaceInSlot(slotItem.ItemObject) && newSlotItem.Amount + clampedValue > 30)
                 {
-                    int overItemsSumm = newSlotItem.Amount + clampedValue - 30;
-                    
+                    int overItemsSumm = 30 - newSlotItem.Amount;
+                    if (clampedValue > overItemsSumm)
+                    {
+                        clampedValue = overItemsSumm;
+                    }
+
                     newSlotItem.UpdateSlot(slotItem.Item, 30, 0); 
-                    slotItem.UpdateSlot(slotItem.Item, slotItem.Amount - overItemsSumm, slotItem.MaxSlotAmount + overItemsSumm);
+                    slotItem.UpdateSlot(slotItem.Item, slotItem.Amount - clampedValue, slotItem.MaxSlotAmount + clampedValue);
                 }
             }
 
@@ -198,7 +205,7 @@ public class InventoryObject : ScriptableObject
 
     private InventorySlot FindFirstEmptySlot(Item item, int amount)
     {
-        for (int i = 0; i < _itemsContainer.Slots.Length; i++)
+        for (int i = 0; i < GetSlots.Length; i++)
         {
             if (GetSlots[i].Item.ID <= -1)
             {

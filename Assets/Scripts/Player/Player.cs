@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         if (collider.GetComponent<GroundItem>() == true)
         {
             var item = collider.GetComponent<GroundItem>();
-            if (_playerInventory.AddItemToInventory(new Item(item.Item), item.Amount))
+            if (_playerInventory.AddItemToInventory(item.Item.Data, item.Amount))
             {
                 Destroy(collider.gameObject);
             }
