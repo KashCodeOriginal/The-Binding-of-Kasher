@@ -96,49 +96,64 @@ public class InventoryObject : ScriptableObject
     }
     
     
-    public void SwapItems(InventorySlot item1, InventorySlot item2)
+    public void SwapItems(InventorySlot slotItem, InventorySlot newSlotItem)
     {
-        if (item1.Item.ID == item2.Item.ID && item1.SlotDisplay != item2.SlotDisplay)
+        if (slotItem.Item.ID == newSlotItem.Item.ID && slotItem.SlotDisplay != newSlotItem.SlotDisplay)
         {
-            if (item1.Amount + item2.Amount > 30)
+            if (slotItem.Amount + newSlotItem.Amount > 30)
             {
-                int overItemsSumm = item1.Amount + item2.Amount - 30;
+                int overItemsSumm = slotItem.Amount + newSlotItem.Amount - 30;
 
-                item1.UpdateSlot(item1.Item, overItemsSumm,30 - overItemsSumm);
-                item2.UpdateSlot(item2.Item, 30, 0);
+                slotItem.UpdateSlot(slotItem.Item, overItemsSumm,30 - overItemsSumm);
+                newSlotItem.UpdateSlot(newSlotItem.Item, 30, 0);
                 return;
             }
-            item2.UpdateSlot(item1.Item,  item1.Amount + item2.Amount, item1.MaxSlotAmount - item2.Amount);
-            item1.RemoveItem();
+            newSlotItem.UpdateSlot(slotItem.Item,  slotItem.Amount + newSlotItem.Amount, slotItem.MaxSlotAmount - newSlotItem.Amount);
+            slotItem.RemoveItem();
             return;
         }
-        if (item2.CanPlaceInSlot(item1.ItemObject) && item1.CanPlaceInSlot(item2.ItemObject))
+        if (newSlotItem.CanPlaceInSlot(slotItem.ItemObject) && slotItem.CanPlaceInSlot(newSlotItem.ItemObject))
         {
-            Debug.Log("2");
-            InventorySlot temp = new InventorySlot(item2.Item, item2.Amount, item2.MaxSlotAmount);
-            item2.UpdateSlot(item1.Item, item1.Amount, item1.MaxSlotAmount);
-            item1.UpdateSlot(temp.Item, temp.Amount, temp.MaxSlotAmount);
+            InventorySlot temp = new InventorySlot(newSlotItem.Item, newSlotItem.Amount, newSlotItem.MaxSlotAmount);
+            newSlotItem.UpdateSlot(slotItem.Item, slotItem.Amount, slotItem.MaxSlotAmount);
+            slotItem.UpdateSlot(temp.Item, temp.Amount, temp.MaxSlotAmount);
         }
     }
-    public void TakePartOfItem(InventorySlot item1, InventorySlot item2, int clampedValue)
+    public void TakePartOfItem(InventorySlot slotItem, InventorySlot newSlotItem, int clampedValue)
     {
-        if (clampedValue > 0 && item1.SlotDisplay != item2.SlotDisplay)
+        if (clampedValue > 0 && slotItem.SlotDisplay != newSlotItem.SlotDisplay && slotItem.Amount <= 30 && newSlotItem.Amount < 30)
         {
-            if (item2.CanPlaceInSlot(item1.ItemObject) && item1.CanPlaceInSlot(item2.ItemObject) && item2.Item.ID < 0)
+            if (clampedValue > slotItem.Amount)
             {
-                if (item2.CanPlaceInSlot(item1.ItemObject))
+                clampedValue = slotItem.Amount;
+            }
+            if (newSlotItem.CanPlaceInSlot(slotItem.ItemObject) && slotItem.CanPlaceInSlot(newSlotItem.ItemObject) && newSlotItem.Item.ID < 0)
+            {
+                if (newSlotItem.CanPlaceInSlot(slotItem.ItemObject))
                 {
-                    item1.UpdateSlot(item1.Item, item1.Amount - clampedValue, item1.MaxSlotAmount + clampedValue); 
-                    item2.UpdateSlot(item1.Item, clampedValue, item2.MaxSlotAmount - clampedValue);
+                    slotItem.UpdateSlot(slotItem.Item, slotItem.Amount - clampedValue, slotItem.MaxSlotAmount + clampedValue); 
+                    newSlotItem.UpdateSlot(slotItem.Item, clampedValue, newSlotItem.MaxSlotAmount - clampedValue);
                 }
             }
-            else if(item2.CanPlaceInSlot(item1.ItemObject) && item1.CanPlaceInSlot(item2.ItemObject) && item1.Item.ID == item2.Item.ID)
+            else if(newSlotItem.CanPlaceInSlot(slotItem.ItemObject) && slotItem.CanPlaceInSlot(newSlotItem.ItemObject) && slotItem.Item.ID == newSlotItem.Item.ID)
             {
-                if (item2.CanPlaceInSlot(item1.ItemObject))
+                if (newSlotItem.CanPlaceInSlot(slotItem.ItemObject) && newSlotItem.Amount + clampedValue <= 30)
                 {
-                    item1.UpdateSlot(item1.Item, item1.Amount - clampedValue, item1.MaxSlotAmount + clampedValue); 
-                    item2.UpdateSlot(item1.Item, item2.Amount + clampedValue, item2.MaxSlotAmount - clampedValue);
+                    slotItem.UpdateSlot(slotItem.Item, slotItem.Amount - clampedValue, slotItem.MaxSlotAmount + clampedValue); 
+                    newSlotItem.UpdateSlot(slotItem.Item, newSlotItem.Amount + clampedValue, newSlotItem.MaxSlotAmount - clampedValue);
                 }
+                else if (newSlotItem.CanPlaceInSlot(slotItem.ItemObject) && newSlotItem.Amount + clampedValue > 30)
+                {
+                    int overItemsSumm = newSlotItem.Amount + clampedValue - 30;
+                    
+                    newSlotItem.UpdateSlot(slotItem.Item, 30, 0); 
+                    slotItem.UpdateSlot(slotItem.Item, slotItem.Amount - overItemsSumm, slotItem.MaxSlotAmount + overItemsSumm);
+                }
+            }
+
+            if (slotItem.Amount <= 0)
+            {
+                slotItem.RemoveItem();
             }
         }
     }

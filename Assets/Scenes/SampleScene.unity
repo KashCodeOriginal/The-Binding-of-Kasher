@@ -13012,7 +13012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInventory: {fileID: 11400000, guid: 82e3d5a6365d47440b6eb3e6bd2a2d83, type: 2}
-  _holdTime: 1
+  _holdTime: 0.5
   _clampedValue: 0
   _timeBetweenValueAdd: 0.5
   _currentTime: 0
