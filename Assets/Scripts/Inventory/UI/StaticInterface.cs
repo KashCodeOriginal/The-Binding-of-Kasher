@@ -10,19 +10,23 @@ public class StaticInterface : UserInterface
     public GameObject[] Slots => _slots;
     public override void CreateInventorySlots()
     {
-        _slorsOnInterface = new Dictionary<GameObject, InventorySlot>();
+        _slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
 
-        for (int i = 0; i < _playerInventory.ItemsContainer.Items.Length; i++)
+        for (int i = 0; i < _playerInventory.GetSlots.Length; i++)
         {
             var obj = _slots[i];
             
             AddEvent(obj, EventTriggerType.PointerEnter, delegate { OnEnter(obj); });
+            AddEvent(obj, EventTriggerType.PointerDown, delegate { OnDown(obj); });
+            AddEvent(obj, EventTriggerType.PointerUp, delegate { OnUp(obj); });
             AddEvent(obj, EventTriggerType.PointerExit, delegate { OnExit(obj); });
             AddEvent(obj, EventTriggerType.BeginDrag, delegate { OnStartDrag(obj); });
             AddEvent(obj, EventTriggerType.EndDrag, delegate { OnEndDrag(obj); });
             AddEvent(obj, EventTriggerType.Drag, delegate { OnDrag(obj); });
+
+            _playerInventory.GetSlots[i].SetSlot(obj);
             
-            _slorsOnInterface.Add(obj, _playerInventory.ItemsContainer.Items[i]);
+            _slotsOnInterface.Add(obj, _playerInventory.GetSlots[i]);
         }
     }
 }

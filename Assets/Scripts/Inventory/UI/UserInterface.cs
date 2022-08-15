@@ -1,3 +1,4 @@
+using System;using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,49 +8,86 @@ using UnityEngine.UI;
 
 public abstract class UserInterface : MonoBehaviour
 {
-    [SerializeField] private Player _player;
-    
     [SerializeField] protected InventoryObject _playerInventory;
 
-    protected Dictionary<GameObject, InventorySlot> _slorsOnInterface = new Dictionary<GameObject, InventorySlot>();
-    
+    [SerializeField] private float _holdTime;
+    [SerializeField] private int _clampedValue = 0;
+    [SerializeField] private float _timeBetweenValueAdd;
+    [SerializeField] private float _currentTime;
+
+    [SerializeField] private bool _slotPressed = false;
+    [SerializeField] private bool _isSlotClamped = false;
+
+    private Vector3 _mousePosition;
+
+    protected Dictionary<GameObject, InventorySlot> _slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
+
+    public InventoryObject PlayerInventory => _playerInventory;
+
+    [SerializeField] private Transform _tempObjectsTransform;
+
     private void Start()
     {
-        for (int i = 0; i < _playerInventory.ItemsContainer.Items.Length; i++)
+        for (int i = 0; i < _playerInventory.GetSlots.Length; i++)
         {
-            _playerInventory.ItemsContainer.Items[i].SetParent(this);
+            _playerInventory.GetSlots[i].SetParent(this);
+            _playerInventory.GetSlots[i].OnAfterUpdate += OnSlotUpdate;
         }
         CreateInventorySlots();
         AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnEnterInterface(gameObject); });
         AddEvent(gameObject, EventTriggerType.PointerExit, delegate { OnExitInterface(gameObject); });
+        
+        _playerInventory.LoadInventory();
     }
 
     private void Update()
     {
-        UpdateInventorySlots();
-    }
-
-    public abstract void CreateInventorySlots();
-    
-    private void UpdateInventorySlots()
-    {
-        foreach (KeyValuePair<GameObject, InventorySlot> _slot in _slorsOnInterface)
+        if (_slotPressed == true && _mousePosition == Input.mousePosition)
         {
-            if (_slot.Value.Item.ID >= 0)
+            _currentTime += Time.deltaTime;
+
+            if (_currentTime >= _holdTime)
             {
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _playerInventory.ItemsDataBase.GetItemByID[_slot.Value.Item.ID].Icon;
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
-                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = _slot.Value.Amount == 1 ? "" : _slot.Value.Amount.ToString("n0");
+                _isSlotClamped = true;
+                _currentTime = 0;
             }
-            else
+        }
+
+        if (_mousePosition != Input.mousePosition)
+        {
+            _currentTime = 0;
+        }
+
+        if (_isSlotClamped == true)
+        {
+            _currentTime += Time.deltaTime;
+
+            if (_currentTime >= _timeBetweenValueAdd)
             {
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = null;
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0);
-                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = "";
+                _clampedValue++;
+                _currentTime = 0;
             }
         }
     }
 
+    private void OnSlotUpdate(InventorySlot _slot)
+    {
+        if (_slot.Item.ID >= 0)
+        {
+            _slot.SlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.ItemObject.Icon;
+            _slot.SlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            _slot.SlotDisplay.GetComponentInChildren<TextMeshProUGUI>().text = _slot.Amount == 1 ? "" : _slot.Amount.ToString("n0");
+        }
+        else
+        {
+            _slot.SlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().sprite = null;
+            _slot.SlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0);
+            _slot.SlotDisplay.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        }
+    }
+    
+    public abstract void CreateInventorySlots();
+    
     protected void AddEvent(GameObject obj, EventTriggerType type, UnityAction<BaseEventData> action)
     {
         EventTrigger trigger = obj.GetComponent<EventTrigger>();
@@ -59,6 +97,24 @@ public abstract class UserInterface : MonoBehaviour
         eventTrigger.callback.AddListener(action);
         
         trigger.triggers.Add(eventTrigger);
+    }
+    protected void OnDown(GameObject obj)
+    {
+        _slotPressed = true;
+        _mousePosition = Input.mousePosition;
+    }
+    protected void OnUp(GameObject obj)
+    {
+        if (_isSlotClamped == true)
+        {
+            InventorySlot mouseHoverSlotData = MouseData.InterfaceMouseIsOver._slotsOnInterface[MouseData.SlotHoveredOver];
+            _playerInventory.TakePartOfItem(_slotsOnInterface[obj], mouseHoverSlotData, _clampedValue);
+            _clampedValue = 0;
+            StartCoroutine(ValueChangeStateDelay());
+        }
+        
+        _slotPressed = false;
+        _currentTime = 0;
     }
     protected void OnEnterInterface(GameObject obj)
     {
@@ -79,34 +135,53 @@ public abstract class UserInterface : MonoBehaviour
     }
     protected void OnStartDrag(GameObject obj)
     {
-        var mouseObject = new GameObject();
-        var rectTransform = mouseObject.AddComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(100, 100);
-        mouseObject.transform.SetParent(transform.parent);
+        MouseData.TempItemDragged = CreateTempObject(obj);
+    }
 
-        if (_slorsOnInterface[obj].Item.ID >= 0)
+    public GameObject CreateTempObject(GameObject obj)
+    {
+        GameObject tempItem = null;
+
+        if (_slotsOnInterface[obj].Item.ID >= 0)
         {
-            var image = mouseObject.AddComponent<Image>();
-            image.sprite = _playerInventory.ItemsDataBase.GetItemByID[_slorsOnInterface[obj].Item.ID].Icon;
+            tempItem = new GameObject();
+            var rectTransform = tempItem.AddComponent<RectTransform>();
+            rectTransform.sizeDelta = new Vector2(100, 100);
+            tempItem.transform.SetParent(_tempObjectsTransform,false);
+            var image = tempItem.AddComponent<Image>();
+            image.sprite = _slotsOnInterface[obj].ItemObject.Icon;
             image.raycastTarget = false;
         }
 
-        MouseData.TempItemDragged = mouseObject;
+        return tempItem;
     }
+    
     protected void OnEndDrag(GameObject obj)
     {
         Destroy(MouseData.TempItemDragged);
 
-        if (MouseData.InterfaceMouseIsOver == null)
+        if (_tempObjectsTransform.childCount > 0)
         {
-            _playerInventory.DropItem(_slorsOnInterface[obj].Item);
+            for (int i = 0; i <= _tempObjectsTransform.childCount - 1; i++)
+            {
+                Destroy(_tempObjectsTransform.GetChild(i).gameObject);
+            }
+        }
+
+        if (MouseData.InterfaceMouseIsOver == null && Input.touchCount <= 1)
+        {
+            _playerInventory.DropItemFromInventory(_slotsOnInterface[obj].Item);
             return;
         }
 
-        if (MouseData.SlotHoveredOver == true)
+        if (_isSlotClamped == false)
         {
-            InventorySlot mouseHoverSlotData = MouseData.InterfaceMouseIsOver._slorsOnInterface[MouseData.SlotHoveredOver];
-            //_playerInventory.SwapItems();
+            if (MouseData.SlotHoveredOver == true)
+            {
+                InventorySlot mouseHoverSlotData =
+                    MouseData.InterfaceMouseIsOver._slotsOnInterface[MouseData.SlotHoveredOver];
+                _playerInventory.SwapItems(_slotsOnInterface[obj], mouseHoverSlotData);
+            }
         }
     }
 
@@ -116,6 +191,11 @@ public abstract class UserInterface : MonoBehaviour
         {
             MouseData.TempItemDragged.GetComponent<RectTransform>().position = Input.mousePosition;
         }
+    } 
+    public IEnumerator ValueChangeStateDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+        _isSlotClamped = false;
     }
 }
 
@@ -125,3 +205,27 @@ public static class MouseData
     public static GameObject TempItemDragged;
     public static GameObject SlotHoveredOver;
 }
+
+public static class ExtensionMethods
+{
+    public static void UpdateSlotDisplay(this Dictionary<GameObject, InventorySlot> _slotsOnInterface)
+    {
+        foreach (KeyValuePair<GameObject, InventorySlot> _slot in _slotsOnInterface)
+        {
+            if (_slot.Value.Item.ID >= 0)
+            {
+                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.Value.ItemObject.Icon;
+                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = _slot.Value.Amount == 1 ? "" : _slot.Value.Amount.ToString("n0");
+            }
+            else
+            {
+                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = null;
+                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0);
+                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = "";
+            }
+        }
+    }
+}
+
+

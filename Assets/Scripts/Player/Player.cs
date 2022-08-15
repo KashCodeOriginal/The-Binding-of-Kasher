@@ -12,7 +12,10 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerStatsChanger _playerStatsChanger;
 
     [SerializeField] private InventoryObject _playerInventory;
-    
+    [SerializeField] private InventoryObject _playerEquipment;
+
+    [SerializeField] private GameObject _inventory;
+
     public int HealthPoint => _healthPoint;
     public int HungerPoint => _hungerPoint;
     public int WaterPoint => _waterPoint;
@@ -20,6 +23,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = 60;
+        _inventory.SetActive(false);
     }
 
     private void Update()
@@ -27,14 +31,17 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             _playerInventory.SaveInventory();
+            _playerEquipment.SaveInventory();
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
             _playerInventory.LoadInventory();
+            _playerEquipment.LoadInventory();
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
             _playerInventory.ClearInventory();
+            _playerEquipment.ClearInventory();
         }
     }
 
@@ -48,8 +55,11 @@ public class Player : MonoBehaviour
 
         if (collider.GetComponent<GroundItem>() == true)
         {
-            _playerInventory.AddItemToInventory(new Item(collider.GetComponent<GroundItem>().Item), collider.GetComponent<GroundItem>().Amount);
-            Destroy(collider.gameObject);
+            var item = collider.GetComponent<GroundItem>();
+            if (_playerInventory.AddItemToInventory(new Item(item.Item), item.Amount))
+            {
+                Destroy(collider.gameObject);
+            }
         }
     }
     private void OnTriggerExit(Collider collider)
@@ -112,6 +122,10 @@ public class Player : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        // _playerInventory.SaveInventory();
+        // _playerEquipment.SaveInventory();
+        
         _playerInventory.ItemsContainer.ClearItems();
+        _playerEquipment.ItemsContainer.ClearItems();
     }
 }

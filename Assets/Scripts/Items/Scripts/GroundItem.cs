@@ -14,8 +14,10 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     }
     public void OnBeforeSerialize()
     {
+    #if UNITY_EDITOR
         GetComponent<MeshFilter>().mesh = _item.Mesh;
         EditorUtility.SetDirty(GetComponent<MeshFilter>());
+    #endif
     }
 
     public void SetAmount(int value)

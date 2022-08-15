@@ -1,17 +1,16 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class Inventory
 {
-    [SerializeField] private InventorySlot[] _items = new InventorySlot[24];
-    public InventorySlot[] Items => _items;
+    [SerializeField] private InventorySlot[] _slots = new InventorySlot[24];
+    public InventorySlot[] Slots => _slots;
 
     public void ClearItems()
     {
-        for (int i = 0; i < Items.Length; i++)
+        for (int i = 0; i < Slots.Length; i++)
         {
-            Items[i].UpdateSlot(new Item(), 0, 30);
+            Slots[i].RemoveItem();
         }
     }
 }
