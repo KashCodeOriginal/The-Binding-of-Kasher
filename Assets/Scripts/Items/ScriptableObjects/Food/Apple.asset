@@ -19,7 +19,11 @@ MonoBehaviour:
   _model: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   _prefab: {fileID: 3148343034270809691, guid: 53f49112c73ef074884ac5bdc17f7ff9, type: 3}
   _data:
-    _name: 
+    _name: Apple
     _id: 4
-    _itemBuffs: []
+    _itemBuffs:
+    - _attribute: 0
+      _value: 5
+      _min: 5
+      _max: 5
   _stackable: 1

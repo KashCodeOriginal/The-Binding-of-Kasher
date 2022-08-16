@@ -7,13 +7,15 @@ public class PlayerStatsChanger : MonoBehaviour
     [SerializeField] private Player _player;
     
     [SerializeField] private int _healthDecreaseStep;
-    [SerializeField] private int _timeBetweenHealthSteps;
+    [SerializeField] private int _healthIncreaseStep;
+    [SerializeField] private float _timeBetweenHealthIncreaseSteps;
+    [SerializeField] private float _timeBetweenHealthDecreaseSteps;
 
     [SerializeField] private int _hungerDecreaseStep;
-    [SerializeField] private int _timeBetweenHungerSteps;
+    [SerializeField] private float _timeBetweenHungerSteps;
     
     [SerializeField] private int _waterDecreaseStep;
-    [SerializeField] private int _timeBetweenWaterSteps;
+    [SerializeField] private float _timeBetweenWaterSteps;
     
     public event UnityAction<int> HealthIsIncreased;
     public event UnityAction<int> HealthIsDecreased;
@@ -56,10 +58,29 @@ public class PlayerStatsChanger : MonoBehaviour
         {
             while ((_player.WaterPoint == 0 || _player.HungerPoint == 0) && _player.HealthPoint > 0)
             {
-                HealthIsDecreased(_healthDecreaseStep);
-                yield return new WaitForSeconds(_timeBetweenHealthSteps);
+                HealthIsDecreased?.Invoke(_healthDecreaseStep);
+                yield return new WaitForSeconds(_timeBetweenHealthDecreaseSteps);
             }
-            yield return new WaitForSeconds(5f);
+            
+            while (_player.WaterPoint >= 70 && _player.HungerPoint >= 70 && _player.HealthPoint < 100)
+            {
+                HealthIsIncreased?.Invoke(_healthIncreaseStep);
+                yield return new WaitForSeconds(_timeBetweenHealthIncreaseSteps);
+            }
+            yield return new WaitForSeconds(3f);
         }
+    }
+
+    public void IncreaseHunger(int value)
+    {
+        HungerIsIncreased?.Invoke(value);
+    }
+    public void IncreaseWater(int value)
+    {
+        WaterIsIncreased?.Invoke(value);
+    }
+    public void IncreaseHealth(int value)
+    {
+        HealthIsIncreased?.Invoke(value);
     }
 }

@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
     }
     private void IncreaseHeath(int value)
     {
-        _healthPoint += value;
+        _healthPoint += TryIncreaseValue(_healthPoint, value, 100);
     }
     private void DecreaseHealth(int value)
     {
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
     }
     private void IncreaseHunger(int value)
     {
-        _hungerPoint += value;
+        _hungerPoint += TryIncreaseValue(_hungerPoint, value, 100);
     }
     private void DecreaseHunger(int value)
     {
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
     }
     private void IncreaseWater(int value)
     {
-        _waterPoint += value;
+        _waterPoint += TryIncreaseValue(_waterPoint, value, 100);
     }
     private void DecreaseWater(int value)
     {
@@ -114,14 +114,18 @@ public class Player : MonoBehaviour
         _playerStatsChanger.HungerIsDecreased += DecreaseHunger;
         _playerStatsChanger.WaterIsDecreased += DecreaseWater;
         _playerStatsChanger.HealthIsDecreased += DecreaseHealth;
-        
-        
+        _playerStatsChanger.HungerIsIncreased += IncreaseHunger;
+        _playerStatsChanger.WaterIsIncreased += IncreaseWater;
+        _playerStatsChanger.HealthIsIncreased += IncreaseHeath;
     }
     private void OnDisable()
     {
         _playerStatsChanger.HungerIsDecreased -= DecreaseHunger;
         _playerStatsChanger.WaterIsDecreased -= DecreaseWater;
         _playerStatsChanger.HealthIsDecreased -= DecreaseHealth;
+        _playerStatsChanger.HungerIsIncreased -= IncreaseHunger;
+        _playerStatsChanger.WaterIsIncreased -= IncreaseWater;
+        _playerStatsChanger.HealthIsIncreased -= IncreaseHeath;
     }
 
     private void OnApplicationQuit()
@@ -132,5 +136,18 @@ public class Player : MonoBehaviour
         _playerInventory.ItemsContainer.ClearItems();
         _playerEquipment.ItemsContainer.ClearItems();
         _playerActivePanel.ItemsContainer.ClearItems();
+    }
+
+    private int TryIncreaseValue(int currentAddingValue, int valueToAdd, int maxValue)
+    {
+        int placeableValue = valueToAdd;
+        
+        if (placeableValue + currentAddingValue > maxValue)
+        {
+            placeableValue = maxValue - currentAddingValue;
+            return placeableValue;
+        }
+        
+        return placeableValue;
     }
 }

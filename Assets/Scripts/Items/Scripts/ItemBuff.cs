@@ -10,6 +10,7 @@ public class ItemBuff
     [SerializeField] private int _max;
 
     public Attributes Attribute => _attribute;
+    public int Value => _value;
     public int Min => _min;
     public int Max => _max;
 

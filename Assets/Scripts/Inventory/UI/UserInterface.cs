@@ -1,4 +1,4 @@
-using System;using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -24,10 +24,11 @@ public abstract class UserInterface : MonoBehaviour
     private Vector3 _mousePosition;
 
     protected Dictionary<GameObject, InventorySlot> _slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
-
     public InventoryObject PlayerInventory => _playerInventory;
 
     [SerializeField] private Transform _tempObjectsTransform;
+
+    [SerializeField] private InteractableItems _interactableItems;
 
     private void Start()
     {
@@ -55,6 +56,8 @@ public abstract class UserInterface : MonoBehaviour
                 {
                     _isSlotClamped = true;
                     _currentTime = 0;
+                    
+                    _interactableItems.TurnOffFoodDisplay();
                 }
             }
 
@@ -111,19 +114,40 @@ public abstract class UserInterface : MonoBehaviour
     }
     protected void OnDown(GameObject obj)
     {
+        _interactableItems.TurnOffFoodDisplay();
+        
         _isSlotPressed = true;
         _mousePosition = Input.mousePosition;
+        
+        _interactableItems.TurnOffFoodDisplay();
+
+        InventorySlot mouseHoverSlotData = null;
+
+        if (MouseData.InterfaceMouseIsOver != null && MouseData.SlotHoveredOver != null && _slotsOnInterface[MouseData.SlotHoveredOver] != null)
+        {
+            mouseHoverSlotData = MouseData.InterfaceMouseIsOver._slotsOnInterface[MouseData.SlotHoveredOver];
+        }
+
+        if (mouseHoverSlotData != null && mouseHoverSlotData.Item.ID >= 0)
+        {
+            _interactableItems.DisplayInteractableItem(mouseHoverSlotData);
+        }
     }
+    
+
     protected void OnUp(GameObject obj)
     {
-        if (_isSlotClamped == true)
+        if (obj != null)
         {
-            InventorySlot mouseHoverSlotData = MouseData.InterfaceMouseIsOver._slotsOnInterface[MouseData.SlotHoveredOver];
-            _playerInventory.TakePartOfItem(_slotsOnInterface[obj], mouseHoverSlotData, _clampedValue);
-            _clampedValue = 0;
-            StartCoroutine(ValueChangeStateDelay());
+            if (_isSlotClamped == true)
+            {
+                InventorySlot mouseHoverSlotData = MouseData.InterfaceMouseIsOver._slotsOnInterface[MouseData.SlotHoveredOver];
+                _playerInventory.TakePartOfItem(_slotsOnInterface[obj], mouseHoverSlotData, _clampedValue);
+                _clampedValue = 0;
+                StartCoroutine(ValueChangeStateDelay());
+            }
         }
-        
+
         _isSlotPressed = false;
         _currentTime = 0;
     }
@@ -139,6 +163,7 @@ public abstract class UserInterface : MonoBehaviour
     {
         MouseData.SlotHoveredOver = obj;
         MouseData.InterfaceMouseIsOver = obj.gameObject.GetComponentInParent<UserInterface>();
+        
     }
     protected void OnExit(GameObject obj)
     {
@@ -147,6 +172,7 @@ public abstract class UserInterface : MonoBehaviour
     protected void OnStartDrag(GameObject obj)
     {
         MouseData.TempItemDragged = CreateTempObject(obj);
+        _interactableItems.TurnOffFoodDisplay();
     }
 
     public GameObject CreateTempObject(GameObject obj)
@@ -214,28 +240,6 @@ public static class MouseData
     public static UserInterface InterfaceMouseIsOver;
     public static GameObject TempItemDragged;
     public static GameObject SlotHoveredOver;
-}
-
-public static class ExtensionMethods
-{
-    public static void UpdateSlotDisplay(this Dictionary<GameObject, InventorySlot> _slotsOnInterface)
-    {
-        foreach (KeyValuePair<GameObject, InventorySlot> _slot in _slotsOnInterface)
-        {
-            if (_slot.Value.Item.ID >= 0)
-            {
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.Value.ItemObject.Icon;
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
-                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = _slot.Value.Amount == 1 ? "" : _slot.Value.Amount.ToString("n0");
-            }
-            else
-            {
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = null;
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0);
-                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = "";
-            }
-        }
-    }
 }
 
 

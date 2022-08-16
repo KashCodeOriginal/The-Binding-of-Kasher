@@ -162,6 +162,16 @@ public class InventoryObject : ScriptableObject
         }
     }
 
+    public void RemoveItemAmountFromInventory(InventorySlot slot, int amount)
+    {
+        if (slot.Amount <= 1)
+        {
+            slot.RemoveItem();
+            return;
+        }
+        slot.UpdateSlot(slot.Item, slot.Amount - amount, slot.MaxSlotAmount + amount);
+    }
+
     public void DropItemFromInventory(Item item)
     {
         CreateDroppingItem(item, 0);
