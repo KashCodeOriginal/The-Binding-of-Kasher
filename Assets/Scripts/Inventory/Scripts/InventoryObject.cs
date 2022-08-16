@@ -38,15 +38,12 @@ public class InventoryObject : ScriptableObject
         if (_itemsDataBase.ItemsData[item.ID].Stackable == false || slot == null)
         {
             FindFirstEmptySlot(item, amount);
-            Debug.Log("Не мог сюда попасть");
             return true;
         }
 
         if (amount <= slot.MaxSlotAmount)
         {
             slot.AddItem(amount);
-            Debug.Log("Меньше максимума " + amount);
-            Debug.Log("Максимум " + slot.MaxSlotAmount);
             return true;
         }
         if (amount > slot.MaxSlotAmount)

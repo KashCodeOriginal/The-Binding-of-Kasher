@@ -10,12 +10,15 @@ public abstract class UserInterface : MonoBehaviour
 {
     [SerializeField] protected InventoryObject _playerInventory;
 
+    [SerializeField] private bool _isInventoryAbleToTakePartOfItem;
+
     [SerializeField] private float _holdTime;
     [SerializeField] private int _clampedValue = 0;
     [SerializeField] private float _timeBetweenValueAdd;
+    [SerializeField] private float _decreaseTimeBetweenValueAdding;
     [SerializeField] private float _currentTime;
 
-    [SerializeField] private bool _slotPressed = false;
+    [SerializeField] private bool _isSlotPressed = false;
     [SerializeField] private bool _isSlotClamped = false;
 
     private Vector3 _mousePosition;
@@ -42,30 +45,38 @@ public abstract class UserInterface : MonoBehaviour
 
     private void Update()
     {
-        if (_slotPressed == true && _mousePosition == Input.mousePosition)
+        if (_isInventoryAbleToTakePartOfItem == true)
         {
-            _currentTime += Time.deltaTime;
-
-            if (_currentTime >= _holdTime)
+            if (_isSlotPressed == true && _mousePosition == Input.mousePosition)
             {
-                _isSlotClamped = true;
+                _currentTime += Time.deltaTime;
+
+                if (_currentTime >= _holdTime)
+                {
+                    _isSlotClamped = true;
+                    _currentTime = 0;
+                }
+            }
+
+            if (_mousePosition != Input.mousePosition)
+            {
                 _currentTime = 0;
             }
-        }
 
-        if (_mousePosition != Input.mousePosition)
-        {
-            _currentTime = 0;
-        }
-
-        if (_isSlotClamped == true)
-        {
-            _currentTime += Time.deltaTime;
-
-            if (_currentTime >= _timeBetweenValueAdd)
+            if (_isSlotClamped == true)
             {
-                _clampedValue++;
-                _currentTime = 0;
+                _currentTime += Time.deltaTime;
+
+                if (_currentTime >= _timeBetweenValueAdd)
+                {
+                    _clampedValue++;
+                    _currentTime = 0;
+
+                    if (_timeBetweenValueAdd > 0.1)
+                    {
+                        _timeBetweenValueAdd -= _decreaseTimeBetweenValueAdding;
+                    }
+                }
             }
         }
     }
@@ -100,7 +111,7 @@ public abstract class UserInterface : MonoBehaviour
     }
     protected void OnDown(GameObject obj)
     {
-        _slotPressed = true;
+        _isSlotPressed = true;
         _mousePosition = Input.mousePosition;
     }
     protected void OnUp(GameObject obj)
@@ -113,7 +124,7 @@ public abstract class UserInterface : MonoBehaviour
             StartCoroutine(ValueChangeStateDelay());
         }
         
-        _slotPressed = false;
+        _isSlotPressed = false;
         _currentTime = 0;
     }
     protected void OnEnterInterface(GameObject obj)
@@ -178,8 +189,7 @@ public abstract class UserInterface : MonoBehaviour
         {
             if (MouseData.SlotHoveredOver == true)
             {
-                InventorySlot mouseHoverSlotData =
-                    MouseData.InterfaceMouseIsOver._slotsOnInterface[MouseData.SlotHoveredOver];
+                InventorySlot mouseHoverSlotData = MouseData.InterfaceMouseIsOver._slotsOnInterface[MouseData.SlotHoveredOver];
                 _playerInventory.SwapItems(_slotsOnInterface[obj], mouseHoverSlotData);
             }
         }

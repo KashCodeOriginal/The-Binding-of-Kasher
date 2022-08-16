@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private InventoryObject _playerInventory;
     [SerializeField] private InventoryObject _playerEquipment;
+    [SerializeField] private InventoryObject _playerActivePanel;
 
     [SerializeField] private GameObject _inventory;
 
@@ -32,16 +33,19 @@ public class Player : MonoBehaviour
         {
             _playerInventory.SaveInventory();
             _playerEquipment.SaveInventory();
+            _playerActivePanel.SaveInventory();
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
             _playerInventory.LoadInventory();
             _playerEquipment.LoadInventory();
+            _playerActivePanel.LoadInventory();
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
             _playerInventory.ClearInventory();
             _playerEquipment.ClearInventory();
+            _playerActivePanel.ClearInventory();
         }
     }
 
@@ -127,5 +131,6 @@ public class Player : MonoBehaviour
         
         _playerInventory.ItemsContainer.ClearItems();
         _playerEquipment.ItemsContainer.ClearItems();
+        _playerActivePanel.ItemsContainer.ClearItems();
     }
 }
