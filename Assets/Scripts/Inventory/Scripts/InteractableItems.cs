@@ -4,7 +4,13 @@ using UnityEngine.UI;
 
 public class InteractableItems : MonoBehaviour
 {
-    [SerializeField] private GameObject _interactiveButton;
+    [SerializeField] private GameObject _interactivePanel;
+
+    [SerializeField] private TextMeshProUGUI _buttonNameText;
+    [SerializeField] private TextMeshProUGUI _buttonDescriptionText;
+    [SerializeField] private TextMeshProUGUI _buttonUseText;
+
+    [SerializeField] private GameObject _interactaleUseItemButton;
 
     [SerializeField] private PlayerStatsChanger _playerStatsChanger;
 
@@ -14,24 +20,38 @@ public class InteractableItems : MonoBehaviour
     {
         if (mouseHoverSlotData.ItemObject.Type == ItemType.Food)
         {
-            DisplayItem(_interactiveButton, mouseHoverSlotData);
+            DisplayItem(mouseHoverSlotData);
             int recoveryValue = mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Value;
+
+            _buttonUseText.text = "Eat!";
         
-            _interactiveButton.GetComponentInChildren<Button>().onClick.AddListener(() => IncreaseHunger(recoveryValue, mouseHoverSlotData));
+            _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => IncreaseHunger(recoveryValue, mouseHoverSlotData));
         }
         else if (mouseHoverSlotData.ItemObject.Type == ItemType.Drinks)
         {
-            DisplayItem(_interactiveButton, mouseHoverSlotData);
+            DisplayItem(mouseHoverSlotData);
             int recoveryValue = mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Value;
+            
+            _buttonUseText.text = "Drink!";
         
-            _interactiveButton.GetComponentInChildren<Button>().onClick.AddListener(() => IncreaseWater(recoveryValue, mouseHoverSlotData));
+            _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => IncreaseWater(recoveryValue, mouseHoverSlotData));
         }
         else if (mouseHoverSlotData.ItemObject.Type == ItemType.Aid)
         {
-            DisplayItem(_interactiveButton, mouseHoverSlotData);
+            DisplayItem(mouseHoverSlotData);
             int recoveryValue = mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Value;
+            
+            _buttonUseText.text = "Use!";
         
-            _interactiveButton.GetComponentInChildren<Button>().onClick.AddListener(() => IncreaseHealth(recoveryValue, mouseHoverSlotData));
+            _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => IncreaseHealth(recoveryValue, mouseHoverSlotData));
+        }
+        else
+        {
+            _interactivePanel.SetActive(true);
+            _interactivePanel.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 140, 0);
+            _buttonNameText.text = mouseHoverSlotData.ItemObject.Name;
+            _buttonDescriptionText.text = mouseHoverSlotData.ItemObject.Description;
+            _interactaleUseItemButton.SetActive(false);
         }
         
     }
@@ -51,28 +71,31 @@ public class InteractableItems : MonoBehaviour
         _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
     }
 
-    public void TurnOffFoodDisplay()
+    public void TurnOffInfoDisplay()
     {
-        if (_interactiveButton.activeSelf == true)
+        if (_interactivePanel.activeSelf == true)
         {
-            _interactiveButton.SetActive(false);
-            _interactiveButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+            _interactivePanel.SetActive(false);
+            
+            if (_interactaleUseItemButton.activeSelf == true)
+            {
+                _interactaleUseItemButton.GetComponent<Button>().onClick.RemoveAllListeners();
+            }
         }
     }
 
-    private void DisplayItem(GameObject button, InventorySlot mouseHoverSlotData)
+    private void DisplayItem(InventorySlot mouseHoverSlotData)
     {
-        if (button.activeSelf == true)
+        if (_interactivePanel.activeSelf == true)
         {
-            button.SetActive(false);
-            button.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+            _interactivePanel.SetActive(false);
+            _interactivePanel.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
             return;
         }
-        button.SetActive(true);
-        button.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 140, 0);
-        button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = mouseHoverSlotData.ItemObject.Name;
-        button.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = mouseHoverSlotData.ItemObject.Description;
-        
-        
+        _interactivePanel.SetActive(true);
+        _interactaleUseItemButton.SetActive(true);
+        _interactivePanel.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 140, 0);
+        _buttonNameText.text = mouseHoverSlotData.ItemObject.Name;
+        _buttonDescriptionText.text = mouseHoverSlotData.ItemObject.Description;
     }
 }

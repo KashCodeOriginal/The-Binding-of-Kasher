@@ -57,7 +57,7 @@ public abstract class UserInterface : MonoBehaviour
                     _isSlotClamped = true;
                     _currentTime = 0;
                     
-                    _interactableItems.TurnOffFoodDisplay();
+                    _interactableItems.TurnOffInfoDisplay();
                 }
             }
 
@@ -114,12 +114,12 @@ public abstract class UserInterface : MonoBehaviour
     }
     protected void OnDown(GameObject obj)
     {
-        _interactableItems.TurnOffFoodDisplay();
+        _interactableItems.TurnOffInfoDisplay();
         
         _isSlotPressed = true;
         _mousePosition = Input.mousePosition;
         
-        _interactableItems.TurnOffFoodDisplay();
+        _interactableItems.TurnOffInfoDisplay();
 
         InventorySlot mouseHoverSlotData = null;
 
@@ -142,6 +142,7 @@ public abstract class UserInterface : MonoBehaviour
             if (_isSlotClamped == true)
             {
                 InventorySlot mouseHoverSlotData = MouseData.InterfaceMouseIsOver._slotsOnInterface[MouseData.SlotHoveredOver];
+                if(mouseHoverSlotData != null){}
                 _playerInventory.TakePartOfItem(_slotsOnInterface[obj], mouseHoverSlotData, _clampedValue);
                 _clampedValue = 0;
                 StartCoroutine(ValueChangeStateDelay());
@@ -163,7 +164,6 @@ public abstract class UserInterface : MonoBehaviour
     {
         MouseData.SlotHoveredOver = obj;
         MouseData.InterfaceMouseIsOver = obj.gameObject.GetComponentInParent<UserInterface>();
-        
     }
     protected void OnExit(GameObject obj)
     {
@@ -172,7 +172,7 @@ public abstract class UserInterface : MonoBehaviour
     protected void OnStartDrag(GameObject obj)
     {
         MouseData.TempItemDragged = CreateTempObject(obj);
-        _interactableItems.TurnOffFoodDisplay();
+        _interactableItems.TurnOffInfoDisplay();
     }
 
     public GameObject CreateTempObject(GameObject obj)
@@ -207,7 +207,7 @@ public abstract class UserInterface : MonoBehaviour
 
         if (MouseData.InterfaceMouseIsOver == null && Input.touchCount <= 1)
         {
-            _playerInventory.DropItemFromInventory(_slotsOnInterface[obj].Item);
+            _playerInventory.DropItemFromInventory(_slotsOnInterface[obj]);
             return;
         }
 

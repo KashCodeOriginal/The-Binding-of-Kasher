@@ -28,7 +28,7 @@ public class InventoryObject : ScriptableObject
 
     public bool AddItemToInventory(Item item, int amount)
     {
-        InventorySlot slot = FindItemInInventory(item);
+        InventorySlot slot = FindAvailableItemInInventory(item);
 
         if (EmptySlotCount <= 0)
         {
@@ -67,7 +67,7 @@ public class InventoryObject : ScriptableObject
         return true;
     }
 
-    public InventorySlot FindItemInInventory(Item item)
+    public InventorySlot FindAvailableItemInInventory(Item item)
     {
         for (int i = 0; i < GetSlots.Length; i++)
         {
@@ -79,6 +79,29 @@ public class InventoryObject : ScriptableObject
 
         return null;
     }
+    public InventorySlot FindItemInInventory(Item item)
+    {
+        for (int i = 0; i < GetSlots.Length; i++)
+        {
+            if (GetSlots[i].Item.ID == item.ID)
+            {
+                return GetSlots[i];
+            }
+        }
+        return null;
+    }
+    public bool FindItemInInventory(Item item, int requiredAmount)
+    {
+        for (int i = 0; i < GetSlots.Length; i++)
+        {
+            if (GetSlots[i].Item.ID == item.ID && GetSlots[i].Amount >= requiredAmount)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public int EmptySlotCount
     {
         get
@@ -164,50 +187,44 @@ public class InventoryObject : ScriptableObject
 
     public void RemoveItemAmountFromInventory(InventorySlot slot, int amount)
     {
-        if (slot.Amount <= 1)
+        if (slot.Amount - amount <= 0)
         {
             slot.RemoveItem();
             return;
         }
+        
         slot.UpdateSlot(slot.Item, slot.Amount - amount, slot.MaxSlotAmount + amount);
     }
 
-    public void DropItemFromInventory(Item item)
+    public void DropItemFromInventory(InventorySlot item)
     {
         CreateDroppingItem(item, 0);
     }
-    public void DropItemFromInventory(Item item, int amount)
+    public void DropItemFromInventory(InventorySlot item, int amount)
     {
         CreateDroppingItem(item, amount);
     }
 
-    private void CreateDroppingItem(Item item, int amount)
+    private void CreateDroppingItem(InventorySlot slot, int amount)
     {
-        for (int i = 0; i < GetSlots.Length; i++)
+        if (amount == 0)
         {
-            if (GetSlots[i].Item == item)
-            {
-                if (amount == 0)
-                {
-                    amount = GetSlots[i].Amount;
-                }
-                
-                var prefab = GetSlots[i].ItemObject.Prefab;
-           
-                var player = GameObject.FindWithTag("Player");
-                var obj = Instantiate(prefab, new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z + 2), Quaternion.identity);
-                var component = obj.TryGetComponent(out GroundItem groundItem);
-                if (component == true)
-                {
-                    obj.GetComponent<GroundItem>().SetAmount(amount);
-                }
-                
-                obj.GetComponent<Rigidbody>().AddForce(Vector3.forward * 2, ForceMode.Impulse);
-                obj.GetComponent<Rigidbody>().AddForce(Vector3.up * 2, ForceMode.Impulse);
-                
-                GetSlots[i].UpdateSlot(new Item(), 0, 30);
-            }
+            amount = slot.Amount;
         }
+        
+        var prefab = slot.ItemObject.Prefab;
+           
+        var player = GameObject.FindWithTag("Player");
+        var obj = Instantiate(prefab, new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z + 2), Quaternion.identity);
+        var component = obj.TryGetComponent(out GroundItem groundItem);
+        if (component == true)
+        {
+            obj.GetComponent<GroundItem>().SetAmount(amount);
+        }
+                
+        obj.GetComponent<Rigidbody>().AddForce(Vector3.forward * 2, ForceMode.Impulse);
+        obj.GetComponent<Rigidbody>().AddForce(Vector3.up * 2, ForceMode.Impulse);
+        slot.UpdateSlot(new Item(), 0, 30);
     }
 
     private InventorySlot FindFirstEmptySlot(Item item, int amount)

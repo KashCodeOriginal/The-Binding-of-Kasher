@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: 
   _description: 
-  _type: 8
+  _type: 10
   _icon: {fileID: 21300000, guid: 9332cf0d233636a40a024382720294a3, type: 3}
   _model: {fileID: 0}
   _prefab: {fileID: 0}
