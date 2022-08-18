@@ -139,13 +139,15 @@ public abstract class UserInterface : MonoBehaviour
     {
         if (obj != null)
         {
-            if (_isSlotClamped == true)
+            if (_isSlotClamped == true && MouseData.InterfaceMouseIsOver != null)
             {
                 InventorySlot mouseHoverSlotData = MouseData.InterfaceMouseIsOver._slotsOnInterface[MouseData.SlotHoveredOver];
-                if(mouseHoverSlotData != null){}
-                _playerInventory.TakePartOfItem(_slotsOnInterface[obj], mouseHoverSlotData, _clampedValue);
-                _clampedValue = 0;
-                StartCoroutine(ValueChangeStateDelay());
+                if (mouseHoverSlotData != null)
+                {
+                    _playerInventory.TakePartOfItem(_slotsOnInterface[obj], mouseHoverSlotData, _clampedValue);
+                    _clampedValue = 0;
+                    StartCoroutine(ValueChangeStateDelay());
+                }
             }
         }
 

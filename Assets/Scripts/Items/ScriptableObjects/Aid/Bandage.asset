@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Bandage
   m_EditorClassIdentifier: 
   _name: Bandage
-  _description: Can heal u
+  _description: Just put it on your body
   _type: 2
-  _icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  _icon: {fileID: 21300000, guid: 35076c1bc9114184f80dc6c8ac8c71dd, type: 3}
   _model: {fileID: 0}
   _prefab: {fileID: 0}
   _data:
     _name: 
-    _id: 9
+    _id: 0
     _itemBuffs:
     - _attribute: 0
-      _value: 15
-      _min: 15
-      _max: 15
+      _value: 25
+      _min: 25
+      _max: 25
   _stackable: 1

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da68343124ec414db96c32cbea99b71, type: 3}
+  m_Name: Wooden Boat
+  m_EditorClassIdentifier: 
+  _name: Wooden Boat
+  _description: Not a very good idea
+  _type: 6
+  _icon: {fileID: 21300000, guid: 016f30824e077634f8209aeb19b1a06e, type: 3}
+  _model: {fileID: 0}
+  _prefab: {fileID: 0}
+  _data:
+    _name: 
+    _id: 27
+    _itemBuffs: []
+  _stackable: 0

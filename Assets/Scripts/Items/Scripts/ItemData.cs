@@ -36,7 +36,6 @@ public enum ItemType
     Aid,
     Resource,
     Building,
-    Tools,
     Equipment,
     Other,
     Helmet,

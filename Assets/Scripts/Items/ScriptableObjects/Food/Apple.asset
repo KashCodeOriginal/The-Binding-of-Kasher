@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Apple
   m_EditorClassIdentifier: 
   _name: Apple
-  _description: Very good red apple
+  _description: Newton would have loved that
   _type: 0
-  _icon: {fileID: 21300000, guid: 73d67f6774b0d384baafa0efd83db6bb, type: 3}
+  _icon: {fileID: 21300000, guid: b6295fca2405b2f409176ab43e979f91, type: 3}
   _model: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   _prefab: {fileID: 3148343034270809691, guid: 53f49112c73ef074884ac5bdc17f7ff9, type: 3}
   _data:
-    _name: Apple
-    _id: 4
+    _name: 
+    _id: 6
     _itemBuffs:
     - _attribute: 0
-      _value: 5
-      _min: 5
-      _max: 5
+      _value: 10
+      _min: 10
+      _max: 10
   _stackable: 1

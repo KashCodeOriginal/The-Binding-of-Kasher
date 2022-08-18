@@ -3,6 +3,7 @@
  using System.Runtime.Serialization;
  using System.Runtime.Serialization.Formatters.Binary;
  using Unity.VisualScripting;
+ using UnityEditor;
  using UnityEngine;
 
 [CreateAssetMenu(fileName = "InventoryObject", menuName = "ScriptableObject/Inventory")]
@@ -30,6 +31,25 @@ public class InventoryObject : ScriptableObject
     {
         InventorySlot slot = FindAvailableItemInInventory(item);
 
+        if (slot != null)
+        {
+            if (amount <= slot.MaxSlotAmount)
+            {
+                slot.AddItem(amount);
+                return true;
+            }
+            if (amount > slot.MaxSlotAmount)
+            {
+                int maxAmount = amount - slot.MaxSlotAmount;
+
+                slot.AddItem(slot.MaxSlotAmount);
+            
+                FindFirstEmptySlot(item, maxAmount);
+            
+                return true;
+            }
+        }
+        
         if (EmptySlotCount <= 0)
         {
             return false;
@@ -38,29 +58,6 @@ public class InventoryObject : ScriptableObject
         if (_itemsDataBase.ItemsData[item.ID].Stackable == false || slot == null)
         {
             FindFirstEmptySlot(item, amount);
-            return true;
-        }
-
-        if (amount <= slot.MaxSlotAmount)
-        {
-            slot.AddItem(amount);
-            return true;
-        }
-        if (amount > slot.MaxSlotAmount)
-        {
-            int maxAmount = amount - slot.MaxSlotAmount;
-
-            //int overMaxAmount = amount - maxAmount;
-                    
-            slot.AddItem(slot.MaxSlotAmount);
-            
-            FindFirstEmptySlot(item, maxAmount);
-
-            /*if (overMaxAmount > 0)
-            {
-                DropItemFromInventory(item, overMaxAmount);
-            }*/
-            
             return true;
         }
         
@@ -200,10 +197,6 @@ public class InventoryObject : ScriptableObject
     {
         CreateDroppingItem(item, 0);
     }
-    public void DropItemFromInventory(InventorySlot item, int amount)
-    {
-        CreateDroppingItem(item, amount);
-    }
 
     private void CreateDroppingItem(InventorySlot slot, int amount)
     {
@@ -211,9 +204,12 @@ public class InventoryObject : ScriptableObject
         {
             amount = slot.Amount;
         }
-        
         var prefab = slot.ItemObject.Prefab;
-           
+        CreateItem(prefab, amount);
+        slot.UpdateSlot(new Item(), 0, 30);
+    }
+    private void CreateItem(GameObject prefab, int amount)
+    {
         var player = GameObject.FindWithTag("Player");
         var obj = Instantiate(prefab, new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z + 2), Quaternion.identity);
         var component = obj.TryGetComponent(out GroundItem groundItem);
@@ -224,9 +220,7 @@ public class InventoryObject : ScriptableObject
                 
         obj.GetComponent<Rigidbody>().AddForce(Vector3.forward * 2, ForceMode.Impulse);
         obj.GetComponent<Rigidbody>().AddForce(Vector3.up * 2, ForceMode.Impulse);
-        slot.UpdateSlot(new Item(), 0, 30);
     }
-
     private InventorySlot FindFirstEmptySlot(Item item, int amount)
     {
         for (int i = 0; i < GetSlots.Length; i++)

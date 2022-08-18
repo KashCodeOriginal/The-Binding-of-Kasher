@@ -3,7 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class CraftItem : ISerializationCallbackReceiver
 {
-    private Item _item;
+    [SerializeField] private Item _item;
 
     [SerializeField] private ItemsData _itemData;
 
@@ -20,11 +20,12 @@ public class CraftItem : ISerializationCallbackReceiver
     
     public void OnAfterDeserialize()
     {
-        _item.SetID(_itemData.Data.ID);
+        _item?.SetID(_itemData.Data.ID);
     }
 
     public void OnBeforeSerialize()
     {
+        _item?.SetID(_itemData.Data.ID);
     }
 
     

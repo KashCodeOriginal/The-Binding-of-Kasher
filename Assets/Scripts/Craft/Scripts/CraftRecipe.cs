@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObject/Craft")]
 public class CraftRecipe : ScriptableObject, ISerializationCallbackReceiver
 {
-    private Item _outputItem;
+    [SerializeField] private Item _item;
 
-    [SerializeField] private ItemsData _item;
+    [SerializeField] private ItemsData _outputItem;
 
     [SerializeField] private int _outputItemAmount;
 
@@ -13,6 +14,11 @@ public class CraftRecipe : ScriptableObject, ISerializationCallbackReceiver
 
     [SerializeField] private InventoryObject _inventory;
     [SerializeField] private InventoryObject _playerActivePanel;
+
+    public CraftRecipe()
+    {
+        
+    }
 
     public bool CanCraftItem()
     {
@@ -30,29 +36,32 @@ public class CraftRecipe : ScriptableObject, ISerializationCallbackReceiver
     {
         if (CanCraftItem() == true)
         {
-            foreach (var item in _requiredItems)
+            bool canCraft = _playerActivePanel.AddItemToInventory(_item, _outputItemAmount) == true || _inventory.AddItemToInventory(_item, _outputItemAmount) == true;
+
+            if (canCraft == true)
             {
-                if(_inventory.FindItemInInventory(item.Item, item.Amount) == true)
+                foreach (var item in _requiredItems)
                 {
-                    _inventory.RemoveItemAmountFromInventory(_inventory.FindItemInInventory(item.Item), item.Amount);
-                }
-                else if (_playerActivePanel.FindItemInInventory(item.Item, item.Amount) == true)
-                {
-                    _playerActivePanel.RemoveItemAmountFromInventory(_playerActivePanel.FindItemInInventory(item.Item), item.Amount);
+                    if(_inventory.FindItemInInventory(item.Item, item.Amount) == true)
+                    {
+                        _inventory.RemoveItemAmountFromInventory(_inventory.FindItemInInventory(item.Item), item.Amount);
+                    }
+                    else if (_playerActivePanel.FindItemInInventory(item.Item, item.Amount) == true)
+                    {
+                        _playerActivePanel.RemoveItemAmountFromInventory(_playerActivePanel.FindItemInInventory(item.Item), item.Amount);
+                    }
                 }
             }
-            
-            _inventory.AddItemToInventory(_outputItem, _outputItemAmount);
         }
     }
     public void OnAfterDeserialize()
     {
-        _outputItem?.SetID(_item.Data.ID);
+        _item?.SetID(_outputItem.Data.ID);
     }
 
     public void OnBeforeSerialize()
     {
-        
+        _item?.SetID(_outputItem.Data.ID);
     }
     
 }

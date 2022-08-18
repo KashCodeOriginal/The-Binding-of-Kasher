@@ -16,13 +16,6 @@ MonoBehaviour:
   _savingPath: /equipment.save
   _itemsContainer:
     _slots:
-    - AllowedItems: 06000000
-      _item:
-        _name: 
-        _id: -1
-        _itemBuffs: []
-      _amount: 0
-      _maxSlotAmount: 30
     - AllowedItems: 07000000
       _item:
         _name: 
@@ -38,6 +31,13 @@ MonoBehaviour:
       _amount: 0
       _maxSlotAmount: 30
     - AllowedItems: 09000000
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 0a000000
       _item:
         _name: 
         _id: -1

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c148d8a7456dc904b92f971817d7f4a5, type: 3}
+  m_Name: Copper Ingot
+  m_EditorClassIdentifier: 
+  _name: Copper Ingot
+  _description: Use it for craft
+  _type: 3
+  _icon: {fileID: 21300000, guid: a27ed756c19abc74bb01dce5069720ac, type: 3}
+  _model: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
+  _data:
+    _name: 
+    _id: 32
+    _itemBuffs: []
+  _stackable: 1

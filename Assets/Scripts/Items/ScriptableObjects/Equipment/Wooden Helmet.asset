@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42448d8a8ddcc9f4aa1bf6bee739b9c6, type: 3}
+  m_Name: Wooden Helmet
+  m_EditorClassIdentifier: 
+  _name: Helmet
+  _description: Very strong
+  _type: 7
+  _icon: {fileID: 21300000, guid: 84487d73ca4b791498332d8f6858417f, type: 3}
+  _model: {fileID: 0}
+  _prefab: {fileID: 0}
+  _data:
+    _name: 
+    _id: 4
+    _itemBuffs: []
+  _stackable: 0
