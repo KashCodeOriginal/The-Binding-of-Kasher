@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObject/Craft")]
-public class CraftRecipe : ScriptableObject, ISerializationCallbackReceiver
+[System.Serializable]
+public class CraftRecipe : ScriptableObject
 {
-    [SerializeField] private Item _item;
-
     [SerializeField] private ItemsData _outputItem;
 
     [SerializeField] private int _outputItemAmount;
@@ -15,16 +13,11 @@ public class CraftRecipe : ScriptableObject, ISerializationCallbackReceiver
     [SerializeField] private InventoryObject _inventory;
     [SerializeField] private InventoryObject _playerActivePanel;
 
-    public CraftRecipe()
-    {
-        
-    }
-
     public bool CanCraftItem()
     {
         foreach (var item in _requiredItems)
         {
-            if (_inventory.FindItemInInventory(item.Item, item.Amount) == false && _playerActivePanel.FindItemInInventory(item.Item, item.Amount) == false)
+            if (_inventory.FindItemInInventory(item.Item.Data, item.Amount) == false && _playerActivePanel.FindItemInInventory(item.Item.Data, item.Amount) == false)
             {
                 return false;
             }
@@ -36,32 +29,22 @@ public class CraftRecipe : ScriptableObject, ISerializationCallbackReceiver
     {
         if (CanCraftItem() == true)
         {
-            bool canCraft = _playerActivePanel.AddItemToInventory(_item, _outputItemAmount) == true || _inventory.AddItemToInventory(_item, _outputItemAmount) == true;
-
+            bool canCraft = _playerActivePanel.AddItemToInventory(_outputItem.Data, _outputItemAmount) == true || _inventory.AddItemToInventory(_outputItem.Data, _outputItemAmount) == true;
+            
             if (canCraft == true)
             {
                 foreach (var item in _requiredItems)
                 {
-                    if(_inventory.FindItemInInventory(item.Item, item.Amount) == true)
+                    if(_inventory.FindItemInInventory(item.Item.Data, item.Amount) == true)
                     {
-                        _inventory.RemoveItemAmountFromInventory(_inventory.FindItemInInventory(item.Item), item.Amount);
+                        _inventory.RemoveItemAmountFromInventory(_inventory.FindItemInInventory(item.Item.Data), item.Amount);
                     }
-                    else if (_playerActivePanel.FindItemInInventory(item.Item, item.Amount) == true)
+                    else if (_playerActivePanel.FindItemInInventory(item.Item.Data, item.Amount) == true)
                     {
-                        _playerActivePanel.RemoveItemAmountFromInventory(_playerActivePanel.FindItemInInventory(item.Item), item.Amount);
+                        _playerActivePanel.RemoveItemAmountFromInventory(_playerActivePanel.FindItemInInventory(item.Item.Data), item.Amount);
                     }
                 }
             }
         }
     }
-    public void OnAfterDeserialize()
-    {
-        _item?.SetID(_outputItem.Data.ID);
-    }
-
-    public void OnBeforeSerialize()
-    {
-        _item?.SetID(_outputItem.Data.ID);
-    }
-    
 }

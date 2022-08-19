@@ -44,3 +44,10 @@ MonoBehaviour:
         _itemBuffs: []
       _amount: 0
       _maxSlotAmount: 30
+    - AllowedItems: 05000000
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _amount: 0
+      _maxSlotAmount: 30

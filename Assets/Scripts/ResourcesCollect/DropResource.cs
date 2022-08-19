@@ -14,8 +14,9 @@ public class DropResource : MonoBehaviour
             if (_itemsDataBase.ItemsData[i].Data.ID == item.ID)
             {
                 var prefab = _itemsDataBase.ItemsData[i].Prefab;
-                
-                var obj = Instantiate(prefab, new Vector3(_player.transform.position.x, _player.transform.position.y + 3, _player.transform.position.z + 3), Quaternion.identity);
+
+                var position = _player.transform.position;
+                var obj = Instantiate(prefab, new Vector3(position.x, position.y + 3, position.z + 3), Quaternion.identity);
                 var component = obj.TryGetComponent(out GroundItem groundItem);
                 
                 obj.GetComponent<Rigidbody>().AddForce(Vector3.back * 3, ForceMode.Impulse);
@@ -24,6 +25,7 @@ public class DropResource : MonoBehaviour
                 if (component == true)
                 {
                     obj.GetComponent<GroundItem>().SetAmount(amount);
+                    obj.GetComponent<GroundItem>().SetItem(_itemsDataBase.ItemsData[i]);
                 }
             }
         }

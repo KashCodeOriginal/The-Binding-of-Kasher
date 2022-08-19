@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject _inventory;
 
+    [SerializeField] private CollectWood _collectWood;
+
     public int HealthPoint => _healthPoint;
     public int HungerPoint => _hungerPoint;
     public int WaterPoint => _waterPoint;
@@ -51,10 +53,11 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.tag == "Tree")
+        if (collider.CompareTag("Tree"))
         {
             _woodInterface.SetActive(true);
             _woodInterface.GetComponent<CollectWoodDisplay>().StartCollectWoodButton(true);
+            _collectWood.SetCurrentTree(collider.gameObject);
         }
 
         if (collider.GetComponent<GroundItem>() == true)

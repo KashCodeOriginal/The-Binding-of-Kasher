@@ -1,32 +1,18 @@
 using UnityEngine;
 
 [System.Serializable]
-public class CraftItem : ISerializationCallbackReceiver
+public class CraftItem
 {
-    [SerializeField] private Item _item;
-
     [SerializeField] private ItemsData _itemData;
 
     [SerializeField] private int _amount;
 
-    public Item Item => _item;
+    public ItemsData Item => _itemData;
 
     public int Amount => _amount;
 
-    public CraftItem (Item item)
+    public CraftItem(ItemsData item)
     {
-        _item = item;
+        _itemData = item;
     }
-    
-    public void OnAfterDeserialize()
-    {
-        _item?.SetID(_itemData.Data.ID);
-    }
-
-    public void OnBeforeSerialize()
-    {
-        _item?.SetID(_itemData.Data.ID);
-    }
-
-    
 }

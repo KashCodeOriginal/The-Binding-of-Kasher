@@ -2,8 +2,6 @@
  using System.IO;
  using System.Runtime.Serialization;
  using System.Runtime.Serialization.Formatters.Binary;
- using Unity.VisualScripting;
- using UnityEditor;
  using UnityEngine;
 
 [CreateAssetMenu(fileName = "InventoryObject", menuName = "ScriptableObject/Inventory")]
@@ -204,11 +202,16 @@ public class InventoryObject : ScriptableObject
         {
             amount = slot.Amount;
         }
-        var prefab = slot.ItemObject.Prefab;
-        CreateItem(prefab, amount);
-        slot.UpdateSlot(new Item(), 0, 30);
+
+        if (slot.ItemObject != null)
+        {
+            var prefab = slot.ItemObject.Prefab;
+            ItemsData item = slot.ItemObject;
+            CreateItem(prefab, amount, item);
+            slot.UpdateSlot(new Item(), 0, 30);
+        }
     }
-    private void CreateItem(GameObject prefab, int amount)
+    private void CreateItem(GameObject prefab, int amount, ItemsData item)
     {
         var player = GameObject.FindWithTag("Player");
         var obj = Instantiate(prefab, new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z + 2), Quaternion.identity);
@@ -216,6 +219,7 @@ public class InventoryObject : ScriptableObject
         if (component == true)
         {
             obj.GetComponent<GroundItem>().SetAmount(amount);
+            obj.GetComponent<GroundItem>().SetItem(item);
         }
                 
         obj.GetComponent<Rigidbody>().AddForce(Vector3.forward * 2, ForceMode.Impulse);

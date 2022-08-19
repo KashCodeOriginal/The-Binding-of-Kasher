@@ -63,6 +63,7 @@ public abstract class UserInterface : MonoBehaviour
 
             if (_mousePosition != Input.mousePosition)
             {
+                _timeBetweenValueAdd = 0.4f;
                 _currentTime = 0;
             }
 
@@ -77,7 +78,7 @@ public abstract class UserInterface : MonoBehaviour
 
                     if (_timeBetweenValueAdd > 0.1)
                     {
-                        _timeBetweenValueAdd -= _decreaseTimeBetweenValueAdding;
+                        _timeBetweenValueAdd -= _decreaseTimeBetweenValueAdding * _clampedValue;
                     }
                 }
             }
@@ -146,6 +147,7 @@ public abstract class UserInterface : MonoBehaviour
                 {
                     _playerInventory.TakePartOfItem(_slotsOnInterface[obj], mouseHoverSlotData, _clampedValue);
                     _clampedValue = 0;
+                    _timeBetweenValueAdd = 0.4f;
                     StartCoroutine(ValueChangeStateDelay());
                 }
             }

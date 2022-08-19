@@ -16,8 +16,7 @@ MonoBehaviour:
   _description: Not a very good idea
   _type: 6
   _icon: {fileID: 21300000, guid: 016f30824e077634f8209aeb19b1a06e, type: 3}
-  _model: {fileID: 0}
-  _prefab: {fileID: 0}
+  _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
     _id: 27

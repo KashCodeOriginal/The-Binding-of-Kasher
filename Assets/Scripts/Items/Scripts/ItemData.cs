@@ -8,7 +8,6 @@ public class ItemsData : ScriptableObject
     [SerializeField] private string _description;
     [SerializeField] private ItemType _type;
     [SerializeField] private Sprite _icon;
-    [SerializeField] private Mesh _model;
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Item _data = new Item();
     [SerializeField] private bool _stackable;
@@ -23,7 +22,6 @@ public class ItemsData : ScriptableObject
     public string Description => _description;
     public ItemType Type => _type;
     public Sprite Icon => _icon;
-    public Mesh Mesh => _model;
     public GameObject Prefab => _prefab;
     public Item Data => _data;
     public bool Stackable => _stackable;
@@ -36,12 +34,12 @@ public enum ItemType
     Aid,
     Resource,
     Building,
-    Equipment,
+    HandEquipment,
     Other,
     Helmet,
     ChestPlate,
     Pants,
-    Shoes
+    Shoes,
 }
 
 public enum Attributes

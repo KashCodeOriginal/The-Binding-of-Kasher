@@ -16,8 +16,7 @@ MonoBehaviour:
   _description: Just put it on your body
   _type: 2
   _icon: {fileID: 21300000, guid: 35076c1bc9114184f80dc6c8ac8c71dd, type: 3}
-  _model: {fileID: 0}
-  _prefab: {fileID: 0}
+  _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
     _id: 0
