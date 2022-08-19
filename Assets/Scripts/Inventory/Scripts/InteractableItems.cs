@@ -16,12 +16,21 @@ public class InteractableItems : MonoBehaviour
 
     [SerializeField] private InventoryObject _playerActivePanel;
 
+    [SerializeField] private DropResource _dropResource;
+
+    [SerializeField] private ItemsData _emptyCup;
+
     public void DisplayInteractableItem(InventorySlot mouseHoverSlotData)
     {
         if (mouseHoverSlotData.ItemObject.Type == ItemType.Food)
         {
+            int recoveryValue = 0;
+            
             DisplayItem(mouseHoverSlotData);
-            int recoveryValue = mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Value;
+            if (mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Attribute == Attributes.RecoveryValue)
+            {
+                recoveryValue = mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Value;
+            }
 
             _buttonUseText.text = "Eat!";
         
@@ -29,17 +38,33 @@ public class InteractableItems : MonoBehaviour
         }
         else if (mouseHoverSlotData.ItemObject.Type == ItemType.Drinks)
         {
-            DisplayItem(mouseHoverSlotData);
-            int recoveryValue = mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Value;
+            int recoveryValue = 0;
             
-            _buttonUseText.text = "Drink!";
+            DisplayItem(mouseHoverSlotData);
+
+            if (mouseHoverSlotData.ItemObject.Data.ItemBuffs.Length > 0)
+            {
+                if (mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Attribute == Attributes.RecoveryValue)
+                {
+                    recoveryValue = mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Value;
+                }
+            
+                _buttonUseText.text = "Drink!";
         
-            _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => IncreaseWater(recoveryValue, mouseHoverSlotData));
+                _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => IncreaseWater(recoveryValue, mouseHoverSlotData, _emptyCup));
+                return;
+            }
+            _interactaleUseItemButton.SetActive(false);
         }
         else if (mouseHoverSlotData.ItemObject.Type == ItemType.Aid)
         {
+            int recoveryValue = 0;
             DisplayItem(mouseHoverSlotData);
-            int recoveryValue = mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Value;
+            
+            if (mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Attribute == Attributes.RecoveryValue)
+            {
+                recoveryValue = mouseHoverSlotData.ItemObject.Data.ItemBuffs[0].Value;
+            }
             
             _buttonUseText.text = "Use!";
         
@@ -60,10 +85,11 @@ public class InteractableItems : MonoBehaviour
         _playerStatsChanger.IncreaseHunger(value);
         _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
     }
-    private void IncreaseWater(int value, InventorySlot slot)
+    private void IncreaseWater(int value, InventorySlot slot, ItemsData _item)
     {
         _playerStatsChanger.IncreaseWater(value);
         _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
+        _dropResource.DropItem(_item.Data, 1);
     }
     private void IncreaseHealth(int value, InventorySlot slot)
     {

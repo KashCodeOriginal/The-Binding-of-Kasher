@@ -28,6 +28,12 @@ public class InventoryObject : ScriptableObject
     public bool AddItemToInventory(Item item, int amount)
     {
         InventorySlot slot = FindAvailableItemInInventory(item);
+        
+        if (_itemsDataBase.ItemsData[item.ID].Stackable == false || slot == null)
+        {
+            FindFirstEmptySlot(item, amount);
+            return true;
+        }
 
         if (slot != null)
         {
@@ -53,12 +59,6 @@ public class InventoryObject : ScriptableObject
             return false;
         }
 
-        if (_itemsDataBase.ItemsData[item.ID].Stackable == false || slot == null)
-        {
-            FindFirstEmptySlot(item, amount);
-            return true;
-        }
-        
         return true;
     }
 

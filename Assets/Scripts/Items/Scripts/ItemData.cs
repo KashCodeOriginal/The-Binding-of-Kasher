@@ -44,7 +44,8 @@ public enum ItemType
 
 public enum Attributes
 { 
-    RecoveryValue
+    RecoveryValue,
+    Usages
 }
 
 

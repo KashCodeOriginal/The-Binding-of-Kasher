@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3dbe2a150ac1b1c41bb0f752fc0bbc20, type: 3}
-  m_Name: Cup
+  m_Name: Empty Cup
   m_EditorClassIdentifier: 
-  _outputItem: {fileID: 11400000, guid: a88f4a72e54a0a64db8da9e10fefa678, type: 2}
+  _outputItem: {fileID: 11400000, guid: 8db57b0a6608d3e448f78a4afb1ec197, type: 2}
   _outputItemAmount: 1
   _requiredItems:
   - _itemData: {fileID: 11400000, guid: c3379e46abcc3f945ae183294b4a56b4, type: 2}

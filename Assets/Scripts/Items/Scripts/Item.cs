@@ -27,7 +27,7 @@ public class Item
 
         for (int i = 0; i < _itemBuffs.Length; i++)
         {
-            _itemBuffs[i] = new ItemBuff(item.Data.ItemBuffs[i].Min, item.Data.ItemBuffs[i].Max);
+            _itemBuffs[i] = new ItemBuff(item.Data.ItemBuffs[i].Value);
             _itemBuffs[i].SetAttribute(item.Data.ItemBuffs[i].Attribute);
         }
     }

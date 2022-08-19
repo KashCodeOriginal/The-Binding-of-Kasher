@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -18,6 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _inventory;
 
     [SerializeField] private CollectWood _collectWood;
+    [SerializeField] private CollectWater _collectWater;
 
     public int HealthPoint => _healthPoint;
     public int HungerPoint => _hungerPoint;
@@ -72,13 +72,22 @@ public class Player : MonoBehaviour
                 Destroy(collider.gameObject);
             }
         }
+        
+        if (collider.CompareTag("Water"))
+        {
+            _collectWater.TryCollectWater();
+        }
     }
     private void OnTriggerExit(Collider collider)
     {
-        if (collider.tag == "Tree")
+        if (collider.CompareTag("Tree"))
         {
             _woodInterface.SetActive(false);
             _woodInterface.GetComponent<CollectWoodDisplay>().StartCollectWoodButton(false);
+        }
+        if (collider.CompareTag("Water"))
+        {
+            _collectWater.TryCollectWater();
         }
     }
     private void IncreaseHeath(int value)
