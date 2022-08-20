@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -19,6 +20,13 @@ public class Player : MonoBehaviour
     [SerializeField] private CollectWood _collectWood;
     [SerializeField] private CollectWater _collectWater;
 
+    [SerializeField] private Vector3 _spawnPlace;
+
+    public event UnityAction<int> HealthValueChanged;
+    public event UnityAction<int> WaterValueChanged;
+    public event UnityAction<int> HungerValueChanged;
+    public event UnityAction PlayerDied;
+
     public int HealthPoint => _healthPoint;
     public int HungerPoint => _hungerPoint;
     public int WaterPoint => _waterPoint;
@@ -27,6 +35,7 @@ public class Player : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         _inventory.SetActive(false);
+        SpawnPlayer();
     }
 
     private void Update()
@@ -93,36 +102,58 @@ public class Player : MonoBehaviour
     private void IncreaseHeath(int value)
     {
         _healthPoint += TryIncreaseValue(_healthPoint, value, 100);
+        HealthValueChanged?.Invoke(_healthPoint);
     }
     private void DecreaseHealth(int value)
     {
         _healthPoint -= value;
+        
+        HealthValueChanged?.Invoke(_healthPoint);
 
         if (_healthPoint <= 0)
         {
             Die();
         }
+        
     }
     private void IncreaseHunger(int value)
     {
         _hungerPoint += TryIncreaseValue(_hungerPoint, value, 100);
+        HungerValueChanged?.Invoke(_hungerPoint);
     }
     private void DecreaseHunger(int value)
     {
         _hungerPoint -= value;
+        HungerValueChanged?.Invoke(_hungerPoint);
     }
     private void IncreaseWater(int value)
     {
         _waterPoint += TryIncreaseValue(_waterPoint, value, 100);
+        WaterValueChanged?.Invoke(_waterPoint);
     }
     private void DecreaseWater(int value)
     {
         _waterPoint -= value;
+        WaterValueChanged?.Invoke(_waterPoint);
+    }
+
+    public void SpawnPlayer()
+    {
+        gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        gameObject.GetComponent<Rigidbody>().useGravity = true;
+        gameObject.transform.position = _spawnPlace;
+
+        _healthPoint = 100;
+        _waterPoint = 100;
+        _hungerPoint = 100;
+        HungerValueChanged?.Invoke(_hungerPoint);
+        WaterValueChanged?.Invoke(_waterPoint);
+        HealthValueChanged?.Invoke(_healthPoint);
     }
 
     private void Die()
     {
-        Debug.Log("Умер");
+        PlayerDied?.Invoke();
     }
 
     private void OnEnable()

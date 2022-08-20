@@ -196,6 +196,17 @@ public class InventoryObject : ScriptableObject
         CreateDroppingItem(item, 0);
     }
 
+    public void DropAllItemsFromInventory()
+    {
+        for (int i = 0; i < GetSlots.Length; i++)
+        {
+            if (GetSlots[i].Item.ID >= 0)
+            {
+                DropItemFromInventory(GetSlots[i]);
+            }
+        }
+    }
+
     private void CreateDroppingItem(InventorySlot slot, int amount)
     {
         if (amount == 0)

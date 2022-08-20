@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class SliderValueChanger : MonoBehaviour
 {
    public event UnityAction ComboPointAdd;
-   
    public event UnityAction ComboEnded;
 
    [SerializeField] private Slider _slider;
@@ -58,14 +57,14 @@ public class SliderValueChanger : MonoBehaviour
    {
       if (_slider.value >= _sliderPoints.FirstPoint && _slider.value <= _sliderPoints.SecondPoint)
       {
-         _speed += 0.5f;
+         _speed += 0.3f;
          _sliderPoints.CreatePoints();
          ComboPointAdd?.Invoke();
       }
       else
       {
          ComboEnded?.Invoke();
-         _speed = 0.5f;
+         _speed = 0.3f;
          _isSliderActivated = false;
          _collectWoodDisplay.CollectWoodButtonActive(false);
          _collectWoodDisplay.CollectWoodInterfaceActive(false);

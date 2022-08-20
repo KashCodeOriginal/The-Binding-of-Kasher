@@ -38,18 +38,4 @@ public class Lighthouse : MonoBehaviour
 
         _lighthouseLight.LightsControll(true);
     }
-
-    private void AddWoodToLightHouse(int amount)
-    {
-        _woodAmount += amount;
-    }
-
-    private void OnEnable()
-    {
-        _lighthouseFill.FillLightHouse += AddWoodToLightHouse;
-    }
-    private void OnDisable()
-    {
-        _lighthouseFill.FillLightHouse -= AddWoodToLightHouse;
-    }
 }

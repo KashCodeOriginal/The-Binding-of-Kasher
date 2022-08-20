@@ -16,7 +16,7 @@ public class DropResource : MonoBehaviour
                 var prefab = _itemsDataBase.ItemsData[i].Prefab;
 
                 var position = _player.transform.position;
-                var obj = Instantiate(prefab, new Vector3(position.x, position.y + 3, position.z + 3), Quaternion.identity);
+                var obj = Instantiate(prefab, new Vector3(position.x, position.y + 2, position.z), Quaternion.identity);
                 var component = obj.TryGetComponent(out GroundItem groundItem);
                 
                 obj.GetComponent<Rigidbody>().AddForce(Vector3.back * 3, ForceMode.Impulse);

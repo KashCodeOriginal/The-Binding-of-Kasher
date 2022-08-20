@@ -18,6 +18,10 @@ public class CollectWater : MonoBehaviour
         {
             _collectWaterDisplay.DisplayWaterInterface();
         }
+        else
+        {
+            _collectWaterDisplay.DisplayWaterInterface();
+        }
     }
 
     public void CollectWaterButtonClick()
@@ -25,11 +29,13 @@ public class CollectWater : MonoBehaviour
         if (_playerInventory.FindItemInInventory(_emptyCup.Data, 1) == true)
         {
             _playerInventory.RemoveItemAmountFromInventory(_playerInventory.FindItemInInventory(_emptyCup.Data), 1);
+            _dropResource.DropItem(_fullCup.Data, 1);
         }
         else if (_playerActivePanel.FindItemInInventory(_emptyCup.Data, 1) == true)
         {
             _playerActivePanel.RemoveItemAmountFromInventory(_playerActivePanel.FindItemInInventory(_emptyCup.Data), 1);
+            _dropResource.DropItem(_fullCup.Data, 1);
         }
-        _dropResource.DropItem(_fullCup.Data, 1);
+        
     }
 }

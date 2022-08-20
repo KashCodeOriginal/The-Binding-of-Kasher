@@ -6,8 +6,7 @@ public class LighthouseFill : MonoBehaviour
     [SerializeField] private ItemsData _wood;
 
     [SerializeField] private InventoryObject _playerInventory;
-    public event UnityAction<int> FillLightHouse;
-    
+
 
     public void TryToFillLightHouse()
     {

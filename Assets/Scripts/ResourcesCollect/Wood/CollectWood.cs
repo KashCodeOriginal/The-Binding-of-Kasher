@@ -37,7 +37,7 @@ public class CollectWood : MonoBehaviour
                     _dropResource.DropItem(_apple.Data, _comboClicks / 2);
                 }
             }
-            if (webChanceValue >= 35)
+            if (webChanceValue <= 35)
             {
                 _dropResource.DropItem(_web.Data, _comboClicks);
             }
