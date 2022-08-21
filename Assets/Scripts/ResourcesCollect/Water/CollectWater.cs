@@ -20,7 +20,7 @@ public class CollectWater : MonoBehaviour
         }
         else
         {
-            _collectWaterDisplay.DisplayWaterInterface();
+            _collectWaterDisplay.HideWaterInterface();
         }
     }
 

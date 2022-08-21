@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerDeath : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class PlayerDeath : MonoBehaviour
     [SerializeField] private InventoryObject _playerActivePanel;
 
     [SerializeField] private PlayerDeathDisplay _playerDeathDisplay;
+
+    public event UnityAction PlayerIsRespawned;
 
     private void Died()
     {
@@ -27,6 +30,8 @@ public class PlayerDeath : MonoBehaviour
         _player.SpawnPlayer();
         
         _player.GetComponentInChildren<Animator>().SetBool("Died", false);
+        
+        PlayerIsRespawned?.Invoke();
     }
 
     private void OnEnable()

@@ -16,12 +16,16 @@ public class SliderValueChanger : MonoBehaviour
 
    [SerializeField] private CollectWoodDisplay _collectWoodDisplay;
 
+   [SerializeField] private Animator _playerAnimator;
+
    public void StartSliderMoving()
    {
       _isSliderActivated = true;
       _sliderPoints.CreatePoints();
 
       _collectWoodDisplay.CollectWoodButtonActive(true);
+      
+      _playerAnimator.SetBool("IsCollectingWood", true);
    }
 
    private void Update()
@@ -69,6 +73,7 @@ public class SliderValueChanger : MonoBehaviour
          _collectWoodDisplay.CollectWoodButtonActive(false);
          _collectWoodDisplay.CollectWoodInterfaceActive(false);
          
+         _playerAnimator.SetBool("IsCollectingWood", false);
       }
    }
 }

@@ -5,9 +5,12 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private GameObject _woodInterface;
 
+    [SerializeField] private int _maxPointsValue;
+
     [SerializeField] private int _healthPoint;
     [SerializeField] private int _hungerPoint;
     [SerializeField] private int _waterPoint;
+    [SerializeField] private int _energyPoint;
 
     [SerializeField] private PlayerStatsChanger _playerStatsChanger;
 
@@ -19,21 +22,24 @@ public class Player : MonoBehaviour
 
     [SerializeField] private CollectWood _collectWood;
     [SerializeField] private CollectWater _collectWater;
+    [SerializeField] private LighthouseDisplay _lighthouseDisplay;
 
     [SerializeField] private Vector3 _spawnPlace;
 
     public event UnityAction<int> HealthValueChanged;
     public event UnityAction<int> WaterValueChanged;
     public event UnityAction<int> HungerValueChanged;
+    public event UnityAction<int> EnergyValueChanged;
     public event UnityAction PlayerDied;
 
     public int HealthPoint => _healthPoint;
     public int HungerPoint => _hungerPoint;
     public int WaterPoint => _waterPoint;
+    public int EnergyPoint => _energyPoint;
 
     private void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 75;
         _inventory.SetActive(false);
         SpawnPlayer();
     }
@@ -86,6 +92,11 @@ public class Player : MonoBehaviour
         {
             _collectWater.TryCollectWater();
         }
+
+        if (collider.CompareTag("Lighthouse"))
+        {
+            _lighthouseDisplay.LighthouseInterfaceDisplay();
+        }
     }
     private void OnTriggerExit(Collider collider)
     {
@@ -98,10 +109,14 @@ public class Player : MonoBehaviour
         {
             _collectWater.TryCollectWater();
         }
+        if (collider.CompareTag("Lighthouse"))
+        {
+            _lighthouseDisplay.LighthouseInterfaceDisplay();
+        }
     }
     private void IncreaseHeath(int value)
     {
-        _healthPoint += TryIncreaseValue(_healthPoint, value, 100);
+        _healthPoint += TryIncreaseValue(_healthPoint, value, _maxPointsValue);
         HealthValueChanged?.Invoke(_healthPoint);
     }
     private void DecreaseHealth(int value)
@@ -118,7 +133,7 @@ public class Player : MonoBehaviour
     }
     private void IncreaseHunger(int value)
     {
-        _hungerPoint += TryIncreaseValue(_hungerPoint, value, 100);
+        _hungerPoint += TryIncreaseValue(_hungerPoint, value, _maxPointsValue);
         HungerValueChanged?.Invoke(_hungerPoint);
     }
     private void DecreaseHunger(int value)
@@ -128,7 +143,7 @@ public class Player : MonoBehaviour
     }
     private void IncreaseWater(int value)
     {
-        _waterPoint += TryIncreaseValue(_waterPoint, value, 100);
+        _waterPoint += TryIncreaseValue(_waterPoint, value, _maxPointsValue);
         WaterValueChanged?.Invoke(_waterPoint);
     }
     private void DecreaseWater(int value)
@@ -137,18 +152,31 @@ public class Player : MonoBehaviour
         WaterValueChanged?.Invoke(_waterPoint);
     }
 
+    private void IncreaseEnergy(int value)
+    {
+        _energyPoint += TryIncreaseValue(_energyPoint, value, _maxPointsValue);
+        EnergyValueChanged?.Invoke(_energyPoint);
+    }
+    private void DecreaseEnergy(int value)
+    {
+        _energyPoint -= value;
+        EnergyValueChanged?.Invoke(_energyPoint);
+    }
+
     public void SpawnPlayer()
     {
         gameObject.GetComponent<CapsuleCollider>().enabled = true;
         gameObject.GetComponent<Rigidbody>().useGravity = true;
         gameObject.transform.position = _spawnPlace;
 
-        _healthPoint = 100;
-        _waterPoint = 100;
-        _hungerPoint = 100;
+        _healthPoint = _maxPointsValue;
+        _waterPoint = _maxPointsValue;
+        _hungerPoint = _maxPointsValue;
+        _energyPoint = _maxPointsValue;
         HungerValueChanged?.Invoke(_hungerPoint);
         WaterValueChanged?.Invoke(_waterPoint);
         HealthValueChanged?.Invoke(_healthPoint);
+        EnergyValueChanged?.Invoke(_energyPoint);
     }
 
     private void Die()
@@ -161,18 +189,22 @@ public class Player : MonoBehaviour
         _playerStatsChanger.HungerIsDecreased += DecreaseHunger;
         _playerStatsChanger.WaterIsDecreased += DecreaseWater;
         _playerStatsChanger.HealthIsDecreased += DecreaseHealth;
+        _playerStatsChanger.EnergyIsDecreased += DecreaseEnergy;
         _playerStatsChanger.HungerIsIncreased += IncreaseHunger;
         _playerStatsChanger.WaterIsIncreased += IncreaseWater;
         _playerStatsChanger.HealthIsIncreased += IncreaseHeath;
+        _playerStatsChanger.EnergyIsIncreased += IncreaseEnergy;
     }
     private void OnDisable()
     {
         _playerStatsChanger.HungerIsDecreased -= DecreaseHunger;
         _playerStatsChanger.WaterIsDecreased -= DecreaseWater;
         _playerStatsChanger.HealthIsDecreased -= DecreaseHealth;
+        _playerStatsChanger.EnergyIsDecreased -= DecreaseEnergy;
         _playerStatsChanger.HungerIsIncreased -= IncreaseHunger;
         _playerStatsChanger.WaterIsIncreased -= IncreaseWater;
         _playerStatsChanger.HealthIsIncreased -= IncreaseHeath;
+        _playerStatsChanger.EnergyIsIncreased -= IncreaseEnergy;
     }
 
     private void OnApplicationQuit()

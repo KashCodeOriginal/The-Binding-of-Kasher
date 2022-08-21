@@ -5,10 +5,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private float _speed;
 
+    [SerializeField] private bool _canRun;
+
     [SerializeField] private Animator _animator;
 
     private float horizontal;
     private float vertical;
+
+    private void Start()
+    {
+        _canRun = true;
+    }
 
     public void MovePlayer(FloatingJoystick joystick)
     {
@@ -23,11 +30,11 @@ public class PlayerMovement : MonoBehaviour
             horizontal = joystick.Horizontal >= 0 ? horizontal = joystick.Horizontal : horizontal = -joystick.Horizontal;
             vertical = joystick.Vertical >= 0 ? vertical = joystick.Vertical : vertical = -joystick.Vertical;
             
-            if (horizontal >= 0.3f)
+            if (horizontal >= 0.3f && _canRun == true)
             {
                 _animator.SetFloat("WalkToRun", horizontal);
             }
-            else if (vertical >= 0.3f)
+            else if (vertical >= 0.3f && _canRun == true)
             {
                 _animator.SetFloat("WalkToRun", vertical);
             }
@@ -41,6 +48,26 @@ public class PlayerMovement : MonoBehaviour
         {
             _animator.SetBool("IsWalking", false);
         }
+    }
+    public void IncreaseSpeed(int value)
+    {
+        if (_speed <= 10)
+        {
+            _canRun = true;
+            return;
+        }
+
+        _speed += value;
+    }
+    public void DecreaseSpeed(int value)
+    {
+        if (_speed <= 3)
+        {
+            _canRun = false;
+            return;
+        }
+
+        _speed -= value;
     }
     
 }

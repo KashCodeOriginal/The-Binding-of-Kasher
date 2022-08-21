@@ -15,9 +15,22 @@ public class CollectWood : MonoBehaviour
 
     [SerializeField] private GameObject _currentCollectingTree;
 
+    [SerializeField] private PlayerStatsChanger _playerStatsChanger;
+
+    [SerializeField] private int _spentEnergyByClick;
+
+    [SerializeField] private Animator _playerAnimator;
+
     private void AddComboClick()
     {
         _comboClicks += 1;
+        _playerAnimator.SetTrigger("CollectWoodTrigger");
+        DecreaseEnergy();
+    }
+
+    private void DecreaseEnergy()
+    {
+        _playerStatsChanger.DecreaseEnergyByAction(_spentEnergyByClick);
     }
 
     private void DropResources()

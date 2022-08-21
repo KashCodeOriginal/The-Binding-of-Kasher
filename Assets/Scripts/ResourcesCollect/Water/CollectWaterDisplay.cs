@@ -4,14 +4,14 @@ public class CollectWaterDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject _waterInterface;
     
-    public bool DisplayWaterInterface()
+    public void DisplayWaterInterface()
     {
-        if (_waterInterface.activeSelf == true)
-        {
-            _waterInterface.SetActive(false);
-            return false;
-        }
         _waterInterface.SetActive(true);
-        return true;
+        
+    }
+    public void HideWaterInterface()
+    {
+        _waterInterface.SetActive(false);
+        
     }
 }

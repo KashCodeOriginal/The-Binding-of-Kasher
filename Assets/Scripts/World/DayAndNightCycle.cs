@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DayAndNightCycle : MonoBehaviour
@@ -23,8 +25,18 @@ public class DayAndNightCycle : MonoBehaviour
 
     [SerializeField] private Light _sun;
     [SerializeField] private Light _moon;
+
+    [SerializeField] private TextMeshProUGUI _dayClockText;
     
+    [SerializeField] private TextMeshProUGUI _totalDaysPassedText;
+
+    [SerializeField] private float _timeMultiplier;
     
+    [SerializeField] private float _startHour; 
+
+    private DateTime _currentTime;
+
+    private TimeSpan _newDayTime;
 
     private float _sunIntensity;
     private float _moonIntensity;
@@ -34,27 +46,46 @@ public class DayAndNightCycle : MonoBehaviour
         _sunIntensity = _sun.intensity;
         _moonIntensity = _moon.intensity;
         
+        _currentTime = DateTime.Now.Date + TimeSpan.FromHours(_startHour);
+        
+        _timeMultiplier = (60 * 60) / (_dayDuration / 24); //1 hour for second in real time
+        
+        _newDayTime = TimeSpan.FromHours(0);
+        
         StartCoroutine(Delay());
     }
 
     private void Update()
     {
         _dayTime += Time.deltaTime / _dayDuration;
+        
         if (_dayTime >= 1)
         {
             _dayTime = 0;
-            _totalDaysPassed++;
         }
 
         _sun.transform.localRotation = Quaternion.Euler(_dayTime * 360f, 0, 0);
         _moon.transform.localRotation = Quaternion.Euler(_dayTime * 360f + 180f, 0, 0);
+        
+        _currentTime = _currentTime.AddSeconds(Time.deltaTime  * _timeMultiplier);
+        
+        if (_dayClockText != null)
+        {
+            _dayClockText.text = _currentTime.ToString("HH:mm");
+        }
+
+        if (_currentTime.Hour == _newDayTime.Hours && _currentTime.Minute == _newDayTime.Minutes)
+        {
+            _totalDaysPassed++;
+            _totalDaysPassedText.text = "Total Days Passed: " + _totalDaysPassed;
+        }
     }
 
     private IEnumerator Delay()
     {
         while (true)
         {
-            if (_dayTime >= 0.5f)
+            if (_dayTime >= 0.45f)
             {
                 _moon.enabled = true;
             }

@@ -17,6 +17,13 @@ public class PlayerStatsChanger : MonoBehaviour
     [SerializeField] private int _waterDecreaseStep;
     [SerializeField] private float _timeBetweenWaterSteps;
     
+    [SerializeField] private int _energyDecreaseStep;
+    [SerializeField] private float _timeBetweenEnergySteps;
+
+    [SerializeField] private PlayerDeath _playerDeath;
+
+    [SerializeField] private PlayerMovement _playerMovement;
+    
     public event UnityAction<int> HealthIsIncreased;
     public event UnityAction<int> HealthIsDecreased;
     
@@ -26,13 +33,12 @@ public class PlayerStatsChanger : MonoBehaviour
     public event UnityAction<int> WaterIsIncreased;
     public event UnityAction<int> WaterIsDecreased;
 
-    public event UnityAction PlayerIsDied;
-    
+    public event UnityAction<int> EnergyIsIncreased;
+    public event UnityAction<int> EnergyIsDecreased;
+
     private void Start()
     {
-        StartCoroutine(DecreaseHunger());
-        StartCoroutine(DecreaseWater());
-        StartCoroutine(CheckStats());
+        StartCoroutines();
     }
 
     private IEnumerator DecreaseHunger()
@@ -49,6 +55,19 @@ public class PlayerStatsChanger : MonoBehaviour
         {
             WaterIsDecreased?.Invoke(_waterDecreaseStep);
             yield return new WaitForSeconds(_timeBetweenWaterSteps);
+        }
+    }
+    private IEnumerator DecreaseEnergy()
+    {
+        while(_player.EnergyPoint > 0)
+        {
+            EnergyIsDecreased?.Invoke(_energyDecreaseStep);
+            yield return new WaitForSeconds(_timeBetweenEnergySteps);
+
+            if (_player.EnergyPoint % 10 == 0 && _player.EnergyPoint <= 80)
+            {
+                _playerMovement.DecreaseSpeed(1);
+            }
         }
     }
 
@@ -74,6 +93,7 @@ public class PlayerStatsChanger : MonoBehaviour
     public void IncreaseHunger(int value)
     {
         HungerIsIncreased?.Invoke(value);
+        EnergyIsIncreased?.Invoke(value);
     }
     public void IncreaseWater(int value)
     {
@@ -82,5 +102,42 @@ public class PlayerStatsChanger : MonoBehaviour
     public void IncreaseHealth(int value)
     {
         HealthIsIncreased?.Invoke(value);
+    }
+
+    public void IncreaseEnergy(int value)
+    {
+        EnergyIsIncreased?.Invoke(value);
+    }
+
+    public void DecreaseEnergyByAction(int value)
+    {
+        EnergyIsDecreased?.Invoke(value);
+    }
+
+    private void StartCoroutines()
+    {
+        StopCoroutines();
+        
+        StartCoroutine(DecreaseHunger());
+        StartCoroutine(DecreaseWater());
+        StartCoroutine(DecreaseEnergy());
+        StartCoroutine(CheckStats());
+    }
+
+    private void OnEnable()
+    {
+        _playerDeath.PlayerIsRespawned += StartCoroutines;
+    }
+    private void OnDisable()
+    {
+        _playerDeath.PlayerIsRespawned -= StartCoroutines;
+    }
+
+    private void StopCoroutines()
+    {
+        StopCoroutine(DecreaseHunger());
+        StopCoroutine(DecreaseWater());
+        StopCoroutine(DecreaseEnergy());
+        StopCoroutine(CheckStats());
     }
 }
