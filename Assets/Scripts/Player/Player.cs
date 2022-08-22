@@ -3,8 +3,6 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private GameObject _woodInterface;
-
     [SerializeField] private int _maxPointsValue;
 
     [SerializeField] private int _healthPoint;
@@ -21,8 +19,10 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _inventory;
 
     [SerializeField] private CollectWood _collectWood;
+    [SerializeField] private CollectWoodDisplay _collectWoodDisplay;
     [SerializeField] private CollectWater _collectWater;
     [SerializeField] private LighthouseDisplay _lighthouseDisplay;
+    [SerializeField] private CollectOreDisplay _collectOreDisplay;
 
     [SerializeField] private Vector3 _spawnPlace;
 
@@ -70,8 +70,8 @@ public class Player : MonoBehaviour
     {
         if (collider.CompareTag("Tree"))
         {
-            _woodInterface.SetActive(true);
-            _woodInterface.GetComponent<CollectWoodDisplay>().StartCollectWoodButton(true);
+            _collectWoodDisplay.CollectWoodInterfaceActive(true);
+            _collectWoodDisplay.StartCollectWoodButton(true);
             _collectWood.SetCurrentTree(collider.gameObject);
         }
 
@@ -97,13 +97,18 @@ public class Player : MonoBehaviour
         {
             _lighthouseDisplay.LighthouseInterfaceDisplay();
         }
+        if (collider.CompareTag("Mine"))
+        {
+            _collectOreDisplay.CollectOreInterfaceActive(true);
+            _collectOreDisplay.StartCollectOreButton(true);
+        }
     }
     private void OnTriggerExit(Collider collider)
     {
         if (collider.CompareTag("Tree"))
         {
-            _woodInterface.SetActive(false);
-            _woodInterface.GetComponent<CollectWoodDisplay>().StartCollectWoodButton(false);
+            _collectWoodDisplay.CollectWoodInterfaceActive(false);
+            _collectWoodDisplay.StartCollectWoodButton(false);
         }
         if (collider.CompareTag("Water"))
         {
@@ -112,6 +117,11 @@ public class Player : MonoBehaviour
         if (collider.CompareTag("Lighthouse"))
         {
             _lighthouseDisplay.LighthouseInterfaceDisplay();
+        }
+        if (collider.CompareTag("Mine"))
+        {
+            _collectOreDisplay.CollectOreInterfaceActive(false);
+            _collectOreDisplay.StartCollectOreButton(false);
         }
     }
     private void IncreaseHeath(int value)

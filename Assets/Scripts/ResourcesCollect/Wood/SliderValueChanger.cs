@@ -18,6 +18,10 @@ public class SliderValueChanger : MonoBehaviour
 
    [SerializeField] private Animator _playerAnimator;
 
+   [SerializeField] private CollectWood _collectWood;
+
+   [SerializeField] private EnergyForActionCheck _energyForActionCheck;
+
    public void StartSliderMoving()
    {
       _isSliderActivated = true;
@@ -59,21 +63,33 @@ public class SliderValueChanger : MonoBehaviour
 
    public void CheckTapPosition()
    {
-      if (_slider.value >= _sliderPoints.FirstPoint && _slider.value <= _sliderPoints.SecondPoint)
+      if (_energyForActionCheck.IsPlayerHasEnoughEnergy(_collectWood.SpentEnergyByClick) == true)
       {
-         _speed += 0.3f;
-         _sliderPoints.CreatePoints();
-         ComboPointAdd?.Invoke();
+         if (_slider.value >= _sliderPoints.FirstPoint && _slider.value <= _sliderPoints.SecondPoint)
+         {
+            _speed += 0.3f;
+            _sliderPoints.CreatePoints();
+            ComboPointAdd?.Invoke();
+         }
+         else
+         {
+            EndWoodCollecting();
+         }
       }
       else
       {
-         ComboEnded?.Invoke();
-         _speed = 0.3f;
-         _isSliderActivated = false;
-         _collectWoodDisplay.CollectWoodButtonActive(false);
-         _collectWoodDisplay.CollectWoodInterfaceActive(false);
-         
-         _playerAnimator.SetBool("IsCollectingWood", false);
+         EndWoodCollecting();
       }
+   }
+
+   private void EndWoodCollecting()
+   {
+      ComboEnded?.Invoke();
+      _speed = 0.3f;
+      _isSliderActivated = false;
+      _collectWoodDisplay.CollectWoodButtonActive(false);
+      _collectWoodDisplay.CollectWoodInterfaceActive(false);
+         
+      _playerAnimator.SetBool("IsCollectingWood", false);
    }
 }

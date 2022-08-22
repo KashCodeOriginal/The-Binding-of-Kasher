@@ -21,6 +21,8 @@ public class CollectWood : MonoBehaviour
 
     [SerializeField] private Animator _playerAnimator;
 
+    public int SpentEnergyByClick => _spentEnergyByClick;
+
     private void AddComboClick()
     {
         _comboClicks += 1;

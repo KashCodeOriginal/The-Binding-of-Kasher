@@ -27,21 +27,28 @@ public class PlayerMovement : MonoBehaviour
             
             _animator.SetBool("IsWalking", true);
 
-            horizontal = joystick.Horizontal >= 0 ? horizontal = joystick.Horizontal : horizontal = -joystick.Horizontal;
-            vertical = joystick.Vertical >= 0 ? vertical = joystick.Vertical : vertical = -joystick.Vertical;
+            if (_canRun == true)
+            {
+                horizontal = joystick.Horizontal >= 0 ? horizontal = joystick.Horizontal : horizontal = -joystick.Horizontal;
+                vertical = joystick.Vertical >= 0 ? vertical = joystick.Vertical : vertical = -joystick.Vertical;
             
-            if (horizontal >= 0.3f && _canRun == true)
-            {
-                _animator.SetFloat("WalkToRun", horizontal);
-            }
-            else if (vertical >= 0.3f && _canRun == true)
-            {
-                _animator.SetFloat("WalkToRun", vertical);
+                if (horizontal >= 0.3f)
+                {
+                    _animator.SetFloat("WalkToRun", horizontal);
+                }
+                else if (vertical >= 0.3f)
+                {
+                    _animator.SetFloat("WalkToRun", vertical);
+                }
+                else
+                {
+                    horizontal = 0;
+                    vertical = 0;
+                }
             }
             else
             {
-                horizontal = 0;
-                vertical = 0;
+                _animator.SetFloat("WalkToRun", 0);
             }
         }
         else
@@ -57,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
     public void IncreaseSpeed(int value)
     {
         _speed = value;
-        if (_speed > 5)
+        if (_speed > 4)
         {
             _canRun = true;
         }
@@ -66,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _speed = value;
 
-        if (_speed <= 5)
+        if (_speed <= 4)
         {
             _canRun = false;
         }

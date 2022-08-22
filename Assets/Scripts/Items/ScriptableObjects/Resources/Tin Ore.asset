@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c148d8a7456dc904b92f971817d7f4a5, type: 3}
+  m_Name: Tin Ore
+  m_EditorClassIdentifier: 
+  _name: Tin Ore
+  _description: Stop reading descriptions
+  _type: 3
+  _icon: {fileID: 21300000, guid: 3d52679eae02b3040a40d79b01dcfb54, type: 3}
+  _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
+  _data:
+    _name: 
+    _id: 41
+    _itemBuffs: []
+  _stackable: 1
