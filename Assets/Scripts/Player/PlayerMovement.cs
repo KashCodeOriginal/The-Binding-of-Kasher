@@ -49,25 +49,27 @@ public class PlayerMovement : MonoBehaviour
             _animator.SetBool("IsWalking", false);
         }
     }
+
+    public void SetDefaultSpeed()
+    {
+        _speed = 10;
+    }
     public void IncreaseSpeed(int value)
     {
-        if (_speed <= 10)
+        _speed = value;
+        if (_speed > 5)
         {
             _canRun = true;
-            return;
         }
-
-        _speed += value;
     }
     public void DecreaseSpeed(int value)
     {
-        if (_speed <= 3)
+        _speed = value;
+
+        if (_speed <= 5)
         {
             _canRun = false;
-            return;
         }
-
-        _speed -= value;
     }
     
 }

@@ -1,11 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerStatsChanger : MonoBehaviour
 {
     [SerializeField] private Player _player;
-    
+
     [SerializeField] private int _healthDecreaseStep;
     [SerializeField] private int _healthIncreaseStep;
     [SerializeField] private float _timeBetweenHealthIncreaseSteps;
@@ -13,17 +15,29 @@ public class PlayerStatsChanger : MonoBehaviour
 
     [SerializeField] private int _hungerDecreaseStep;
     [SerializeField] private float _timeBetweenHungerSteps;
-    
+
     [SerializeField] private int _waterDecreaseStep;
     [SerializeField] private float _timeBetweenWaterSteps;
-    
+
     [SerializeField] private int _energyDecreaseStep;
     [SerializeField] private float _timeBetweenEnergySteps;
 
     [SerializeField] private PlayerDeath _playerDeath;
 
     [SerializeField] private PlayerMovement _playerMovement;
+
+    private Dictionary<(int, int), int> _energyForSpeed = new Dictionary<(int, int), int>()
+    {
+        {(100, 80), 10},
+        {(79, 70), 9},
+        {(69, 60), 8},
+        {(59, 50), 7},
+        {(49, 40), 6},
+        {(39, 30), 5},
+        {(29, 20), 4},
+    };
     
+
     public event UnityAction<int> HealthIsIncreased;
     public event UnityAction<int> HealthIsDecreased;
     
@@ -43,6 +57,8 @@ public class PlayerStatsChanger : MonoBehaviour
 
     private IEnumerator DecreaseHunger()
     {
+        
+
         while(_player.HungerPoint > 0)
         {
             HungerIsDecreased?.Invoke(_hungerDecreaseStep);
@@ -64,9 +80,12 @@ public class PlayerStatsChanger : MonoBehaviour
             EnergyIsDecreased?.Invoke(_energyDecreaseStep);
             yield return new WaitForSeconds(_timeBetweenEnergySteps);
 
-            if (_player.EnergyPoint % 10 == 0 && _player.EnergyPoint <= 80)
+            foreach (var energy in _energyForSpeed)
             {
-                _playerMovement.DecreaseSpeed(1);
+                if (_player.EnergyPoint <= energy.Key.Item1 && _player.EnergyPoint > energy.Key.Item2)
+                {
+                    _playerMovement.DecreaseSpeed(energy.Value); 
+                }
             }
         }
     }
@@ -93,7 +112,7 @@ public class PlayerStatsChanger : MonoBehaviour
     public void IncreaseHunger(int value)
     {
         HungerIsIncreased?.Invoke(value);
-        EnergyIsIncreased?.Invoke(value);
+        IncreaseEnergy(value * 2);
     }
     public void IncreaseWater(int value)
     {
@@ -107,6 +126,14 @@ public class PlayerStatsChanger : MonoBehaviour
     public void IncreaseEnergy(int value)
     {
         EnergyIsIncreased?.Invoke(value);
+        
+        foreach (var energy in _energyForSpeed)
+        {
+            if (_player.EnergyPoint <= energy.Key.Item1 && _player.EnergyPoint > energy.Key.Item2)
+            {
+                _playerMovement.IncreaseSpeed(energy.Value); 
+            }
+        }
     }
 
     public void DecreaseEnergyByAction(int value)

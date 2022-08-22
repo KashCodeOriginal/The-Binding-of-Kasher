@@ -173,6 +173,7 @@ public class Player : MonoBehaviour
         _waterPoint = _maxPointsValue;
         _hungerPoint = _maxPointsValue;
         _energyPoint = _maxPointsValue;
+        
         HungerValueChanged?.Invoke(_hungerPoint);
         WaterValueChanged?.Invoke(_waterPoint);
         HealthValueChanged?.Invoke(_healthPoint);
