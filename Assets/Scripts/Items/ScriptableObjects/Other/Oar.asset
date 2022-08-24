@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Wooden Oar
   _description: You can scratch your back
-  _type: 6
+  _type: 7
   _icon: {fileID: 21300000, guid: 4d51abb80988b8042aa991050e99d59f, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:

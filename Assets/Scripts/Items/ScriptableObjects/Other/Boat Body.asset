@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Boad Body
   _description: Just add one more part
-  _type: 6
+  _type: 7
   _icon: {fileID: 21300000, guid: f6b98528b43ae0745abf2fe4cb9d3b15, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 15
+    _id: 11
     _itemBuffs: []
   _stackable: 0

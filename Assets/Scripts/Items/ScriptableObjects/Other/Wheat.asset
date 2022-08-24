@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Wheat
   _description: Too raw for eating
-  _type: 6
+  _type: 7
   _icon: {fileID: 21300000, guid: b07aaa666650e5b43bd8861a2cdaea67, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 38
+    _id: 23
     _itemBuffs: []
   _stackable: 0

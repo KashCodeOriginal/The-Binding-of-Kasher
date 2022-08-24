@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Metall Boat Body
   _description: Very heavy part
-  _type: 6
+  _type: 7
   _icon: {fileID: 21300000, guid: 684ea8271d3ea4c49b8fcf4e4f710b71, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:

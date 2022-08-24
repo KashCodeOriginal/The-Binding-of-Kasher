@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
     [SerializeField] private InventoryObject _playerInventory;
     [SerializeField] private InventoryObject _playerEquipment;
     [SerializeField] private InventoryObject _playerActivePanel;
+    [SerializeField] private InventoryObject _lighthouse;
+    [SerializeField] private InventoryObject _oven;
+
 
     [SerializeField] private GameObject _inventory;
 
@@ -78,7 +81,7 @@ public class Player : MonoBehaviour
         if (collider.GetComponent<GroundItem>() == true)
         {
             var item = collider.GetComponent<GroundItem>();
-            if(_playerActivePanel.AddItemToInventory(item.Item.Data, item.Amount))
+            if(_playerActivePanel.AddItemToInventory(item.Item.Data, item.Amount) == true)
             {
                 Destroy(collider.gameObject);
             }
@@ -226,6 +229,8 @@ public class Player : MonoBehaviour
         _playerInventory.ItemsContainer.ClearItems();
         _playerEquipment.ItemsContainer.ClearItems();
         _playerActivePanel.ItemsContainer.ClearItems();
+        _lighthouse.ItemsContainer.ClearItems();
+        _oven.ItemsContainer.ClearItems();
     }
 
     private int TryIncreaseValue(int currentAddingValue, int valueToAdd, int maxValue)

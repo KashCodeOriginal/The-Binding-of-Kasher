@@ -32,6 +32,7 @@ public enum ItemType
     Food,
     Drinks,
     Aid,
+    Ingots,
     Resource,
     Building,
     HandEquipment,

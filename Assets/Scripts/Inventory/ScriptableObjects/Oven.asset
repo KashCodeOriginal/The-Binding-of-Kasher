@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94e08826c6ecb8145b22724aa0f99870, type: 3}
+  m_Name: Oven
+  m_EditorClassIdentifier: 
+  _itemsDataBase: {fileID: 11400000, guid: 7c889d81b1c272e4abae83f357166424, type: 2}
+  _savingPath: /melt.save
+  _itemsContainer:
+    _slots:
+    - AllowedItems: 04000000
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 04000000
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _amount: 0
+      _maxSlotAmount: 30
+    - AllowedItems: 03000000
+      _item:
+        _name: 
+        _id: -1
+        _itemBuffs: []
+      _amount: 0
+      _maxSlotAmount: 30

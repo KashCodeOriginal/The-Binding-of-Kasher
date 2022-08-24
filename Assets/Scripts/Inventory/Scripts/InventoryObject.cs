@@ -12,7 +12,7 @@ public class InventoryObject : ScriptableObject
     [SerializeField] private string _savingPath;
 
     [SerializeField] private Inventory _itemsContainer;
-    
+
     public InventorySlot[] GetSlots
     {
         get
@@ -28,8 +28,8 @@ public class InventoryObject : ScriptableObject
     public bool AddItemToInventory(Item item, int amount)
     {
         InventorySlot slot = FindAvailableItemInInventory(item);
-        
-        if (_itemsDataBase.ItemsData[item.ID].Stackable == false || slot == null)
+
+        if (_itemsDataBase.ItemsData[item.ID].Stackable == false || slot == null && EmptySlotCount > 0)
         {
             FindFirstEmptySlot(item, amount);
             return true;
@@ -53,13 +53,8 @@ public class InventoryObject : ScriptableObject
                 return true;
             }
         }
-        
-        if (EmptySlotCount <= 0)
-        {
-            return false;
-        }
 
-        return true;
+        return false;
     }
 
     public InventorySlot FindAvailableItemInInventory(Item item)
@@ -270,7 +265,7 @@ public class InventoryObject : ScriptableObject
             stream.Close();
         }
     }
-
+    
     public void ClearInventory()
     {
         _itemsContainer.ClearItems();

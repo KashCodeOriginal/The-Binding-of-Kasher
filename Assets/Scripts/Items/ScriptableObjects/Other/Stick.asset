@@ -14,12 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Stick
   _description: Very useful item
-  _type: 6
+  _type: 7
   _icon: {fileID: 21300000, guid: 2074c1bf1dc73ab4c8f1cccc1e510b71, type: 3}
-  _model: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 25
+    _id: 22
     _itemBuffs: []
   _stackable: 1

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Cardboard
   _description: Simple thick paper
-  _type: 6
+  _type: 7
   _icon: {fileID: 21300000, guid: da10834100da91f429d2a08073759ff3, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 28
+    _id: 12
     _itemBuffs: []
   _stackable: 1

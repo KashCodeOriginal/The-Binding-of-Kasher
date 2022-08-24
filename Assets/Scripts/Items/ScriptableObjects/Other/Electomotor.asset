@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Electromotor
   _description: Can move your boat
-  _type: 6
+  _type: 7
   _icon: {fileID: 21300000, guid: 39d765af40a36584e8ab7eaa2c3cf647, type: 3}
-  _model: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: Wood
