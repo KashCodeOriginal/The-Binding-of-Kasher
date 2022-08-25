@@ -16,7 +16,7 @@ MonoBehaviour:
   _savingPath: lighthouse.save
   _itemsContainer:
     _slots:
-    - AllowedItems: 03000000
+    - AllowedItems: 04000000
       _item:
         _name: 
         _id: 41

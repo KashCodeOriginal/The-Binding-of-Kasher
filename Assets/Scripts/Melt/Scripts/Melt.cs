@@ -63,6 +63,12 @@ public class Melt : MonoBehaviour
         {
             if (_meltInventory.ItemsContainer.Slots[i].Item.ID >= 0)
             {
+                
+                if (_meltInventory.ItemsContainer.Slots[i].ItemObject == _coal)
+                {
+                    _isCoalFound = true;
+                }
+                
                 foreach (var recipe in _meltRecipes)
                 {
                     if (recipe.RequiredItems[0].Item == _meltInventory.ItemsContainer.Slots[i].ItemObject)
@@ -73,12 +79,6 @@ public class Melt : MonoBehaviour
                         _isItemFound = true;
                         break;
                     }
-                }
-
-                if (_meltInventory.ItemsContainer.Slots[i].ItemObject == _coal)
-                {
-                    _isCoalFound = true;
-                    break;
                 }
             }
         }

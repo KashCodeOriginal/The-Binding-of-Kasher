@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     [SerializeField] private CollectWater _collectWater;
     [SerializeField] private LighthouseDisplay _lighthouseDisplay;
     [SerializeField] private CollectOreDisplay _collectOreDisplay;
+    [SerializeField] private Fishing _fishing;
 
     [SerializeField] private Vector3 _spawnPlace;
 
@@ -94,6 +95,7 @@ public class Player : MonoBehaviour
         if (collider.CompareTag("Water"))
         {
             _collectWater.TryCollectWater();
+            _fishing.TryToCatchFish();
         }
 
         if (collider.CompareTag("Lighthouse"))
