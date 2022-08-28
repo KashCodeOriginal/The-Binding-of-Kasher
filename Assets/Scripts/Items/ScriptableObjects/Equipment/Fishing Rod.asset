@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Fishing Rod
   _description: Just catch someone
-  _type: 6
+  _type: 7
   _icon: {fileID: 21300000, guid: 27fc3ea1e5f956749a350cce3d7273ef, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 2
+    _id: 1
     _itemBuffs:
     - _attribute: 1
       _value: 0

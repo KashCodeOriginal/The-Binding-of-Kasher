@@ -38,6 +38,8 @@ public class DayAndNightCycle : MonoBehaviour
 
     private TimeSpan _newDayTime;
 
+    private bool _newDayAdded;
+
     private float _sunIntensity;
     private float _moonIntensity;
     
@@ -53,6 +55,8 @@ public class DayAndNightCycle : MonoBehaviour
         _newDayTime = TimeSpan.FromHours(0);
         
         StartCoroutine(Delay());
+
+        _newDayAdded = false;
     }
 
     private void Update()
@@ -62,6 +66,7 @@ public class DayAndNightCycle : MonoBehaviour
         if (_dayTime >= 1)
         {
             _dayTime = 0;
+            _newDayAdded = false;
         }
 
         _sun.transform.localRotation = Quaternion.Euler(_dayTime * 360f, 0, 0);
@@ -74,10 +79,11 @@ public class DayAndNightCycle : MonoBehaviour
             _dayClockText.text = _currentTime.ToString("HH:mm");
         }
 
-        if (_currentTime.Hour == _newDayTime.Hours && _currentTime.Minute == _newDayTime.Minutes)
+        if (_currentTime.Hour == _newDayTime.Hours && _newDayAdded == false)
         {
             _totalDaysPassed++;
             _totalDaysPassedText.text = "Total Days Passed: " + _totalDaysPassed;
+            _newDayAdded = true;
         }
     }
 

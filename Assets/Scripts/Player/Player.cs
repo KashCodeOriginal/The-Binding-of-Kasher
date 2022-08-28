@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField] private LighthouseDisplay _lighthouseDisplay;
     [SerializeField] private CollectOreDisplay _collectOreDisplay;
     [SerializeField] private Fishing _fishing;
+    [SerializeField] private OvenDisplay _ovenDisplay;
 
     [SerializeField] private Vector3 _spawnPlace;
 
@@ -86,7 +87,7 @@ public class Player : MonoBehaviour
             {
                 Destroy(collider.gameObject);
             }
-            else if (_playerInventory.AddItemToInventory(item.Item.Data, item.Amount))
+            if (_playerInventory.AddItemToInventory(item.Item.Data, item.Amount))
             {
                 Destroy(collider.gameObject);
             }
@@ -106,6 +107,10 @@ public class Player : MonoBehaviour
         {
             _collectOreDisplay.CollectOreInterfaceActive(true);
             _collectOreDisplay.StartCollectOreButton(true);
+        }
+        if (collider.CompareTag("Oven"))
+        {
+            _ovenDisplay.DisplayOvenInterface();
         }
     }
     private void OnTriggerExit(Collider collider)
@@ -127,6 +132,10 @@ public class Player : MonoBehaviour
         {
             _collectOreDisplay.CollectOreInterfaceActive(false);
             _collectOreDisplay.StartCollectOreButton(false);
+        }
+        if (collider.CompareTag("Oven"))
+        {
+            _ovenDisplay.HideOvenInterface();
         }
     }
     private void IncreaseHeath(int value)

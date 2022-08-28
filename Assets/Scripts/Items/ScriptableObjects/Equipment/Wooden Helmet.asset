@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Helmet
   _description: Very strong
-  _type: 8
+  _type: 9
   _icon: {fileID: 21300000, guid: 84487d73ca4b791498332d8f6858417f, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:

@@ -16,21 +16,21 @@ MonoBehaviour:
   _savingPath: /melt.save
   _itemsContainer:
     _slots:
-    - AllowedItems: 04000000
+    - AllowedItems: 
       _item:
         _name: 
         _id: -1
         _itemBuffs: []
       _amount: 0
       _maxSlotAmount: 30
-    - AllowedItems: 04000000
+    - AllowedItems: 
       _item:
         _name: 
         _id: -1
         _itemBuffs: []
       _amount: 0
       _maxSlotAmount: 30
-    - AllowedItems: 03000000
+    - AllowedItems: 
       _item:
         _name: 
         _id: -1

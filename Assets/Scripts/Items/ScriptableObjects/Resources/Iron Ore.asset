@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Iron Ore
   _description: Just melt it
-  _type: 4
+  _type: 5
   _icon: {fileID: 21300000, guid: 3a362871f6dbea94b8f61a11e5964db4, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 34
+    _id: 21
     _itemBuffs: []
   _stackable: 1

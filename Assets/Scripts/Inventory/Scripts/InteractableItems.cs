@@ -20,6 +20,10 @@ public class InteractableItems : MonoBehaviour
 
     [SerializeField] private ItemsData _emptyCup;
 
+    [SerializeField] private PlantItem _plantItem;
+
+    [SerializeField] private GameObject _closeInteractivePanelButton;
+
     public void DisplayInteractableItem(InventorySlot mouseHoverSlotData)
     {
         if (mouseHoverSlotData.ItemObject.Type == ItemType.Food)
@@ -70,6 +74,14 @@ public class InteractableItems : MonoBehaviour
         
             _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => IncreaseHealth(recoveryValue, mouseHoverSlotData));
         }
+        else if (mouseHoverSlotData.ItemObject.Type == ItemType.Plants)
+        {
+            DisplayItem(mouseHoverSlotData);
+            
+            _buttonUseText.text = "Plant!";
+        
+            _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => PlantItem(mouseHoverSlotData));
+        }
         else
         {
             _interactivePanel.SetActive(true);
@@ -78,22 +90,42 @@ public class InteractableItems : MonoBehaviour
             _buttonDescriptionText.text = mouseHoverSlotData.ItemObject.Description;
             _interactaleUseItemButton.SetActive(false);
         }
-        
     }
     private void IncreaseHunger(int value, InventorySlot slot)
     {
+        if (IsSlotContainsItem(slot) == false)
+        {
+            return;
+        }
         _playerStatsChanger.IncreaseHunger(value);
         _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
     }
-    private void IncreaseWater(int value, InventorySlot slot, ItemsData _item)
+    private void IncreaseWater(int value, InventorySlot slot, ItemsData item)
     {
+        if (IsSlotContainsItem(slot) == false)
+        {
+            return;
+        }
         _playerStatsChanger.IncreaseWater(value);
         _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
-        _dropResource.DropItem(_item.Data, 1);
+        _dropResource.DropItem(item.Data, 1);
     }
     private void IncreaseHealth(int value, InventorySlot slot)
     {
+        if (IsSlotContainsItem(slot) == false)
+        {
+            return;
+        }
         _playerStatsChanger.IncreaseHealth(value);
+        _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
+    }
+    private void PlantItem(InventorySlot slot)
+    {
+        if (IsSlotContainsItem(slot) == false)
+        {
+            return;
+        }
+        _plantItem.Plant(slot.ItemObject);
         _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
     }
 
@@ -118,10 +150,35 @@ public class InteractableItems : MonoBehaviour
             _interactivePanel.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
             return;
         }
-        _interactivePanel.SetActive(true);
-        _interactaleUseItemButton.SetActive(true);
-        _interactivePanel.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 140, 0);
-        _buttonNameText.text = mouseHoverSlotData.ItemObject.Name;
-        _buttonDescriptionText.text = mouseHoverSlotData.ItemObject.Description;
+
+        if (Input.touchCount <= 1)
+        {
+            _interactivePanel.SetActive(true);
+            _interactaleUseItemButton.SetActive(true);
+            _interactivePanel.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 140, 0);
+            _buttonNameText.text = mouseHoverSlotData.ItemObject.Name;
+            _buttonDescriptionText.text = mouseHoverSlotData.ItemObject.Description;
+        }
+    }
+
+    private bool IsSlotContainsItem(InventorySlot currentSlot)
+    {
+        if (currentSlot.Amount <= 0)
+        {
+            return false;
+        }
+
+        if (currentSlot.Amount == 1)
+        {
+            CloseInteractivePanel();
+        }
+
+        return true;
+    }
+
+    public void CloseInteractivePanel()
+    {
+        _interactivePanel.SetActive(false);
+        _closeInteractivePanelButton.SetActive(false);
     }
 }

@@ -51,13 +51,8 @@ public class FishAppearance : MonoBehaviour
         {
             if (_isFishCaughtByClick == true)
             {
-                _fishing.ResetPlayerAnimations();
+                TurnOffFishingInterface();
                 _dropResource.DropItem(_fishing.Fish.Data, 1);
-                _isFishCaughtByClick = false;
-                _isFishCaught = false;
-                _currentFishCatchingTime = 0;
-                _fishingDisplay.HideFishingInterface();
-                _fishingDisplay.TurnOffFishCatchingButton();
                 return; 
             }
             
@@ -67,12 +62,7 @@ public class FishAppearance : MonoBehaviour
 
             if (_currentFishCatchingTime >= _randomFishCatchingTime)
             {
-                _fishing.ResetPlayerAnimations();
-                _fishingDisplay.HideFishingInterface();
-                _fishingDisplay.TurnOffFishCatchingButton();
-                Debug.Log("Уплыла");
-                _isFishCaught = false;
-                _currentFishCatchingTime = 0;
+                TurnOffFishingInterface();
             }
         }
     }
@@ -88,5 +78,15 @@ public class FishAppearance : MonoBehaviour
     public void CatchFish()
     {
         _isFishCaughtByClick = true;
+    }
+
+    private void TurnOffFishingInterface()
+    {
+        _fishing.ResetPlayerAnimations();
+        _fishingDisplay.HideFishingInterface();
+        _fishingDisplay.TurnOffFishCatchingButton();
+        _isFishCaughtByClick = false;
+        _isFishCaught = false;
+        _currentFishCatchingTime = 0;
     }
 }

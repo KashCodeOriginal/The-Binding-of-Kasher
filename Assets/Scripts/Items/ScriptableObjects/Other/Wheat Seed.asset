@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Wheat Seed
   _description: Put it in the ground
-  _type: 7
+  _type: 3
   _icon: {fileID: 21300000, guid: fab2468292af1e0428c31dabb7d9d261, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 26
+    _id: 40
     _itemBuffs: []
   _stackable: 1

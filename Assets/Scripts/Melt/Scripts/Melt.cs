@@ -21,8 +21,10 @@ public class Melt : MonoBehaviour
     [SerializeField] private float _currentItemBurningTime;
 
     [SerializeField] private ItemsData _currentItem;
+    [SerializeField] private int _currentItemRequiredAmount;
     [SerializeField] private ItemsData _outputItem;
-
+    [SerializeField] private int _outputItemAmount;
+    
     private void Update()
     {
         CheckItemsForAmount();
@@ -73,6 +75,14 @@ public class Melt : MonoBehaviour
                 {
                     if (recipe.RequiredItems[0].Item == _meltInventory.ItemsContainer.Slots[i].ItemObject)
                     {
+                        _currentItemRequiredAmount = recipe.RequiredItems[0].Amount;
+
+                        if (_meltInventory.ItemsContainer.Slots[i].Amount < _currentItemRequiredAmount)
+                        {
+                            break;
+                        }
+                        
+                        _outputItemAmount = recipe.OutputItemAmount;
                         _outputItem = recipe.OutputItem;
                         _currentItem = recipe.RequiredItems[0].Item;
                         _itemBurningTime = recipe.MeltTime;
@@ -106,6 +116,8 @@ public class Melt : MonoBehaviour
                 _isCoalBurning = false;
                 _outputItem = null;
                 _currentItem = null;
+                _currentItemRequiredAmount = 0;
+                _outputItemAmount = 0;
                 _itemBurningTime = 0;
                 _currentItemBurningTime = 0;
             }
@@ -114,13 +126,13 @@ public class Melt : MonoBehaviour
 
     private void MeltItem(ItemsData item, ItemsData outputItem)
     {
-        _meltInventory.RemoveItemAmountFromInventory(_meltInventory.FindItemInInventory(item.Data), 1);
+        _meltInventory.RemoveItemAmountFromInventory(_meltInventory.FindItemInInventory(item.Data), _currentItemRequiredAmount);
         AddMoltenItem(outputItem);
     }
 
     private void AddMoltenItem(ItemsData outputItem)
     {
-        _meltInventory.AddItemToInventory(outputItem.Data, 1);
+        _meltInventory.AddItemToInventory(outputItem.Data, _outputItemAmount);
     }
 
     private void BurnCoal()

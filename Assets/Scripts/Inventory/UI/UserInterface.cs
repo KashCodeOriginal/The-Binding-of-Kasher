@@ -21,6 +21,8 @@ public abstract class UserInterface : MonoBehaviour
     [SerializeField] private bool _isSlotPressed = false;
     [SerializeField] private bool _isSlotClamped = false;
 
+    private bool _isInteractablePanelCanBeShown;
+
     private Vector3 _mousePosition;
 
     protected Dictionary<GameObject, InventorySlot> _slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
@@ -132,7 +134,7 @@ public abstract class UserInterface : MonoBehaviour
 
         if (mouseHoverSlotData != null && mouseHoverSlotData.Item.ID >= 0)
         {
-            _interactableItems.DisplayInteractableItem(mouseHoverSlotData);
+            _interactableItems.DisplayInteractableItem(mouseHoverSlotData); 
         }
     }
     

@@ -14,12 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Copper Ingot
   _description: Use it for craft
-  _type: 3
+  _type: 5
   _icon: {fileID: 21300000, guid: a27ed756c19abc74bb01dce5069720ac, type: 3}
-  _model: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 32
+    _id: 18
     _itemBuffs: []
   _stackable: 1

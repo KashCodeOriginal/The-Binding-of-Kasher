@@ -12,17 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f1b322fcb51ee489a0bc4a16912382, type: 3}
   m_Name: Raw Fish
   m_EditorClassIdentifier: 
-  _name: Fish
+  _name: Raw Fish
   _description: I heard the Japanese love this
   _type: 0
   _icon: {fileID: 21300000, guid: ed3cf98eac685b54faeba0adf4965bbb, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 11
+    _id: 13
     _itemBuffs:
     - _attribute: 0
       _value: 20
-      _min: 20
-      _max: 20
   _stackable: 1
