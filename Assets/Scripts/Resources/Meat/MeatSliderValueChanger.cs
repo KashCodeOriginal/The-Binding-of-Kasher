@@ -90,7 +90,6 @@ public class MeatSliderValueChanger : MonoBehaviour
 
                 if (_timeWithoutMoving >= _timeToWinRound)
                 {
-                    Debug.Log("Проиграл");
                     _timeWithoutMoving = 0;
                     ComboEnded?.Invoke();
                     _collectMeatDisplay.HideCollectMeatInterface();

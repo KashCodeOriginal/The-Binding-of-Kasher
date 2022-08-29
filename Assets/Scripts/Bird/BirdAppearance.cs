@@ -9,33 +9,27 @@ public class BirdAppearance : MonoBehaviour
 
     [SerializeField] private float _birdAppearanceChance;
 
+    [SerializeField] private GameObject _bird;
+
     private void Start()
     {
         StartCoroutine(BirdAppearanceChance());
-    }
-    
-    private void Update()
-    {
-        if (gameObject.activeSelf == false)
-        {
-            
-        }
     }
 
     private IEnumerator BirdAppearanceChance()
     {
         while (true)
         {
-            if (gameObject.activeSelf == false)
+            if (_bird.activeSelf == false)
             {
                 var randomValue = Random.Range(0, 100);
-
+            
                 if (randomValue <= _birdAppearanceChance)
                 {
                     _birdSpawner.SpawnBird();
                 }
-                yield return new WaitForSeconds(_timeBetweenBirdAppearance);
             }
+            yield return new WaitForSeconds(_timeBetweenBirdAppearance);
         }
         
     }

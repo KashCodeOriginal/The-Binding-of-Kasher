@@ -1,14 +1,19 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DayAndNightCycle : MonoBehaviour
 {
     [Range(0, 1)] [SerializeField] private float _dayTime;
     [SerializeField] private float _dayDuration;
     [SerializeField] private int _totalDaysPassed;
+
+    [SerializeField] private int _morningStartHour;
+    [SerializeField] private int _dayStartHour;
+    [SerializeField] private int _eveningStartHour;
+    [SerializeField] private int _nightStartHour;
 
     [SerializeField] private AnimationCurve _sunCurve;
     [SerializeField] private AnimationCurve _moonCurve;
@@ -26,13 +31,11 @@ public class DayAndNightCycle : MonoBehaviour
     [SerializeField] private Light _sun;
     [SerializeField] private Light _moon;
 
-    [SerializeField] private TextMeshProUGUI _dayClockText;
-    
-    [SerializeField] private TextMeshProUGUI _totalDaysPassedText;
-
     [SerializeField] private float _timeMultiplier;
     
-    [SerializeField] private float _startHour; 
+    [SerializeField] private float _startHour;
+
+    [SerializeField] private PlayerSleep _playerSleep;
 
     private DateTime _currentTime;
 
@@ -42,6 +45,23 @@ public class DayAndNightCycle : MonoBehaviour
 
     private float _sunIntensity;
     private float _moonIntensity;
+    
+    private enum DayPart
+    {
+        Morning,
+        Day,
+        Evening,
+        Night
+    }
+
+    private string _currentDayPart;
+
+    public DateTime CurrentTime => _currentTime;
+    
+    public event UnityAction<DateTime> TimeWasChanged;
+    public event UnityAction<int> PassedDaysAmountChanged;
+    
+    public event UnityAction<string> CurrentDayPartChanged;
     
     private void Start()
     {
@@ -56,6 +76,8 @@ public class DayAndNightCycle : MonoBehaviour
         
         StartCoroutine(Delay());
 
+        _currentDayPart = DayPart.Morning.ToString();
+
         _newDayAdded = false;
     }
 
@@ -68,23 +90,25 @@ public class DayAndNightCycle : MonoBehaviour
             _dayTime = 0;
             _newDayAdded = false;
         }
-
+        
         _sun.transform.localRotation = Quaternion.Euler(_dayTime * 360f, 0, 0);
         _moon.transform.localRotation = Quaternion.Euler(_dayTime * 360f + 180f, 0, 0);
         
         _currentTime = _currentTime.AddSeconds(Time.deltaTime  * _timeMultiplier);
         
-        if (_dayClockText != null)
-        {
-            _dayClockText.text = _currentTime.ToString("HH:mm");
-        }
+        TimeWasChanged?.Invoke(_currentTime);
 
         if (_currentTime.Hour == _newDayTime.Hours && _newDayAdded == false)
         {
             _totalDaysPassed++;
-            _totalDaysPassedText.text = "Total Days Passed: " + _totalDaysPassed;
+            PassedDaysAmountChanged?.Invoke(_totalDaysPassed);
             _newDayAdded = true;
         }
+        
+        CheckDayPart(_morningStartHour, _dayStartHour, DayPart.Morning);
+        CheckDayPart(_dayStartHour, _eveningStartHour, DayPart.Day);
+        CheckDayPart(_eveningStartHour, _nightStartHour, DayPart.Evening);
+        CheckDayPart(_nightStartHour, _morningStartHour, DayPart.Night);
     }
 
     private IEnumerator Delay()
@@ -110,6 +134,41 @@ public class DayAndNightCycle : MonoBehaviour
             _sun.intensity = _sunIntensity * _sunCurve.Evaluate(_dayTime);
             _moon.intensity = _moonIntensity * _moonCurve.Evaluate(_dayTime);
             yield return new WaitForSeconds(_updateDelay);
+        }
+    }
+
+    private void SetNewDay()
+    {
+        _dayTime = 0;
+        _currentTime = DateTime.Now.Date + TimeSpan.FromHours(0);
+        _currentTime = DateTime.Now.Date + TimeSpan.FromHours(_startHour);
+    }
+
+    private void OnEnable()
+    {
+        _playerSleep.PlayerStartsSleep += SetNewDay;
+    }
+    private void OnDisable()
+    {
+        _playerSleep.PlayerStartsSleep -= SetNewDay;
+    }
+
+    private void CheckDayPart(int firstTimeBorder, int secondTimeBorder, DayPart dayPart)
+    {
+        if (dayPart == DayPart.Night)
+        {
+            if (_currentTime.Hour >= firstTimeBorder)
+            {
+                _currentDayPart = dayPart.ToString();
+                CurrentDayPartChanged?.Invoke(_currentDayPart);
+                return;
+            }
+        }
+        
+        if(_currentTime.Hour >= firstTimeBorder && _currentTime.Hour < secondTimeBorder && _currentDayPart != dayPart.ToString())
+        {
+            _currentDayPart = dayPart.ToString();
+            CurrentDayPartChanged?.Invoke(_currentDayPart);
         }
     }
 }

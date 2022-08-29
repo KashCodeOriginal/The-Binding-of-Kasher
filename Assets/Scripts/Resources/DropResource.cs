@@ -30,4 +30,23 @@ public class DropResource : MonoBehaviour
             }
         }
     }
+    public void PlaceItem(Item item, int amount, Vector3 position)
+    {
+        for (int i = 0; i < _itemsDataBase.ItemsData.Length; i++)
+        {
+            if (_itemsDataBase.ItemsData[i].Data.ID == item.ID)
+            {
+                var prefab = _itemsDataBase.ItemsData[i].Prefab;
+                
+                var obj = Instantiate(prefab, new Vector3(position.x, position.y, position.z), Quaternion.identity);
+                
+                var component = obj.TryGetComponent(out GroundItem groundItem);
+                if (component == true)
+                {
+                    obj.GetComponent<GroundItem>().SetAmount(amount);
+                    obj.GetComponent<GroundItem>().SetItem(_itemsDataBase.ItemsData[i]);
+                }
+            }
+        }
+    }
 }

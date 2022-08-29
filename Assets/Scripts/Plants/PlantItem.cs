@@ -5,6 +5,10 @@ public class PlantItem : MonoBehaviour
     [SerializeField] private ItemsData _woodenSapling;
 
     [SerializeField] private GameObject _woodPrefab;
+    
+    [SerializeField] private ItemsData _wheatSeed;
+
+    [SerializeField] private GameObject _wheatPrefab;
 
     [SerializeField] private GameObject _player;
     
@@ -16,11 +20,24 @@ public class PlantItem : MonoBehaviour
         {
             PlantWood();
         }
+        else if (item == _wheatSeed)
+        {
+            PlanWheat();
+        }
     }
 
     private void PlantWood()
     {
+        PlantAnyItem(_woodPrefab);
+    }
+    private void PlanWheat()
+    {
+        PlantAnyItem(_wheatPrefab);
+    }
+
+    private void PlantAnyItem(GameObject prefab)
+    {
         var position = _player.transform.position;
-        GameObject obj = Instantiate(_woodPrefab, new Vector3(position.x, position.y, position.z + 3), Quaternion.identity, _map);
+        Instantiate(prefab, new Vector3(position.x, position.y - 2, position.z + 3), Quaternion.identity, _map);
     }
 }

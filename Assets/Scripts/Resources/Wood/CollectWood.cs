@@ -5,6 +5,8 @@ public class CollectWood : MonoBehaviour
     [SerializeField] private int _comboClicks;
 
     [SerializeField] private SliderValueChanger _sliderValueChanger;
+
+    [SerializeField] private CollectWoodDisplay _collectWoodDisplay;
     
     [SerializeField] private ItemsData _wood;
     [SerializeField] private ItemsData _apple;
@@ -21,6 +23,8 @@ public class CollectWood : MonoBehaviour
 
     [SerializeField] private Animator _playerAnimator;
 
+
+    public CollectWoodDisplay CollectWoodDisplay => _collectWoodDisplay;
     public int SpentEnergyByClick => _spentEnergyByClick;
 
     private void AddComboClick()

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1451892529548130666}
   m_Layer: 0
   m_Name: Stage4
-  m_TagString: Tree
+  m_TagString: Wheat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1000682939874712592}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 7, z: 0.5}
+  m_LocalScale: {x: 2, y: 0.6, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7454772484823440685}
@@ -139,7 +139,7 @@ Transform:
   m_GameObject: {fileID: 2986066326637595802}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 5, z: 0.5}
+  m_LocalScale: {x: 2, y: 0.4, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7454772484823440685}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 7454772484823440685}
   - component: {fileID: 2312586420737663769}
   m_Layer: 0
-  m_Name: Tree
+  m_Name: Wheat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf020ebd27fec4f963721efa3d2337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeBetweenStages: 30
+  _timeBetweenStages: 20
   _currentStage: 0
   _stages: []
 --- !u!1 &3452722973803005691
@@ -287,7 +287,7 @@ Transform:
   m_GameObject: {fileID: 3452722973803005691}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 3, z: 0.5}
+  m_LocalScale: {x: 2, y: 0.2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7454772484823440685}
@@ -384,7 +384,7 @@ Transform:
   m_GameObject: {fileID: 5025024548498291282}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 0.5}
+  m_LocalScale: {x: 2, y: 0.1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7454772484823440685}

@@ -11,25 +11,12 @@ public class Player : MonoBehaviour
     [SerializeField] private int _energyPoint;
 
     [SerializeField] private PlayerStatsChanger _playerStatsChanger;
-
-    [SerializeField] private InventoryObject _playerInventory;
-    [SerializeField] private InventoryObject _playerEquipment;
-    [SerializeField] private InventoryObject _playerActivePanel;
-    [SerializeField] private InventoryObject _lighthouse;
-    [SerializeField] private InventoryObject _oven;
-
-
+    
     [SerializeField] private GameObject _inventory;
 
-    [SerializeField] private CollectWood _collectWood;
-    [SerializeField] private CollectWoodDisplay _collectWoodDisplay;
-    [SerializeField] private CollectWater _collectWater;
-    [SerializeField] private LighthouseDisplay _lighthouseDisplay;
-    [SerializeField] private CollectOreDisplay _collectOreDisplay;
-    [SerializeField] private Fishing _fishing;
-    [SerializeField] private OvenDisplay _ovenDisplay;
-
     [SerializeField] private Vector3 _spawnPlace;
+
+    [SerializeField] private PlayerSleep _playerSleep;
 
     public event UnityAction<int> HealthValueChanged;
     public event UnityAction<int> WaterValueChanged;
@@ -47,96 +34,6 @@ public class Player : MonoBehaviour
         Application.targetFrameRate = 75;
         _inventory.SetActive(false);
         SpawnPlayer();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            _playerInventory.SaveInventory();
-            _playerEquipment.SaveInventory();
-            _playerActivePanel.SaveInventory();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            _playerInventory.LoadInventory();
-            _playerEquipment.LoadInventory();
-            _playerActivePanel.LoadInventory();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            _playerInventory.ClearInventory();
-            _playerEquipment.ClearInventory();
-            _playerActivePanel.ClearInventory();
-        }
-    }
-
-    private void OnTriggerEnter(Collider collider)
-    {
-        if (collider.CompareTag("Tree"))
-        {
-            _collectWoodDisplay.CollectWoodInterfaceActive(true);
-            _collectWoodDisplay.StartCollectWoodButton(true);
-            _collectWood.SetCurrentTree(collider.gameObject);
-        }
-
-        if (collider.GetComponent<GroundItem>() == true)
-        {
-            var item = collider.GetComponent<GroundItem>();
-            if(_playerActivePanel.AddItemToInventory(item.Item.Data, item.Amount) == true)
-            {
-                Destroy(collider.gameObject);
-            }
-            if (_playerInventory.AddItemToInventory(item.Item.Data, item.Amount))
-            {
-                Destroy(collider.gameObject);
-            }
-        }
-        
-        if (collider.CompareTag("Water"))
-        {
-            _collectWater.TryCollectWater();
-            _fishing.TryToCatchFish();
-        }
-
-        if (collider.CompareTag("Lighthouse"))
-        {
-            _lighthouseDisplay.LighthouseInterfaceDisplay();
-        }
-        if (collider.CompareTag("Mine"))
-        {
-            _collectOreDisplay.CollectOreInterfaceActive(true);
-            _collectOreDisplay.StartCollectOreButton(true);
-        }
-        if (collider.CompareTag("Oven"))
-        {
-            _ovenDisplay.DisplayOvenInterface();
-        }
-    }
-    private void OnTriggerExit(Collider collider)
-    {
-        if (collider.CompareTag("Tree"))
-        {
-            _collectWoodDisplay.CollectWoodInterfaceActive(false);
-            _collectWoodDisplay.StartCollectWoodButton(false);
-        }
-        if (collider.CompareTag("Water"))
-        {
-            _collectWater.TryCollectWater();
-        }
-        if (collider.CompareTag("Lighthouse"))
-        {
-            _lighthouseDisplay.LighthouseInterfaceDisplay();
-        }
-        if (collider.CompareTag("Mine"))
-        {
-            _collectOreDisplay.CollectOreInterfaceActive(false);
-            _collectOreDisplay.StartCollectOreButton(false);
-        }
-        if (collider.CompareTag("Oven"))
-        {
-            _ovenDisplay.HideOvenInterface();
-        }
     }
     private void IncreaseHeath(int value)
     {
@@ -219,6 +116,7 @@ public class Player : MonoBehaviour
         _playerStatsChanger.WaterIsIncreased += IncreaseWater;
         _playerStatsChanger.HealthIsIncreased += IncreaseHeath;
         _playerStatsChanger.EnergyIsIncreased += IncreaseEnergy;
+        _playerSleep.PlayerStartsSleep += SetEnergyToFull;
     }
     private void OnDisable()
     {
@@ -230,18 +128,7 @@ public class Player : MonoBehaviour
         _playerStatsChanger.WaterIsIncreased -= IncreaseWater;
         _playerStatsChanger.HealthIsIncreased -= IncreaseHeath;
         _playerStatsChanger.EnergyIsIncreased -= IncreaseEnergy;
-    }
-
-    private void OnApplicationQuit()
-    {
-        // _playerInventory.SaveInventory();
-        // _playerEquipment.SaveInventory();
-        
-        _playerInventory.ItemsContainer.ClearItems();
-        _playerEquipment.ItemsContainer.ClearItems();
-        _playerActivePanel.ItemsContainer.ClearItems();
-        _lighthouse.ItemsContainer.ClearItems();
-        _oven.ItemsContainer.ClearItems();
+        _playerSleep.PlayerStartsSleep += SetEnergyToFull;
     }
 
     private int TryIncreaseValue(int currentAddingValue, int valueToAdd, int maxValue)
@@ -255,5 +142,10 @@ public class Player : MonoBehaviour
         }
         
         return placeableValue;
+    }
+
+    private void SetEnergyToFull()
+    {
+        _energyPoint = _maxPointsValue;
     }
 }

@@ -14,6 +14,8 @@ public class CollectMeat : MonoBehaviour
     [SerializeField] private PlayerStatsChanger _playerStatsChanger;
 
     [SerializeField] private MeatSliderValueChanger _sliderValueChanger;
+
+    [SerializeField] private CollectMeatDisplay _collectMeatDisplay;
     
     //[SerializeField] private Animator _playerAnimator;
 
@@ -39,6 +41,15 @@ public class CollectMeat : MonoBehaviour
             _dropResource.DropItem(_manure.Data, Random.Range(1, _comboClicks));
             _comboClicks = 0;
         }
+    }
+
+    public void DisplayFarmInterface()
+    {
+        _collectMeatDisplay.ShowCollectMeatInterface();
+    }
+    public void HideFarmInterface()
+    {
+        _collectMeatDisplay.HideCollectMeatInterface();
     }
 
     private void OnEnable()
