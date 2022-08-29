@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5da68343124ec414db96c32cbea99b71, type: 3}
-  m_Name: Wooden Boat
+  m_Name: Microchip
   m_EditorClassIdentifier: 
-  _name: Wooden Boat
-  _description: Not a very good idea
-  _type: 7
-  _icon: {fileID: 21300000, guid: 016f30824e077634f8209aeb19b1a06e, type: 3}
+  _name: Microchip
+  _description: Very smart device
+  _type: 8
+  _icon: {fileID: 21300000, guid: 51ce78b3a81071545ade1be11dee088a, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 32
+    _id: 24
     _itemBuffs: []
-  _stackable: 0
+  _stackable: 1

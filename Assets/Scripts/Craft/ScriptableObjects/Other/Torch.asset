@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3dbe2a150ac1b1c41bb0f752fc0bbc20, type: 3}
-  m_Name: Electromotor
+  m_Name: Torch
   m_EditorClassIdentifier: 
-  _outputItem: {fileID: 11400000, guid: 4c079f235ed26d041bd366dfa29ce6ec, type: 2}
+  _outputItem: {fileID: 11400000, guid: 21d71a68a80d542419a66d187ba19f3e, type: 2}
   _outputItemAmount: 1
   _requiredItems:
-  - _itemData: {fileID: 11400000, guid: 339def9e59f9dcb4c88dcca09ae1ead9, type: 2}
-    _amount: 20
-  - _itemData: {fileID: 11400000, guid: 766764ba2b1d1f640a96dcc9da9f20c4, type: 2}
-    _amount: 5
-  - _itemData: {fileID: 11400000, guid: da3cbf69623495d46a44cae96e661267, type: 2}
+  - _itemData: {fileID: 11400000, guid: b6baf8d4eb8aef3428837965d1ce6553, type: 2}
+    _amount: 2
+  - _itemData: {fileID: 11400000, guid: 5adf8710b9a6f7946b69c6e8138f1750, type: 2}
     _amount: 2
   _inventory: {fileID: 11400000, guid: 82e3d5a6365d47440b6eb3e6bd2a2d83, type: 2}
   _playerActivePanel: {fileID: 11400000, guid: 663aca4dee980494f96e7e589c19f583, type: 2}

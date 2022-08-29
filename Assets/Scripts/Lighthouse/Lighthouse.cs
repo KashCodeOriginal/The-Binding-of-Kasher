@@ -11,9 +11,13 @@ public class Lighthouse : MonoBehaviour
 
     [SerializeField] private ItemsData _wood;
 
+    [SerializeField] private bool _isLighthouseWorking;
+
     private float _currentWoodBurningTime;
 
     private bool _isWoodBurning;
+
+    public bool IsLightHouseWorking => _isLighthouseWorking;
 
     private void Start()
     {
@@ -25,12 +29,15 @@ public class Lighthouse : MonoBehaviour
         if (_isWoodBurning == true)
         {
             _currentWoodBurningTime += Time.deltaTime;
+
+            _isLighthouseWorking = true;
             
             if (_currentWoodBurningTime >= _woodBurningTime)
             {
                 _isWoodBurning = false;
                 _currentWoodBurningTime = 0;
                 _lighthouseLight.LightsControll(false);
+                _isLighthouseWorking = false;
             }
         }
     }

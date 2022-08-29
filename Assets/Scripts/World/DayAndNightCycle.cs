@@ -46,22 +46,21 @@ public class DayAndNightCycle : MonoBehaviour
     private float _sunIntensity;
     private float _moonIntensity;
     
-    private enum DayPart
+    private string _currentDayPartText;
+    
+    public enum DayPart
     {
         Morning,
         Day,
         Evening,
         Night
     }
-
-    private string _currentDayPart;
-
-    public DateTime CurrentTime => _currentTime;
-    
     public event UnityAction<DateTime> TimeWasChanged;
     public event UnityAction<int> PassedDaysAmountChanged;
     
     public event UnityAction<string> CurrentDayPartChanged;
+
+    public DayPart CurrentDayPart;
     
     private void Start()
     {
@@ -76,7 +75,7 @@ public class DayAndNightCycle : MonoBehaviour
         
         StartCoroutine(Delay());
 
-        _currentDayPart = DayPart.Morning.ToString();
+        _currentDayPartText = DayPart.Morning.ToString();
 
         _newDayAdded = false;
     }
@@ -139,8 +138,12 @@ public class DayAndNightCycle : MonoBehaviour
 
     private void SetNewDay()
     {
+        if (_newDayAdded == false)
+        {
+            _totalDaysPassed++;
+            PassedDaysAmountChanged?.Invoke(_totalDaysPassed);
+        }
         _dayTime = 0;
-        _currentTime = DateTime.Now.Date + TimeSpan.FromHours(0);
         _currentTime = DateTime.Now.Date + TimeSpan.FromHours(_startHour);
     }
 
@@ -159,16 +162,18 @@ public class DayAndNightCycle : MonoBehaviour
         {
             if (_currentTime.Hour >= firstTimeBorder)
             {
-                _currentDayPart = dayPart.ToString();
-                CurrentDayPartChanged?.Invoke(_currentDayPart);
+                _currentDayPartText = dayPart.ToString();
+                CurrentDayPart = dayPart;
+                CurrentDayPartChanged?.Invoke(_currentDayPartText);
                 return;
             }
         }
         
-        if(_currentTime.Hour >= firstTimeBorder && _currentTime.Hour < secondTimeBorder && _currentDayPart != dayPart.ToString())
+        if(_currentTime.Hour >= firstTimeBorder && _currentTime.Hour < secondTimeBorder && _currentDayPartText != dayPart.ToString())
         {
-            _currentDayPart = dayPart.ToString();
-            CurrentDayPartChanged?.Invoke(_currentDayPart);
+            CurrentDayPart = dayPart;
+            _currentDayPartText = dayPart.ToString();
+            CurrentDayPartChanged?.Invoke(_currentDayPartText);
         }
     }
 }

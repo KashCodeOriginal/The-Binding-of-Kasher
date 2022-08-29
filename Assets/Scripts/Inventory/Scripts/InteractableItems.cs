@@ -28,6 +28,8 @@ public class InteractableItems : MonoBehaviour
 
     public void DisplayInteractableItem(InventorySlot mouseHoverSlotData)
     {
+        _closeInteractivePanelButton.SetActive(true);
+        
         if (mouseHoverSlotData.ItemObject.Type == ItemType.Food)
         {
             int recoveryValue = 0;
@@ -82,7 +84,7 @@ public class InteractableItems : MonoBehaviour
             
             _buttonUseText.text = "Plant!";
         
-            _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => PlantItem(mouseHoverSlotData));
+            _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => TryPlantItem(mouseHoverSlotData));
         }
         else if (mouseHoverSlotData.ItemObject.Type == ItemType.Lightning)
         {
@@ -90,7 +92,7 @@ public class InteractableItems : MonoBehaviour
             
             _buttonUseText.text = "Place!";
         
-            _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => PlaceItem(mouseHoverSlotData));
+            _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => TryPlaceItem(mouseHoverSlotData));
         }
         else
         {
@@ -129,7 +131,7 @@ public class InteractableItems : MonoBehaviour
         _playerStatsChanger.IncreaseHealth(value);
         _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
     }
-    private void PlantItem(InventorySlot slot)
+    private void TryPlantItem(InventorySlot slot)
     {
         if (IsSlotContainsItem(slot) == false)
         {
@@ -138,7 +140,7 @@ public class InteractableItems : MonoBehaviour
         _plantItem.Plant(slot.ItemObject);
         _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
     }
-    private void PlaceItem(InventorySlot slot)
+    private void TryPlaceItem(InventorySlot slot)
     {
         if (IsSlotContainsItem(slot) == false)
         {

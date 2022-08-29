@@ -13,6 +13,7 @@ public class DropResource : MonoBehaviour
         {
             if (_itemsDataBase.ItemsData[i].Data.ID == item.ID)
             {
+
                 var prefab = _itemsDataBase.ItemsData[i].Prefab;
 
                 var position = _player.transform.position;
