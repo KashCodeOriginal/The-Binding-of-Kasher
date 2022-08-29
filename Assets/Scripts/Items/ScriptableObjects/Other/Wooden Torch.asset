@@ -9,16 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8f1b322fcb51ee489a0bc4a16912382, type: 3}
-  m_Name: Wheat
+  m_Script: {fileID: 11500000, guid: 5da68343124ec414db96c32cbea99b71, type: 3}
+  m_Name: Wooden Torch
   m_EditorClassIdentifier: 
-  _name: Wheat
-  _description: Too raw for eating
-  _type: 8
-  _icon: {fileID: 21300000, guid: b07aaa666650e5b43bd8861a2cdaea67, type: 3}
+  _name: Wooden Torch
+  _description: Some light for you
+  _type: 13
+  _icon: {fileID: 21300000, guid: 577ec7359efe81d4cb14a9bdd6292cc7, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 29
+    _id: 27
     _itemBuffs: []
   _stackable: 1

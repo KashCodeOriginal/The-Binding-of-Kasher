@@ -42,6 +42,7 @@ public enum ItemType
     ChestPlate,
     Pants,
     Shoes,
+    Lightning
 }
 
 public enum Attributes

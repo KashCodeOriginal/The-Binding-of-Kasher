@@ -43,15 +43,6 @@ public class CollectMeat : MonoBehaviour
         }
     }
 
-    public void DisplayFarmInterface()
-    {
-        _collectMeatDisplay.ShowCollectMeatInterface();
-    }
-    public void HideFarmInterface()
-    {
-        _collectMeatDisplay.HideCollectMeatInterface();
-    }
-
     private void OnEnable()
     {
         _sliderValueChanger.ComboPointAdd += AddComboClick;

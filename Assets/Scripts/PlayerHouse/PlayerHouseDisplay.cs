@@ -4,7 +4,7 @@ public class PlayerHouseDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject _houseInterface;
 
-    public void ShowHouseInterface()
+    public void DisplayHouseInterface()
     {
         _houseInterface.SetActive(true);
     }

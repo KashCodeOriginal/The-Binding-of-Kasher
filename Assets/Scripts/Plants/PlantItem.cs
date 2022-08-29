@@ -28,16 +28,16 @@ public class PlantItem : MonoBehaviour
 
     private void PlantWood()
     {
-        PlantAnyItem(_woodPrefab);
+        PlantAnyItem(_woodPrefab, 25.5f);
     }
     private void PlanWheat()
     {
-        PlantAnyItem(_wheatPrefab);
+        PlantAnyItem(_wheatPrefab, 25);
     }
 
-    private void PlantAnyItem(GameObject prefab)
+    private void PlantAnyItem(GameObject prefab, float yPos)
     {
         var position = _player.transform.position;
-        Instantiate(prefab, new Vector3(position.x, position.y - 2, position.z + 3), Quaternion.identity, _map);
+        Instantiate(prefab, new Vector3(position.x, yPos, position.z), Quaternion.identity, _map);
     }
 }

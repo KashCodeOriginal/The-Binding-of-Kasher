@@ -8,9 +8,11 @@ public class PlayerTriggers : MonoBehaviour
     [SerializeField] private CollectOreDisplay _collectOreDisplay;
     [SerializeField] private Fishing _fishing;
     [SerializeField] private OvenDisplay _ovenDisplay;
-    [SerializeField] private CollectMeat _collectMeat;
-    [SerializeField] private PlayerHouse _playerHouse;
-    //[SerializeField] private 
+    [SerializeField] private CollectMeatDisplay _collectMeatDisplay;
+    [SerializeField] private PlayerHouseDisplay _playerHouseDisplay;
+    [SerializeField] private CollectWheatDisplay _collectWheatDisplay;
+    [SerializeField] private CollectTorchDisplay _collectTorchDisplay;
+    [SerializeField] private CollectTorch _collectTorch;
     
     [SerializeField] private InventoryObject _playerInventory;
     [SerializeField] private InventoryObject _playerActivePanel;
@@ -30,6 +32,7 @@ public class PlayerTriggers : MonoBehaviour
             if(_playerActivePanel.AddItemToInventory(item.Item.Data, item.Amount) == true)
             {
                 Destroy(collider.gameObject);
+                return;
             }
             if (_playerInventory.AddItemToInventory(item.Item.Data, item.Amount))
             {
@@ -58,15 +61,20 @@ public class PlayerTriggers : MonoBehaviour
         }
         if (collider.CompareTag("Farm"))
         {
-            _collectMeat.DisplayFarmInterface();
+            _collectMeatDisplay.DisplayCollectMeatInterface();
         }
         if (collider.CompareTag("House"))
         {
-            _playerHouse.DisplayHouseInterface();
+            _playerHouseDisplay.DisplayHouseInterface();
         }
         if (collider.CompareTag("Wheat"))
         {
-            _playerHouse.DisplayHouseInterface();
+            _collectWheatDisplay.DisplayCollectWheatInterface();
+        }
+        if (collider.CompareTag("Torch"))
+        {
+            _collectTorchDisplay.DisplayTorchCollectInterface();
+            _collectTorch.SetCurrentTorch(collider.gameObject);
         }
     }
     private void OnTriggerExit(Collider collider)
@@ -95,11 +103,20 @@ public class PlayerTriggers : MonoBehaviour
         }
         if (collider.CompareTag("Farm"))
         {
-            _collectMeat.HideFarmInterface();
+            _collectMeatDisplay.HideCollectMeatInterface();
         }
         if (collider.CompareTag("House"))
         {
-            _playerHouse.HideHouseInterface();
+            _playerHouseDisplay.HideHouseInterface();
+        }
+        if (collider.CompareTag("Wheat"))
+        {
+            _collectWheatDisplay.HideCollectWheatInterface();
+        }
+        if (collider.CompareTag("Torch"))
+        {
+            _collectTorchDisplay.HideTorchCollectInterface();
+            _collectTorch.SetCurrentTorch(null);
         }
     }
 }

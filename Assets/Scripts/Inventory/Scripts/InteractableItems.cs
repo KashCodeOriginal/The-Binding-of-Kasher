@@ -22,6 +22,8 @@ public class InteractableItems : MonoBehaviour
 
     [SerializeField] private PlantItem _plantItem;
 
+    [SerializeField] private PlaceItem _placeItem;
+
     [SerializeField] private GameObject _closeInteractivePanelButton;
 
     public void DisplayInteractableItem(InventorySlot mouseHoverSlotData)
@@ -82,6 +84,14 @@ public class InteractableItems : MonoBehaviour
         
             _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => PlantItem(mouseHoverSlotData));
         }
+        else if (mouseHoverSlotData.ItemObject.Type == ItemType.Lightning)
+        {
+            DisplayItem(mouseHoverSlotData);
+            
+            _buttonUseText.text = "Place!";
+        
+            _interactaleUseItemButton.GetComponent<Button>().onClick.AddListener(() => PlaceItem(mouseHoverSlotData));
+        }
         else
         {
             _interactivePanel.SetActive(true);
@@ -126,6 +136,15 @@ public class InteractableItems : MonoBehaviour
             return;
         }
         _plantItem.Plant(slot.ItemObject);
+        _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
+    }
+    private void PlaceItem(InventorySlot slot)
+    {
+        if (IsSlotContainsItem(slot) == false)
+        {
+            return;
+        }
+        _placeItem.PlaceItemToGround(slot.ItemObject);
         _playerActivePanel.RemoveItemAmountFromInventory(slot, 1);
     }
 

@@ -5,7 +5,7 @@ public class CollectMeatDisplay : MonoBehaviour
     [SerializeField] private GameObject _collectMeatInterface;
     [SerializeField] private GameObject _holdCollectButton;
 
-    public void ShowCollectMeatInterface()
+    public void DisplayCollectMeatInterface()
     {
         _collectMeatInterface.SetActive(true);
     }
