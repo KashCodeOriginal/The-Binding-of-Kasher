@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class BirdAnimation : MonoBehaviour
 {
-    [SerializeField] private Animation _birdAnimation;
-
+    [SerializeField] private Animator _birdAnimator;
     public void BirdTakingOff()
     {
-        _birdAnimation.Play("BirdTakeOff");
+        _birdAnimator.SetTrigger("IsBirdTakingOff");
     }
 }

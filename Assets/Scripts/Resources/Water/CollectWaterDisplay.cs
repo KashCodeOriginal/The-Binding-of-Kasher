@@ -12,6 +12,5 @@ public class CollectWaterDisplay : MonoBehaviour
     public void HideWaterInterface()
     {
         _waterInterface.SetActive(false);
-        
     }
 }

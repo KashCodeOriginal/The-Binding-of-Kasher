@@ -4,9 +4,11 @@ public class PlayerTriggers : MonoBehaviour
 {
     [SerializeField] private CollectWood _collectWood;
     [SerializeField] private CollectWater _collectWater;
+    [SerializeField] private CollectWaterDisplay _collectWaterDisplay;
     [SerializeField] private LighthouseDisplay _lighthouseDisplay;
     [SerializeField] private CollectOreDisplay _collectOreDisplay;
     [SerializeField] private Fishing _fishing;
+    [SerializeField] private FishingDisplay _fishingDisplay;
     [SerializeField] private OvenDisplay _ovenDisplay;
     [SerializeField] private CollectMeatDisplay _collectMeatDisplay;
     [SerializeField] private PlayerHouseDisplay _playerHouseDisplay;
@@ -86,7 +88,8 @@ public class PlayerTriggers : MonoBehaviour
         }
         if (collider.CompareTag("Water"))
         {
-            _collectWater.TryCollectWater();
+            _collectWaterDisplay.HideWaterInterface();
+            _fishingDisplay.HideFishingInterface();
         }
         if (collider.CompareTag("Lighthouse"))
         {

@@ -9,7 +9,7 @@ public class CargoShipArrive : MonoBehaviour
 
     [SerializeField] private bool _isShipArrived;
 
-    [SerializeField] private Animation _shipAnimation;
+    [SerializeField] private CargoShipAnimator _shipAnimator;
 
     [SerializeField] private DayAndNightCycle _dayAndNightCycle;
 
@@ -18,12 +18,15 @@ public class CargoShipArrive : MonoBehaviour
     [SerializeField] private CargoshipSail _cargoshipSail;
 
     [SerializeField] private float _timeBeforeShipSail;
+    
+    [SerializeField] private GameObject _ship;
 
     private float _currentArrivingTime;
 
     private void Start()
     {
         _isShipArrived = false;
+        _shipAnimator.StopAnimations();
         StartCoroutine(CargoShipArriveChance());
     }
 
@@ -36,6 +39,7 @@ public class CargoShipArrive : MonoBehaviour
             if (_currentArrivingTime >= _timeBeforeShipSail)
             {
                 _cargoshipSail.Sail();
+                _isShipArrived = false;
             }
         }
     }
@@ -52,9 +56,10 @@ public class CargoShipArrive : MonoBehaviour
 
     private void ShipArrive()
     {
+        _ship.transform.position = new Vector3(283.3f, 22, -37.6f);
         _cargoShipItems.FillChestWithRandomItems();
+        _shipAnimator.StartShipArriving();
         _isShipArrived = true;
-        _shipAnimation.Play("ShipArriving");
     }
 
     private IEnumerator CargoShipArriveChance()

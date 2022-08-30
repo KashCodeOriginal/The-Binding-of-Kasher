@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class CargoshipSail : MonoBehaviour
 {
-   [SerializeField] private Animation _shipAnimation;
+   [SerializeField] private CargoShipAnimator _shipAnimator;
    [SerializeField] private CargoShipItems _cargoShipItems;
    
    public void Sail()
    {
-      _shipAnimation.Play("ShipSailing");
+      _shipAnimator.StartShipSailing();
       _cargoShipItems.ClearCargoChest();
    }
 }
