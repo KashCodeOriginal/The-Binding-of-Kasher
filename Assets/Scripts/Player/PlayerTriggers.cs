@@ -17,6 +17,8 @@ public class PlayerTriggers : MonoBehaviour
     [SerializeField] private CollectTorch _collectTorch;
     [SerializeField] private Escape _escape;
     [SerializeField] private EscapeDisplay _escapeDisplay;
+    [SerializeField] private PlayerAttack _playerAttack;
+    [SerializeField] private PlayerAttackInterface _playerAttackInterface;
     
     [SerializeField] private InventoryObject _playerInventory;
     [SerializeField] private InventoryObject _playerActivePanel;
@@ -81,6 +83,11 @@ public class PlayerTriggers : MonoBehaviour
             _collectTorchDisplay.DisplayTorchCollectInterface();
             _collectTorch.SetCurrentTorch(collider.gameObject);
         }
+        if (collider.CompareTag("Enemy"))
+        {
+            _playerAttack.SetCurrentEnemy(collider.gameObject);
+            _playerAttackInterface.DisplayPlayerAttackInterface();
+        }
     }
     private void OnTriggerExit(Collider collider)
     {
@@ -125,6 +132,11 @@ public class PlayerTriggers : MonoBehaviour
         {
             _collectTorchDisplay.HideTorchCollectInterface();
             _collectTorch.SetCurrentTorch(null);
+        }
+        if (collider.CompareTag("Enemy"))
+        {
+            _playerAttackInterface.HidePlayerAttackInterface();
+            _playerAttack.SetCurrentEnemy(null);
         }
     }
 }

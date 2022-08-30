@@ -5,6 +5,8 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] private float _timeBetweenAttacks;
     
     [SerializeField] private float _attackRange;
+    
+    [SerializeField] private int _damage;
 
     private EnemyAI _enemyAI;
 
@@ -47,6 +49,11 @@ public class EnemyAttack : MonoBehaviour
 
     private void Attack()
     {
-        Debug.Log("Ударил");
+        _enemyAI.Player.TryGetComponent(out IDamagable iDamagable);
+
+        if (iDamagable != null)
+        {
+            iDamagable.TryApplyDamage(_damage);
+        }
     }
 }

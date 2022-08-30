@@ -32,6 +32,8 @@ public class EnemyAI : MonoBehaviour
     private GameObject _player;
     
     private State _currentState;
+
+    public GameObject Player => _player;
     
     public enum State
     {
@@ -40,7 +42,7 @@ public class EnemyAI : MonoBehaviour
         AttackingTarget,
         GoingBackToStartPosition
     }
-    
+
     private void Start()
     {
         _currentState = State.Roaming;
@@ -99,6 +101,12 @@ public class EnemyAI : MonoBehaviour
                     _roamTarget.transform.position = _startPosition;
                     
                     _aiDestinationSetter.target = _roamTarget.transform;
+                    
+                    if (Vector3.Distance(gameObject.transform.position, _player.transform.position) < _targetRange)
+                    {
+                        _currentState = State.FollowingTarget;
+                    }
+                    
                     if (Vector3.Distance(gameObject.transform.position, _roamTarget.transform.position) < _reachedPointDistance)
                     {
                         _currentState = State.Roaming;

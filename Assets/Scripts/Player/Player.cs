@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamagable
 {
     [SerializeField] private int _maxPointsValue;
 
@@ -147,5 +147,10 @@ public class Player : MonoBehaviour
     private void SetEnergyToFull()
     {
         _energyPoint = _maxPointsValue;
+    }
+
+    public void TryApplyDamage(int value)
+    {
+        DecreaseHealth(value);
     }
 }

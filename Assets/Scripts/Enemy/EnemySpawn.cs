@@ -18,7 +18,7 @@ public class EnemySpawn : MonoBehaviour
       {
          var randomEnemiesAmount = Random.Range(0, _maxEnemiesAmount);
 
-         for (int i = 0; i <= _maxEnemiesAmount; i++)
+         for (int i = 0; i < randomEnemiesAmount; i++)
          {
             Instantiate(_enemyPrefab, Vector3.zero, Quaternion.identity, gameObject.transform);
          }
