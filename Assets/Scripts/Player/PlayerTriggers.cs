@@ -15,6 +15,8 @@ public class PlayerTriggers : MonoBehaviour
     [SerializeField] private CollectWheatDisplay _collectWheatDisplay;
     [SerializeField] private CollectTorchDisplay _collectTorchDisplay;
     [SerializeField] private CollectTorch _collectTorch;
+    [SerializeField] private Escape _escape;
+    [SerializeField] private EscapeDisplay _escapeDisplay;
     
     [SerializeField] private InventoryObject _playerInventory;
     [SerializeField] private InventoryObject _playerActivePanel;
@@ -46,6 +48,7 @@ public class PlayerTriggers : MonoBehaviour
         {
             _collectWater.TryCollectWater();
             _fishing.TryToCatchFish();
+            _escape.CheckForItemsInHand();
         }
 
         if (collider.CompareTag("Lighthouse"))
@@ -90,6 +93,8 @@ public class PlayerTriggers : MonoBehaviour
         {
             _collectWaterDisplay.HideWaterInterface();
             _fishingDisplay.HideFishingInterface();
+            _escapeDisplay.HidePowerBoatEscapingInterface();
+            _escapeDisplay.HideWoodenBoatEscapingInterface();
         }
         if (collider.CompareTag("Lighthouse"))
         {

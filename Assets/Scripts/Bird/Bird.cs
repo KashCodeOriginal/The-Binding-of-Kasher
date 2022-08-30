@@ -13,9 +13,5 @@ public class Bird : MonoBehaviour
                 _birdTakeOff.BirdTakingOff();
             }
         }
-        else if (collider.CompareTag("Mine") || collider.CompareTag("Oven") || collider.CompareTag("Farm") || collider.CompareTag("Lighthouse"))
-        {
-            _birdTakeOff.BirdTakingOff();
-        }
     }
 }
