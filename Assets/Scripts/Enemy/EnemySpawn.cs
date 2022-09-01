@@ -31,9 +31,9 @@ public class EnemySpawn : MonoBehaviour
    {
       if (gameObject.transform.childCount > 0)
       {
-         for (int i = 0; i < gameObject.transform.childCount - 1; i++)
+         for (int i = 0; i < gameObject.transform.childCount; i++)
          {
-            Destroy(gameObject.transform.GetChild(i));
+            Destroy(gameObject.transform.GetChild(i).gameObject);
          }
          
          _isEnemiesSpawned = false;
@@ -42,18 +42,23 @@ public class EnemySpawn : MonoBehaviour
 
    private void CheckDayPart(string partText)
    {
-      if (_dayAndNightCycle.CurrentDayPart == DayAndNightCycle.DayPart.Night)
+      switch (_dayAndNightCycle.CurrentDayPart)
       {
-         SpawnEnemies();
-      }
-      else if (_dayAndNightCycle.CurrentDayPart == DayAndNightCycle.DayPart.Morning)
-      {
-         DestroyEnemies();
+         case DayAndNightCycle.DayPart.Night:
+            SpawnEnemies();
+            break;
+         case DayAndNightCycle.DayPart.Morning:
+            DestroyEnemies();
+            break;
       }
    }
 
    private void OnEnable()
    {
       _dayAndNightCycle.CurrentDayPartChanged += CheckDayPart;
+   }
+   private void OnDisable()
+   {
+      _dayAndNightCycle.CurrentDayPartChanged -= CheckDayPart;
    }
 }

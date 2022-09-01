@@ -11,7 +11,6 @@ public class PlayerTriggers : MonoBehaviour
     [SerializeField] private FishingDisplay _fishingDisplay;
     [SerializeField] private OvenDisplay _ovenDisplay;
     [SerializeField] private CollectMeatDisplay _collectMeatDisplay;
-    [SerializeField] private PlayerHouseDisplay _playerHouseDisplay;
     [SerializeField] private CollectWheatDisplay _collectWheatDisplay;
     [SerializeField] private CollectTorchDisplay _collectTorchDisplay;
     [SerializeField] private CollectTorch _collectTorch;
@@ -19,6 +18,7 @@ public class PlayerTriggers : MonoBehaviour
     [SerializeField] private EscapeDisplay _escapeDisplay;
     [SerializeField] private PlayerAttack _playerAttack;
     [SerializeField] private PlayerAttackInterface _playerAttackInterface;
+    [SerializeField] private CargoShipChestDisplay _cargoShipChestDisplay;
     
     [SerializeField] private InventoryObject _playerInventory;
     [SerializeField] private InventoryObject _playerActivePanel;
@@ -70,10 +70,6 @@ public class PlayerTriggers : MonoBehaviour
         {
             _collectMeatDisplay.DisplayCollectMeatInterface();
         }
-        if (collider.CompareTag("House"))
-        {
-            _playerHouseDisplay.DisplayHouseInterface();
-        }
         if (collider.CompareTag("Wheat"))
         {
             _collectWheatDisplay.DisplayCollectWheatInterface();
@@ -82,6 +78,10 @@ public class PlayerTriggers : MonoBehaviour
         {
             _collectTorchDisplay.DisplayTorchCollectInterface();
             _collectTorch.SetCurrentTorch(collider.gameObject);
+        }
+        if (collider.CompareTag("Chest"))
+        {
+            _cargoShipChestDisplay.DisplayCargoShipChestInterface();
         }
         if (collider.CompareTag("Enemy"))
         {
@@ -120,10 +120,6 @@ public class PlayerTriggers : MonoBehaviour
         {
             _collectMeatDisplay.HideCollectMeatInterface();
         }
-        if (collider.CompareTag("House"))
-        {
-            _playerHouseDisplay.HideHouseInterface();
-        }
         if (collider.CompareTag("Wheat"))
         {
             _collectWheatDisplay.HideCollectWheatInterface();
@@ -132,6 +128,10 @@ public class PlayerTriggers : MonoBehaviour
         {
             _collectTorchDisplay.HideTorchCollectInterface();
             _collectTorch.SetCurrentTorch(null);
+        }
+        if (collider.CompareTag("Chest"))
+        {
+            _cargoShipChestDisplay.HideCargoShipChestInterface();
         }
         if (collider.CompareTag("Enemy"))
         {

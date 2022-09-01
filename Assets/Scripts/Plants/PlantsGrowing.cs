@@ -9,6 +9,10 @@ public class PlantsGrowing : MonoBehaviour
 
     private float _currentStageTime;
     
+    public int CurrentStage => _currentStage;
+
+    public float CurrentStageTime => _currentStageTime;
+    
     [SerializeField] private List<GameObject> _stages;
     private void Start()
     {
@@ -17,7 +21,6 @@ public class PlantsGrowing : MonoBehaviour
             _stages.Add(gameObject.transform.GetChild(i).gameObject);
         }
         
-        _currentStage = 0;
         SetStage(_currentStage);
     }
 
@@ -36,14 +39,24 @@ public class PlantsGrowing : MonoBehaviour
         }
     }
 
-    private void SetStage(int stage)
+    public void SetStage(int stage)
     {
         if (stage == 0)
         {
             _stages[stage].SetActive(true);
             return;
         }
+        
         _stages[stage - 1].SetActive(false);
         _stages[stage].SetActive(true);
+    }
+    public void SetCurrentGrowTime(float time)
+    {
+        _currentStageTime = time;
+    }
+
+    public void SetCurrentStage(int value)
+    {
+        _currentStage = value;
     }
 }

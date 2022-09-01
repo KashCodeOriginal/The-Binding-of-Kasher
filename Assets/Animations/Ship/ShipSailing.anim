@@ -10836,7 +10836,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 170.4, y: 22, z: 56.3}
+        value: {x: 182.33, y: 22, z: 54.82}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -10846,8 +10846,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 10
         value: {x: 138.6, y: 22, z: 133.2}
-        inSlope: {x: -4.3799996, y: 0, z: 3.420001}
-        outSlope: {x: -4.3799996, y: 0, z: 3.420001}
+        inSlope: {x: -4.9765, y: 0, z: 3.4200008}
+        outSlope: {x: -4.9765, y: 0, z: 3.4200008}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
@@ -10927,7 +10927,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 170.4
+        value: 182.33
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -10937,8 +10937,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 10
         value: 138.6
-        inSlope: -4.3799996
-        outSlope: -4.3799996
+        inSlope: -4.9765
+        outSlope: -4.9765
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -10992,7 +10992,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 56.3
+        value: 54.82
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -11002,8 +11002,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 10
         value: 133.2
-        inSlope: 3.420001
-        outSlope: 3.420001
+        inSlope: 3.4200008
+        outSlope: 3.4200008
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -54396,11 +54396,4 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 40
-    functionName: MoveShipToDefaultPosition
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

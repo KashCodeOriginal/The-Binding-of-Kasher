@@ -32,6 +32,7 @@ public class DayAndNightCycle : MonoBehaviour
     [SerializeField] private Light _moon;
 
     [SerializeField] private float _timeMultiplier;
+    [SerializeField] private float _nightTimeMultiplier;
     
     [SerializeField] private float _startHour;
 
@@ -143,8 +144,18 @@ public class DayAndNightCycle : MonoBehaviour
             _totalDaysPassed++;
             PassedDaysAmountChanged?.Invoke(_totalDaysPassed);
         }
+
+        float tempTimeMultiplier = _timeMultiplier;
+
+        while (_currentTime.Hour <= _morningStartHour)
+        {
+            
+            _timeMultiplier = _nightTimeMultiplier;
+        }
+
+        _timeMultiplier = tempTimeMultiplier;
+        
         _dayTime = 0;
-        _currentTime = DateTime.Now.Date + TimeSpan.FromHours(_startHour);
     }
 
     private void OnEnable()

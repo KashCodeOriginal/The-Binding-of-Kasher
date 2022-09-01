@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000682939874712592}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.24, z: 0}
   m_LocalScale: {x: 2, y: 0.6, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95,7 +95,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 0.99999994, z: 5}
+  m_Size: {x: 4, y: 0.99999994, z: 4}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2986066326637595802
 GameObject:
@@ -123,7 +123,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2986066326637595802}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.148, z: 0}
   m_LocalScale: {x: 2, y: 0.4, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -190,6 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7454772484823440685}
   - component: {fileID: 2312586420737663769}
+  - component: {fileID: -184245718111348616}
   m_Layer: 0
   m_Name: Wheat
   m_TagString: Untagged
@@ -231,6 +232,18 @@ MonoBehaviour:
   _timeBetweenStages: 20
   _currentStage: 0
   _stages: []
+--- !u!114 &-184245718111348616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3300893142744408951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e93c4cb7cc73c54d9a74794f1af2b2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3452722973803005691
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +271,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3452722973803005691}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.059, z: 0}
   m_LocalScale: {x: 2, y: 0.2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []

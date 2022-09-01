@@ -3,29 +3,22 @@ using UnityEngine;
 public class CargoShipAnimator : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
-
-    public void StartShipArriving()
-    {
-        StartAnimations();
-    }
     
     public void StartShipSailing()
     {
         _animator.SetTrigger("IsShipSailing");
     }
-    
-    public void StartAnimations()
+    public void StartShipArriving()
     {
-        _animator.speed = 1;
-    }
-    
-    public void StopAnimations()
-    {
-        _animator.speed = 0;
+        _animator.SetTrigger("IsShipArriving");
     }
 
-    public void MoveShipToDefaultPosition()
+    public void SetApplyRootMotionToTrue()
     {
-        StopAnimations();
+        _animator.applyRootMotion = true;
+    }
+    public void SetApplyRootMotionToFalse()
+    {
+        _animator.applyRootMotion = false;
     }
 }

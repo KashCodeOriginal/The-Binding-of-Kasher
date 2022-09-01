@@ -26,7 +26,6 @@ public class CargoShipArrive : MonoBehaviour
     private void Start()
     {
         _isShipArrived = false;
-        _shipAnimator.StopAnimations();
         StartCoroutine(CargoShipArriveChance());
     }
 
@@ -56,7 +55,7 @@ public class CargoShipArrive : MonoBehaviour
 
     private void ShipArrive()
     {
-        _ship.transform.position = new Vector3(283.3f, 22, -37.6f);
+        _ship.transform.position = new Vector3(310.5f, 22, -60);
         _cargoShipItems.FillChestWithRandomItems();
         _shipAnimator.StartShipArriving();
         _isShipArrived = true;
