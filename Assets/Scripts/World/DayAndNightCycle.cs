@@ -38,6 +38,8 @@ public class DayAndNightCycle : MonoBehaviour
 
     [SerializeField] private PlayerSleep _playerSleep;
 
+    [SerializeField] private CargoShipArrive _cargoShipArrive;
+
     private DateTime _currentTime;
 
     private TimeSpan _newDayTime;
@@ -115,13 +117,15 @@ public class DayAndNightCycle : MonoBehaviour
     {
         while (true)
         {
-            if (_dayTime >= 0.45f)
+            if (_dayTime >= 0.5f)
             {
                 _moon.enabled = true;
+                _sun.enabled = false;
             }
             else
             {
                 _moon.enabled = false;
+                _sun.enabled = true;
             }
 
             if (_rainEvent.IsRainStarted == true)
@@ -139,23 +143,11 @@ public class DayAndNightCycle : MonoBehaviour
 
     private void SetNewDay()
     {
-        if (_newDayAdded == false)
-        {
-            _totalDaysPassed++;
-            PassedDaysAmountChanged?.Invoke(_totalDaysPassed);
-        }
+        _cargoShipArrive.SetTimeBetweenChances(_timeMultiplier / _nightTimeMultiplier);
 
-        float tempTimeMultiplier = _timeMultiplier;
+        _timeMultiplier = _nightTimeMultiplier;
 
-        while (_currentTime.Hour <= _morningStartHour)
-        {
-            
-            _timeMultiplier = _nightTimeMultiplier;
-        }
-
-        _timeMultiplier = tempTimeMultiplier;
-        
-        _dayTime = 0;
+        StartCoroutine(CheckDayPart());
     }
 
     private void OnEnable()
@@ -185,6 +177,24 @@ public class DayAndNightCycle : MonoBehaviour
             CurrentDayPart = dayPart;
             _currentDayPartText = dayPart.ToString();
             CurrentDayPartChanged?.Invoke(_currentDayPartText);
+        }
+    }
+
+    private IEnumerator CheckDayPart()
+    {
+        while (true)
+        {
+            var currentTime = _currentTime.Hour >= _nightStartHour ? 24 - _currentTime.Hour : _currentTime.Hour;
+
+            if (currentTime >= _morningStartHour)
+            {
+                _cargoShipArrive.SetTimeBetweenChances(3);
+                _timeMultiplier = 360;
+                _dayTime = 0;
+                break;
+            }
+            
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }

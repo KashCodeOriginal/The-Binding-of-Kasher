@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -50,7 +51,6 @@ public class Player : MonoBehaviour, IDamagable
         {
             Die();
         }
-        
     }
     private void IncreaseHunger(int value)
     {

@@ -86,6 +86,7 @@ public class EnemyAI : MonoBehaviour
                     if (Vector3.Distance(gameObject.transform.position, _player.transform.position) < _enemyAttack.AttackRange)
                     {
                         _enemyAttack.TryAttackPlayer();
+                        gameObject.GetComponent<Animator>().SetTrigger("Punch");
                         _currentState = State.AttackingTarget;
                     }
 

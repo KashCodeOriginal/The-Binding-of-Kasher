@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Lighthouse
   m_EditorClassIdentifier: 
   _itemsDataBase: {fileID: 11400000, guid: 7c889d81b1c272e4abae83f357166424, type: 2}
-  _savingPath: lighthouse.save
+  _savingPath: /lighthouse.save
   _itemsContainer:
     _slots:
     - AllowedItems: 05000000

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CargoShipChestDisplay : MonoBehaviour
@@ -6,9 +7,9 @@ public class CargoShipChestDisplay : MonoBehaviour
 
     private void Start()
     {
-        HideCargoShipChestInterface();
+        StartCoroutine(Delay());
     }
-
+    
     public void DisplayCargoShipChestInterface()
     {
         _cargoShipChestDisplay.SetActive(true);
@@ -17,5 +18,11 @@ public class CargoShipChestDisplay : MonoBehaviour
     public void HideCargoShipChestInterface()
     {
         _cargoShipChestDisplay.SetActive(false);
+    }
+
+    private IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(0.1f);
+        HideCargoShipChestInterface();
     }
 }

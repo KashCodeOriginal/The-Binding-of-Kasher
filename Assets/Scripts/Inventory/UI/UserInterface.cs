@@ -234,13 +234,16 @@ public abstract class UserInterface : MonoBehaviour
         {
             MouseData.TempItemDragged.GetComponent<RectTransform>().position = Input.mousePosition;
         }
-    } 
+    }
+
     public IEnumerator ValueChangeStateDelay()
     {
         yield return new WaitForSeconds(0.1f);
         _isSlotClamped = false;
     }
 }
+
+
 
 public static class MouseData
 {

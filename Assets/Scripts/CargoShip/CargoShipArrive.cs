@@ -21,6 +21,8 @@ public class CargoShipArrive : MonoBehaviour
     
     [SerializeField] private GameObject _ship;
 
+    [SerializeField] private CargoShipChestDisplay _cargoShipChestDisplay;
+
     private float _currentArrivingTime;
 
     private void Start()
@@ -78,4 +80,15 @@ public class CargoShipArrive : MonoBehaviour
             yield return new WaitForSeconds(_timeBetweenChances);
         }
     }
+
+    public void SetTimeBetweenChances(float value)
+    {
+        if (value >= 1)
+        {
+            _timeBetweenChances = value;
+            return;
+        }
+        _timeBetweenChances = value * _timeBetweenChances;
+    }
+    
 }

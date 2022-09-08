@@ -17,4 +17,4 @@ MonoBehaviour:
   _meltTime: 15
   _requiredItems:
   - _itemData: {fileID: 11400000, guid: 195a006773cc6b1448f0d3407f3c6040, type: 2}
-    _amount: 4
+    _amount: 1

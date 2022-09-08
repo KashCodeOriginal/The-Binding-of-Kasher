@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class InventorySave : MonoBehaviour
@@ -9,8 +10,19 @@ public class InventorySave : MonoBehaviour
     [SerializeField] private InventoryObject _oven;
     [SerializeField] private InventoryObject _houseChest;
     [SerializeField] private InventoryObject _shipChest;
-    
-    
+
+    private void OnApplicationQuit()
+    {
+        _playerInventory.ClearInventory();
+        _playerEquipment.ClearInventory();
+        _playerActivePanel.ClearInventory();
+        _lighthouse.ClearInventory();
+        _oven.ClearInventory();
+        _houseChest.ClearInventory();
+        _shipChest.ClearInventory();
+    }
+
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.S))
@@ -43,18 +55,5 @@ public class InventorySave : MonoBehaviour
             _houseChest.ClearInventory();
             _shipChest.ClearInventory();
         }
-    }
-    private void OnApplicationQuit()
-    {
-        // _playerInventory.SaveInventory();
-        // _playerEquipment.SaveInventory();
-        
-        _playerInventory.ItemsContainer.ClearItems();
-        _playerEquipment.ItemsContainer.ClearItems();
-        _playerActivePanel.ItemsContainer.ClearItems();
-        _lighthouse.ItemsContainer.ClearItems();
-        _oven.ItemsContainer.ClearItems();
-        _houseChest.ItemsContainer.ClearItems();
-        _shipChest.ItemsContainer.ClearItems();
     }
 }
