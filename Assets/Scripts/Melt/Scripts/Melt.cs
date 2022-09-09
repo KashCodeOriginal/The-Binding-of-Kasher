@@ -8,7 +8,7 @@ public class Melt : MonoBehaviour
 
     [SerializeField] private InventoryObject _meltInventory;
 
-    [SerializeField] private MeltProccessDisplay _meltProccessDisplay;
+    [SerializeField] private MeltProcessDisplay _meltProccessDisplay;
 
     [SerializeField] private ItemsData _coal;
 
@@ -33,7 +33,11 @@ public class Melt : MonoBehaviour
         
         if (_isItemProcessing == false)
         {
-            TryMelt();
+            if (_meltInventory.ItemsContainer.Slots[^1].MaxSlotAmount > 0)
+            {
+                TryMelt();
+            }
+
         }
         else
         {
@@ -44,7 +48,7 @@ public class Melt : MonoBehaviour
             if (_currentItemBurningTime >= _itemBurningTime)
             {
                 MeltItem(_currentItem, _outputItem);
-                _currentItemBurningTime = 0;
+                ResetOvenItems();
                 _meltProccessDisplay.FillArrow(_currentItemBurningTime);
             }
         }
@@ -52,11 +56,14 @@ public class Melt : MonoBehaviour
         if (_isCoalBurning == true)
         {
             _currentCoalBurningTime += Time.deltaTime;
+            
+            _meltProccessDisplay.WithdrawCoal(1 - _currentCoalBurningTime / _coalBurningTime);
 
             if (_currentCoalBurningTime >= _coalBurningTime)
             {
                 BurnCoal();
                 _currentCoalBurningTime = 0;
+                _meltProccessDisplay.WithdrawCoal(1 - _currentCoalBurningTime / _coalBurningTime);
             }
         }
     }
@@ -65,6 +72,8 @@ public class Melt : MonoBehaviour
     {
         bool _isItemFound = false;
         bool _isCoalFound = false;
+
+        ResetOvenItems();
 
         for (int i = 0; i < _meltInventory.ItemsContainer.Slots.Length - 1; i++)
         {
@@ -117,17 +126,22 @@ public class Melt : MonoBehaviour
         {
             if (_meltInventory.ItemsContainer.Slots[i].Item.ID < 0)
             {
-                _isItemProcessing = false;
-                _isCoalBurning = false;
-                _outputItem = null;
-                _currentItem = null;
-                _currentItemRequiredAmount = 0;
-                _outputItemAmount = 0;
-                _itemBurningTime = 0;
-                _currentItemBurningTime = 0;
-                _meltProccessDisplay.FillArrow(_currentItemBurningTime);
+                ResetOvenItems();
             }
         }
+    }
+
+    private void ResetOvenItems()
+    {
+        _isItemProcessing = false;
+        _isCoalBurning = false;
+        _outputItem = null;
+        _currentItem = null;
+        _currentItemRequiredAmount = 0;
+        _outputItemAmount = 0;
+        _itemBurningTime = 0;
+        _currentItemBurningTime = 0;
+        _meltProccessDisplay.FillArrow(_currentItemBurningTime);
     }
 
     private void MeltItem(ItemsData item, ItemsData outputItem)
