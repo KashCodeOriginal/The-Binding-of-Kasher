@@ -7,7 +7,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float _maxX;
     [SerializeField] private float _minZ;
     [SerializeField] private float _maxZ;
-   
+
     [SerializeField] private float _height;
 
     [SerializeField] private float _minWalkableDistance;
@@ -45,6 +45,8 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        
+        
         _currentState = State.Roaming;
         
         _startPosition = GenerateRandomPosition();

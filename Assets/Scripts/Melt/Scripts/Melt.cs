@@ -8,6 +8,8 @@ public class Melt : MonoBehaviour
 
     [SerializeField] private InventoryObject _meltInventory;
 
+    [SerializeField] private MeltProccessDisplay _meltProccessDisplay;
+
     [SerializeField] private ItemsData _coal;
 
     [SerializeField] private float _coalBurningTime;
@@ -36,11 +38,14 @@ public class Melt : MonoBehaviour
         else
         {
             _currentItemBurningTime += Time.deltaTime;
+            
+            _meltProccessDisplay.FillArrow(_currentItemBurningTime / _itemBurningTime);
 
             if (_currentItemBurningTime >= _itemBurningTime)
             {
                 MeltItem(_currentItem, _outputItem);
                 _currentItemBurningTime = 0;
+                _meltProccessDisplay.FillArrow(_currentItemBurningTime);
             }
         }
 
@@ -120,6 +125,7 @@ public class Melt : MonoBehaviour
                 _outputItemAmount = 0;
                 _itemBurningTime = 0;
                 _currentItemBurningTime = 0;
+                _meltProccessDisplay.FillArrow(_currentItemBurningTime);
             }
         }
     }
