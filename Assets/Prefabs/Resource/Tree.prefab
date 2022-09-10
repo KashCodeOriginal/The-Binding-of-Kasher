@@ -5341,7 +5341,7 @@ Transform:
   - {fileID: 7915479215530999783}
   - {fileID: 7622502587344536286}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1328367511455561536
 MonoBehaviour:
@@ -5355,7 +5355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf020ebd27fec4f963721efa3d2337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeBetweenStages: 10
+  _timeBetweenStages: 60
   _currentStage: 0
   _stages: []
 --- !u!114 &266200168061362724
@@ -5396,14 +5396,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3518392027966337611}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.49991274, y: 0.50008726, z: 0.49991274, w: 0.50008726}
   m_LocalPosition: {x: -0.078323364, y: -0.052577972, z: 0.035087585}
   m_LocalScale: {x: 25, y: 25, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6128297646412941684}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.98, y: 90, z: 0}
 --- !u!33 &8167835495798196799
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -7137,7 +7137,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 10
+  m_VersionIndex: 13
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -10950,7 +10950,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 903
+  m_VersionIndex: 906
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

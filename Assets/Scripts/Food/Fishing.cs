@@ -4,7 +4,7 @@ public class Fishing : MonoBehaviour
 {
     [SerializeField] private InventoryObject _playerEquipment;
 
-    [SerializeField] private ItemsData _fishingRod;
+    [SerializeField] private ItemsData _fishingRodItem;
     
     [SerializeField] private ItemsData _fish;
 
@@ -16,11 +16,13 @@ public class Fishing : MonoBehaviour
 
     [SerializeField] private PlayerMovement _playerMovement;
 
+    [SerializeField] private GameObject _fishingRod;
+
     public ItemsData Fish => _fish;
     
     public void TryToCatchFish()
     {
-        if (_playerEquipment.ItemsContainer.Slots[^1].ItemObject == _fishingRod)
+        if (_playerEquipment.ItemsContainer.Slots[^1].ItemObject == _fishingRodItem)
         {
             _fishingDisplay.ShowFishingInterface();
         }
@@ -38,6 +40,9 @@ public class Fishing : MonoBehaviour
         _playerAnimator.SetBool("IsFishing", true);
         
         _fishingDisplay.ShowCastFishingRodInterface();
+        
+                
+        _fishingRod.SetActive(true);
     }
 
     public void CastFishingRod()

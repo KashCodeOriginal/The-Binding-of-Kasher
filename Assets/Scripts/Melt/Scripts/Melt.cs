@@ -84,6 +84,10 @@ public class Melt : MonoBehaviour
                 {
                     _isCoalFound = true;
                 }
+                else
+                {
+                    _meltProccessDisplay.WithdrawCoal(1 - _currentCoalBurningTime / _coalBurningTime);
+                }
                 
                 foreach (var recipe in _meltRecipes)
                 {

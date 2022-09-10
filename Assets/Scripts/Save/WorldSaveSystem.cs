@@ -10,8 +10,9 @@ public class WorldSaveSystem : MonoBehaviour
     [SerializeField] private GameObject _woodPrefab;
     [SerializeField] private GameObject _wheatPrefab;
     [SerializeField] private GameObject _torchPrefab;
+    [SerializeField] private GameObject _zombiePrefab;
 
-    public static List<SaveObject> _savingObjects = new List<SaveObject>();
+    public static List<SaveableObject> _savingObjects = new List<SaveableObject>();
 
     [SerializeField] private string _savingPath;
     [SerializeField] private string _savingObjectsCountPath;
@@ -43,9 +44,9 @@ public class WorldSaveSystem : MonoBehaviour
         for (int i = 0; i < _savingObjects.Count; i++)
         {
             FileStream fileStream = new FileStream(path + i, FileMode.Create);
-            SavingObject savingObject = new SavingObject(_savingObjects[i]);
+            ObjectsSaving objectsSaving = new ObjectsSaving(_savingObjects[i]);
             
-            binaryFormatter.Serialize(fileStream, savingObject);
+            binaryFormatter.Serialize(fileStream, objectsSaving);
             
             fileStream.Close();
         }
@@ -72,7 +73,7 @@ public class WorldSaveSystem : MonoBehaviour
             {
                 FileStream fileStream = new FileStream(path + i, FileMode.Open);
 
-                SavingObject obj = (SavingObject)binaryFormatter.Deserialize(fileStream);
+                ObjectsSaving obj = (ObjectsSaving)binaryFormatter.Deserialize(fileStream);
                 
                 GameObject prefab = null;
                 
@@ -87,6 +88,10 @@ public class WorldSaveSystem : MonoBehaviour
                 else if (obj.Name.ToLower().Contains("torch"))
                 {
                     prefab = _torchPrefab;
+                }
+                else if (obj.Name.ToLower().Contains("zombie"))
+                {
+                    prefab = _zombiePrefab;
                 }
                 
                 if (prefab != null)

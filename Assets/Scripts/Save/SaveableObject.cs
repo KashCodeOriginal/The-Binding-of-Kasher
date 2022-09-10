@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SaveObject : MonoBehaviour
+public class SaveableObject : MonoBehaviour
 {
     private void Awake()
     {

@@ -15,10 +15,10 @@ MonoBehaviour:
   _name: 
   _description: 
   _type: 11
-  _icon: {fileID: 21300000, guid: 9332cf0d233636a40a024382720294a3, type: 3}
+  _icon: {fileID: 21300000, guid: 05ab4523363e7dd4c8f91bccd65ddcc6, type: 3}
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 5
+    _id: 41
     _itemBuffs: []
   _stackable: 0

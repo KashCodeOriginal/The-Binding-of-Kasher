@@ -6,16 +6,15 @@ public class LighthouseDisplay : MonoBehaviour
 
    private void Start()
    {
-      LighthouseInterfaceDisplay();
+      HideLighthouseInterface();
    }
 
-   public void LighthouseInterfaceDisplay()
+   public void DisplayLighthouseInterface()
    {
-      if (_lighthouseInterface.activeSelf == true)
-      {
-         _lighthouseInterface.SetActive(false);
-         return;
-      }
       _lighthouseInterface.SetActive(true);
+   }
+   public void HideLighthouseInterface()
+   {
+      _lighthouseInterface.SetActive(false);
    }
 }

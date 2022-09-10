@@ -19,8 +19,6 @@ MonoBehaviour:
   _prefab: {fileID: 3148343034270809691, guid: f00181a9fe42171448a27365615945df, type: 3}
   _data:
     _name: 
-    _id: 1
-    _itemBuffs:
-    - _attribute: 1
-      _value: 0
+    _id: 37
+    _itemBuffs: []
   _stackable: 0

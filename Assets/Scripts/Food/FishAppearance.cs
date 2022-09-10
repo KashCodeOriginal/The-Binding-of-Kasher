@@ -14,6 +14,10 @@ public class FishAppearance : MonoBehaviour
 
     [SerializeField] private DropResource _dropResource;
 
+    [SerializeField] private FishAnimations _fishAnimations;
+    
+    [SerializeField] private GameObject _fishingRod;
+
     private float _randomFishAppearanceTime;
 
     private float _randomFishCatchingTime;
@@ -40,7 +44,6 @@ public class FishAppearance : MonoBehaviour
 
             if (_currentFishAppearedTime >= _randomFishAppearanceTime)
             {
-                Debug.Log("Попалась на крючок");
                 _currentFishAppearedTime = 0;
                 _isFishAppeared = false;
                 _isFishCaught = true;
@@ -49,10 +52,14 @@ public class FishAppearance : MonoBehaviour
 
         if (_isFishCaught == true)
         {
+            _fishAnimations.PlayCatchTextAnimation();
+            
             if (_isFishCaughtByClick == true)
             {
                 TurnOffFishingInterface();
                 _dropResource.DropItem(_fishing.Fish.Data, 1);
+                _fishAnimations.StopCatchTextAnimation();
+                _fishingRod.SetActive(false);
                 return; 
             }
             
@@ -63,6 +70,8 @@ public class FishAppearance : MonoBehaviour
             if (_currentFishCatchingTime >= _randomFishCatchingTime)
             {
                 TurnOffFishingInterface();
+                _fishAnimations.StopCatchTextAnimation();
+                _fishingRod.SetActive(false);
             }
         }
     }

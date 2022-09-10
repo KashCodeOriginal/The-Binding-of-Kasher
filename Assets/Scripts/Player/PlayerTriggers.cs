@@ -55,7 +55,7 @@ public class PlayerTriggers : MonoBehaviour
 
         if (collider.CompareTag("Lighthouse"))
         {
-            _lighthouseDisplay.LighthouseInterfaceDisplay();
+            _lighthouseDisplay.DisplayLighthouseInterface();
         }
         if (collider.CompareTag("Mine"))
         {
@@ -105,7 +105,7 @@ public class PlayerTriggers : MonoBehaviour
         }
         if (collider.CompareTag("Lighthouse"))
         {
-            _lighthouseDisplay.LighthouseInterfaceDisplay();
+            _lighthouseDisplay.HideLighthouseInterface();
         }
         if (collider.CompareTag("Mine"))
         {

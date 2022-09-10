@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class SavingObject
+public class ObjectsSaving
 {
     [SerializeField] private string _name;
     
@@ -19,23 +19,23 @@ public class SavingObject
     public int CurrentStage => _currentStage;
     public float CurrentStageTime => _currentStageTime;
     
-    public SavingObject(SaveObject saveObject)
+    public ObjectsSaving(SaveableObject saveableObject)
     {
-        _name = saveObject.name;
+        _name = saveableObject.name;
 
-        if (saveObject.tag != null)
+        if (saveableObject.tag != null)
         {
-            _tag = saveObject.tag;
+            _tag = saveableObject.tag;
         }
 
-        Vector3 objectPosition = saveObject.transform.position;
+        Vector3 objectPosition = saveableObject.transform.position;
 
         _position = new float[]
         {
             objectPosition.x, objectPosition.y, objectPosition.z
         };
 
-        saveObject.TryGetComponent(out PlantsGrowing plantsGrowing);
+        saveableObject.TryGetComponent(out PlantsGrowing plantsGrowing);
 
         if (plantsGrowing != null)
         {
