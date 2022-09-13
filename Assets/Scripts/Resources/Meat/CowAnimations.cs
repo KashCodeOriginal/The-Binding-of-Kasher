@@ -25,7 +25,7 @@ public class CowAnimations : MonoBehaviour
                 _animation.Play("CowEating");
                 _audioSource.Play(); 
             }
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(10f);
         }
     }
 }

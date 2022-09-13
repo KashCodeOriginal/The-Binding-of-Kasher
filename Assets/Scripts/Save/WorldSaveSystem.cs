@@ -57,6 +57,11 @@ public class WorldSaveSystem : MonoBehaviour
             
             fileStream.Close();
         }
+
+        for (int i = 0; i < _dynamicMap.transform.childCount; i++)
+        {
+            Destroy(_dynamicMap.transform.GetChild(i).gameObject);
+        }
     }
 
     private void Load()
