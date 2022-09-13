@@ -57,8 +57,6 @@ public class PlayerStatsChanger : MonoBehaviour
 
     private IEnumerator DecreaseHunger()
     {
-        
-
         while(_player.HungerPoint > 0)
         {
             HungerIsDecreased?.Invoke(_hungerDecreaseStep);
@@ -94,7 +92,7 @@ public class PlayerStatsChanger : MonoBehaviour
     {
         while (_player.HealthPoint > 0)
         {
-            while ((_player.WaterPoint == 0 || _player.HungerPoint == 0) && _player.HealthPoint > 0)
+            while ((_player.WaterPoint <= 0 || _player.HungerPoint <= 0) && _player.HealthPoint > 0)
             {
                 HealthIsDecreased?.Invoke(_healthDecreaseStep);
                 yield return new WaitForSeconds(_timeBetweenHealthDecreaseSteps);

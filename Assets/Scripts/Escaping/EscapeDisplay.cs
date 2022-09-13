@@ -5,6 +5,8 @@ public class EscapeDisplay : MonoBehaviour
     [SerializeField] private GameObject _escapeByWoodenBoatInterface;
     [SerializeField] private GameObject _escapeByPowerBoatInterface;
 
+    [SerializeField] private GameObject _successfulEscapingInterface;
+
     public void DisplayWoodenBoatEscapingInterface()
     {
         _escapeByWoodenBoatInterface.SetActive(true);
@@ -20,5 +22,10 @@ public class EscapeDisplay : MonoBehaviour
     public void HidePowerBoatEscapingInterface()
     {
         _escapeByPowerBoatInterface.SetActive(false);
+    }
+
+    public void ShowSuccessfulEscapingInterface()
+    {
+        _successfulEscapingInterface.SetActive(true);
     }
 }

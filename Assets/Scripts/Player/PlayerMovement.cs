@@ -11,6 +11,12 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Animator _animator;
 
+    [SerializeField] private SoundsPlayer _soundsPlayer;
+
+    [SerializeField] private float _timeBetweenStepsSound;
+
+    [SerializeField] private float _currentTimeBetweenStepsSound;
+
     private float horizontal;
     private float vertical;
 
@@ -18,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     {
         _canRun = true;
         _canMove = true;
+
+        _currentTimeBetweenStepsSound = 0;
     }
 
     public void MovePlayer(FloatingJoystick joystick)
@@ -31,12 +39,22 @@ public class PlayerMovement : MonoBehaviour
                 transform.rotation = new Quaternion(0, _rotation.y, 0, _rotation.w);
             
                 _animator.SetBool("IsWalking", true);
+                
+                _currentTimeBetweenStepsSound += Time.deltaTime;
+
+                if (_currentTimeBetweenStepsSound >= _timeBetweenStepsSound)
+                {
+                    _soundsPlayer.PlayStepSound();
+                    _currentTimeBetweenStepsSound = 0;
+                }
 
                 if (_canRun == true)
                 {
                     horizontal = joystick.Horizontal >= 0 ? horizontal = joystick.Horizontal : horizontal = -joystick.Horizontal;
                     vertical = joystick.Vertical >= 0 ? vertical = joystick.Vertical : vertical = -joystick.Vertical;
-            
+
+                    _timeBetweenStepsSound = 0.4f;
+
                     if (horizontal >= 0.3f)
                     {
                         _animator.SetFloat("WalkToRun", horizontal);
@@ -54,7 +72,9 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     _animator.SetFloat("WalkToRun", 0);
+                    _timeBetweenStepsSound = 0.8f;
                 }
+                
             }
             else
             {

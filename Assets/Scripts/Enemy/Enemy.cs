@@ -16,6 +16,6 @@ public class Enemy : MonoBehaviour, IDamagable
 
     private void Die()
     {
-        Debug.Log("Умер");
+        Destroy(gameObject);
     }
 }

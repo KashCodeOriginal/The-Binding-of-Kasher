@@ -7,6 +7,8 @@ public class CowAnimations : MonoBehaviour
 
     [SerializeField] private int _cowEatChance;
 
+    [SerializeField] private AudioSource _audioSource;
+
     private void Start()
     {
         StartCoroutine(CowRandomDelay());
@@ -21,6 +23,7 @@ public class CowAnimations : MonoBehaviour
             if (value <= _cowEatChance)
             {
                 _animation.Play("CowEating");
+                _audioSource.Play(); 
             }
             yield return new WaitForSeconds(5f);
         }

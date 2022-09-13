@@ -16,17 +16,24 @@ public class WorldSaveSystem : MonoBehaviour
 
     [SerializeField] private string _savingPath;
     [SerializeField] private string _savingObjectsCountPath;
-    
-    private void Update()
+
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Load();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
+        Load();
+    }
+    
+#if UNITY_ANDROID && !UNITY_EDITOR
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
         {
             Save();
-        }
+        } 
+}
+#endif
+    private void OnApplicationQuit()
+    {
+        Save();
     }
 
     private void Save()

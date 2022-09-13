@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -81,6 +80,9 @@ public class DayAndNightCycle : MonoBehaviour
         _currentDayPartText = DayPart.Morning.ToString();
 
         _newDayAdded = false;
+
+        LoadDateTimeInfo();
+        PassedDaysAmountChanged?.Invoke(_totalDaysPassed);
     }
 
     private void Update()
@@ -196,6 +198,38 @@ public class DayAndNightCycle : MonoBehaviour
             
             yield return new WaitForSeconds(0.1f);
         }
+    }
+    
+#if UNITY_ANDROID && !UNITY_EDITOR
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            SaveDateTimeInfo();
+        } 
+}
+#endif
+    private void OnApplicationQuit()
+    {
+        SaveDateTimeInfo();
+    }
+
+    private void SaveDateTimeInfo()
+    {
+        PlayerPrefs.SetFloat("DayTime", _dayTime);
+        PlayerPrefs.SetInt("TotalDaysPassed", _totalDaysPassed);
+        PlayerPrefs.SetInt("CurrentHours", _currentTime.Hour);
+        PlayerPrefs.SetInt("CurrentMinutes", _currentTime.Minute);
+    }
+    private void LoadDateTimeInfo()
+    {
+        _dayTime = PlayerPrefs.GetFloat("DayTime", 0);
+        _totalDaysPassed = PlayerPrefs.GetInt("TotalDaysPassed", 0);
+
+        int hours = PlayerPrefs.GetInt("CurrentHours", 8);
+        int minutes = PlayerPrefs.GetInt("CurrentMinutes", 0);
+
+        _currentTime = DateTime.Now.Date + TimeSpan.FromHours(hours) + TimeSpan.FromMinutes(minutes);
     }
 }
 

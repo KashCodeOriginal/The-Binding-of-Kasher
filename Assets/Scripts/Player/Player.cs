@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -35,6 +36,18 @@ public class Player : MonoBehaviour, IDamagable
         Application.targetFrameRate = 75;
         _inventory.SetActive(false);
         SpawnPlayer();
+
+        LoadPlayerInfo();
+        
+        HealthValueChanged?.Invoke(_healthPoint);
+        HungerValueChanged?.Invoke(_hungerPoint);
+        WaterValueChanged?.Invoke(_waterPoint);
+        EnergyValueChanged?.Invoke(_energyPoint);
+
+        if (_healthPoint <= 0)
+        {
+            Die();
+        }
     }
     private void IncreaseHeath(int value)
     {
@@ -152,5 +165,44 @@ public class Player : MonoBehaviour, IDamagable
     public void TryApplyDamage(int value)
     {
         DecreaseHealth(value);
+    }
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            SavePlayerInfo();
+        } 
+}
+#endif
+    private void OnApplicationQuit()
+    {
+        SavePlayerInfo();
+    }
+
+    private void SavePlayerInfo()
+    {
+        PlayerPrefs.SetInt("Health", _healthPoint);
+        PlayerPrefs.SetInt("Hunger", _hungerPoint);
+        PlayerPrefs.SetInt("Water", _waterPoint);
+        PlayerPrefs.SetInt("Energy", _energyPoint);
+
+        var position = gameObject.transform.position;
+
+        PlayerPrefs.SetFloat("xPosition", position.x);
+        PlayerPrefs.SetFloat("yPosition", position.y);
+        PlayerPrefs.SetFloat("zPosition", position.z);
+    }
+    private void LoadPlayerInfo()
+    {
+        _healthPoint = PlayerPrefs.GetInt("Health", _maxPointsValue);
+        _hungerPoint = PlayerPrefs.GetInt("Hunger", _maxPointsValue);
+        _waterPoint = PlayerPrefs.GetInt("Water", _maxPointsValue);
+        _energyPoint = PlayerPrefs.GetInt("Energy", _maxPointsValue);
+
+        var position = new Vector3(PlayerPrefs.GetFloat("xPosition", _spawnPlace.x), PlayerPrefs.GetFloat("yPosition", _spawnPlace.y), PlayerPrefs.GetFloat("zPosition", _spawnPlace.z));
+
+        gameObject.transform.position = position;
     }
 }

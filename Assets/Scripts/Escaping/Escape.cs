@@ -38,12 +38,12 @@ public class Escape : MonoBehaviour
 
         if (value <= _woodBoatEscapeChance)
         {
-            Debug.Log("Сбежал");
+            
         }
     }
     public void EscapeByPowerBoat()
     {
-        Debug.Log("Сбежал");
+        
     }
 }
     

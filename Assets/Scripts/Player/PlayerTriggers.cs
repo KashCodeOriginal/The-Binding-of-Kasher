@@ -108,7 +108,7 @@ public class PlayerTriggers : MonoBehaviour
             _lighthouseDisplay.HideLighthouseInterface();
         }
         if (collider.CompareTag("Mine"))
-        {
+        {   
             _collectOreDisplay.CollectOreInterfaceActive(false);
             _collectOreDisplay.StartCollectOreButton(false);
         }
