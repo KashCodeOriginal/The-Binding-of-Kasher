@@ -8,8 +8,6 @@ public class TextWriter : MonoBehaviour
    [SerializeField] private TextMeshProUGUI _textWindow;
    
    [SerializeField] private float _regularCharAppearTime;
-   
-   [SerializeField] private float _fastCharAppearTime;
 
    [SerializeField] private TextWritingSound _textWritingSound;
 
@@ -72,7 +70,7 @@ public class TextWriter : MonoBehaviour
 
    public void SpeedUpTextWriting()
    {
-      _appearTime = _fastCharAppearTime;
+      _charIndex = _currentText.Length - 1;
    }
    public void SpeedDownTextWriting()
    {

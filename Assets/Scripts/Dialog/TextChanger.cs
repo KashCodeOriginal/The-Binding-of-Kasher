@@ -12,6 +12,8 @@ public class TextChanger : MonoBehaviour
     
     [SerializeField] private TrainingDisplay _training;
 
+    [SerializeField] private DialogImagesChanger _dialogImagesChanger;
+
     public void StartDialog()
     {
         _currentDialogPhraseIndex = 0;
@@ -19,8 +21,10 @@ public class TextChanger : MonoBehaviour
         Phrase _currentPhrase = _phraseContainer.GetPhraseByIndex(_currentDialogPhraseIndex);
 
         CheckDialogDirection(_currentPhrase);
-        
+
         _textWriter.WriteTextToDialogWindow(_currentPhrase.PhraseText);
+        
+        _dialogImagesChanger.ChangeImage(_currentPhrase);
     }
 
     public void ChangeDialogPhrase()
@@ -45,6 +49,8 @@ public class TextChanger : MonoBehaviour
         CheckDialogDirection(_currentPhrase);
         
         _textWriter.WriteTextToDialogWindow(_currentPhrase.PhraseText);
+        
+        _dialogImagesChanger.ChangeImage(_currentPhrase);
     }
 
     private void CheckDialogDirection(Phrase phrase)
