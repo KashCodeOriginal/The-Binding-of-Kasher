@@ -1,13 +1,27 @@
 using System.Collections;
 using UnityEngine;
 
-public class CargoShipChestDisplay : MonoBehaviour
+public class CargoShipChestDisplay : MonoBehaviour, IInteractable
 {
+    public bool IsActive { get; private set; } = false;
+    
     [SerializeField] private GameObject _cargoShipChestDisplay;
 
     private void Start()
     {
         StartCoroutine(Delay());
+    }
+    
+    public void Interact()
+    {
+        if (IsActive == false)
+        {
+            DisplayCargoShipChestInterface();
+            IsActive = true;
+            return;
+        }
+        HideCargoShipChestInterface();
+        IsActive = false;
     }
     
     public void DisplayCargoShipChestInterface()
@@ -25,4 +39,6 @@ public class CargoShipChestDisplay : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         HideCargoShipChestInterface();
     }
+
+    
 }

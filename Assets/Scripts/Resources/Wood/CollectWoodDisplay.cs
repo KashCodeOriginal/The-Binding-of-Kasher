@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CollectWoodDisplay : MonoBehaviour
 {
+
     [SerializeField] private GameObject _woodCollectButton;
 
     [SerializeField] private GameObject _woodCollectInterface;
@@ -22,4 +23,5 @@ public class CollectWoodDisplay : MonoBehaviour
     {
         _woodCollectInterface.SetActive(isActivated);
     }
+
 }

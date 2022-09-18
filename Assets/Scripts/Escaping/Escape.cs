@@ -38,12 +38,12 @@ public class Escape : MonoBehaviour
 
         if (value <= _woodBoatEscapeChance)
         {
-            
+            _escapeDisplay.ShowSuccessfulEscapingInterface();
         }
     }
     public void EscapeByPowerBoat()
     {
-        
+        _escapeDisplay.ShowSuccessfulEscapingInterface();
     }
 }
     

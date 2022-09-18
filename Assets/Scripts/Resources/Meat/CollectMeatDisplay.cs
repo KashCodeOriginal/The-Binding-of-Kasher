@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public class CollectMeatDisplay : MonoBehaviour
+public class CollectMeatDisplay : MonoBehaviour, IInteractable
 {
+    public bool IsActive { get; private set; } = false;
+    
     [SerializeField] private GameObject _collectMeatInterface;
     [SerializeField] private GameObject _holdCollectButton;
-
+    
     public void DisplayCollectMeatInterface()
     {
         _collectMeatInterface.SetActive(true);
@@ -20,5 +22,17 @@ public class CollectMeatDisplay : MonoBehaviour
     public void TurnOffHoldCollectButton()
     {
         _holdCollectButton.SetActive(false);
+    }
+    public void Interact()
+    {
+        if (IsActive == false)
+        {
+            DisplayCollectMeatInterface();
+            TurnOnHoldCollectButton();
+            IsActive = true;
+            return;
+        }
+        HideCollectMeatInterface();
+        IsActive = false;
     }
 }

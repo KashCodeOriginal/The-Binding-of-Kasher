@@ -4,7 +4,6 @@ public class EscapeDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject _escapeByWoodenBoatInterface;
     [SerializeField] private GameObject _escapeByPowerBoatInterface;
-
     [SerializeField] private GameObject _successfulEscapingInterface;
 
     public void DisplayWoodenBoatEscapingInterface()
