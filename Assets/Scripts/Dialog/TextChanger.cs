@@ -64,4 +64,9 @@ public class TextChanger : MonoBehaviour
             _dialogDirectionChanger.ChangeDirectionToDirector();
         }
     }
+
+    public void SkipDialog()
+    {
+        _training.SetTrainingToComplete();
+    }
 }

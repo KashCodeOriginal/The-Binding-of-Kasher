@@ -27,7 +27,7 @@ public class TrainingDisplay : MonoBehaviour
 
     public void Start()
     {
-        //LoadTrainingInfo();
+        LoadTrainingInfo();
 
         if (_wasTrainingCompleted == 0)
         {
