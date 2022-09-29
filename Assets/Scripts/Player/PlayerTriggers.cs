@@ -4,6 +4,7 @@ public class PlayerTriggers : MonoBehaviour
 {
     [SerializeField] private CollectWoodDisplay _collectWoodDisplay;
     [SerializeField] private CollectWood _collectWood;
+    [SerializeField] private CollectWheat _collectWheat;
     [SerializeField] private CollectWheatDisplay _collectWheatDisplay;
     [SerializeField] private CollectTorchDisplay _collectTorchDisplay;
     [SerializeField] private CollectTorch _collectTorch;
@@ -37,6 +38,7 @@ public class PlayerTriggers : MonoBehaviour
         if (collider.CompareTag("Wheat"))
         {
             _collectWheatDisplay.DisplayCollectWheatInterface();
+            _collectWheat.SetCurrentWheat(collider.gameObject);
         }
         if (collider.CompareTag("Torch"))
         {
