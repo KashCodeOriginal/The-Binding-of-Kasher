@@ -14,9 +14,7 @@ public class TrainingDisplay : MonoBehaviour
     public void Start()
     {
         LoadTrainingInfo();
-        
-        //  PlayerPrefs.DeleteAll();
-        
+
         if (_wasTrainingCompleted == 0)
         {
             _textChanger.StartDialog();
@@ -35,7 +33,7 @@ public class TrainingDisplay : MonoBehaviour
 
     private void LoadTrainingInfo()
     {
-        _wasTrainingCompleted = PlayerPrefs.GetFloat("WasTrainingCompleted");
+        _wasTrainingCompleted = 0;  //PlayerPrefs.GetFloat("WasTrainingCompleted");
     }
 
     public void SetTrainingToComplete()

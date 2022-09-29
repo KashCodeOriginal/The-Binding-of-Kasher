@@ -154,7 +154,7 @@ public class InteractableItems : MonoBehaviour
     {
         if (_interactivePanel.activeSelf == true)
         {
-            _interactivePanel.SetActive(false);
+            CloseInteractivePanel();
             
             if (_interactaleUseItemButton.activeSelf == true)
             {
@@ -197,7 +197,7 @@ public class InteractableItems : MonoBehaviour
         return true;
     }
 
-    public void CloseInteractivePanel()
+    private void CloseInteractivePanel()
     {
         _interactivePanel.SetActive(false);
         _closeInteractivePanelButton.SetActive(false);

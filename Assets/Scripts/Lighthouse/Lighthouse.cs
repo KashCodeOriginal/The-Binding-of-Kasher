@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Lighthouse : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class Lighthouse : MonoBehaviour
 
     public bool IsLightHouseWorking => _isLighthouseWorking;
 
+    public event UnityAction IsLighthouseIndicatorTurnedOn;
+    public event UnityAction IsLighthouseIndicatorTurnedOff;
+    
     private void Start()
     {
         StartCoroutine(LighthouseFillCheck());
@@ -32,12 +36,16 @@ public class Lighthouse : MonoBehaviour
 
             _isLighthouseWorking = true;
             
+            IsLighthouseIndicatorTurnedOn?.Invoke();
+            
             if (_currentWoodBurningTime >= _woodBurningTime)
             {
                 _isWoodBurning = false;
                 _currentWoodBurningTime = 0;
                 _lighthouseLight.LightsControll(false);
                 _isLighthouseWorking = false;
+                
+                IsLighthouseIndicatorTurnedOff?.Invoke();
             }
         }
     }
