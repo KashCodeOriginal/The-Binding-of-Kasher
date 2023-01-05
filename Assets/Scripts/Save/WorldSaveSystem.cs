@@ -22,15 +22,15 @@ public class WorldSaveSystem : MonoBehaviour
         Load();
     }
     
-#if UNITY_ANDROID && !UNITY_EDITOR
+    #if UNITY_ANDROID && !UNITY_EDITOR
     private void OnApplicationPause(bool pause)
     {
         if (pause)
         {
             Save();
         } 
-}
-#endif
+    }
+    #endif
     private void OnApplicationQuit()
     {
         Save();
@@ -58,10 +58,7 @@ public class WorldSaveSystem : MonoBehaviour
             fileStream.Close();
         }
 
-        for (int i = 0; i < _dynamicMap.transform.childCount; i++)
-        {
-            Destroy(_dynamicMap.transform.GetChild(i).gameObject);
-        }
+        ClearObjects();
     }
 
     private void Load()
@@ -70,16 +67,16 @@ public class WorldSaveSystem : MonoBehaviour
         string path = Path.Combine(Application.persistentDataPath + _savingPath);
         string countPath = Path.Combine(Application.persistentDataPath + _savingObjectsCountPath);
 
-        int fishCount = 0;
+        int objectsCount = 0;
 
         if (File.Exists(countPath))
-        {
-            FileStream countStream = new FileStream(countPath, FileMode.Open);
-           fishCount = (int)binaryFormatter.Deserialize(countStream); 
+        { 
+           FileStream countStream = new FileStream(countPath, FileMode.Open);
+           objectsCount = (int)binaryFormatter.Deserialize(countStream); 
            countStream.Close();
         }
         
-        for (int i = 0; i < fishCount; i++)
+        for (int i = 0; i < objectsCount; i++)
         {
             if (File.Exists(path + i))
             {
@@ -121,6 +118,14 @@ public class WorldSaveSystem : MonoBehaviour
                 fileStream.Close();
             }
             
+        }
+    }
+
+    private void ClearObjects()
+    {
+        for (int i = 0; i < _dynamicMap.transform.childCount; i++)
+        {
+            Destroy(_dynamicMap.transform.GetChild(i).gameObject);
         }
     }
 }

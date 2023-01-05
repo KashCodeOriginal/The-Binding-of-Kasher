@@ -45,8 +45,6 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
-        
-        
         _currentState = State.Roaming;
         
         _startPosition = GenerateRandomPosition();
@@ -72,7 +70,7 @@ public class EnemyAI : MonoBehaviour
                         
                     if (Vector3.Distance(gameObject.transform.position, _roamPosition) < _reachedPointDistance) 
                     {
-                            _roamPosition = GenerateRoamingPosition();
+                        _roamPosition = GenerateRoamingPosition();
                     }
             
                     _aiDestinationSetter.target = _roamTarget.transform;

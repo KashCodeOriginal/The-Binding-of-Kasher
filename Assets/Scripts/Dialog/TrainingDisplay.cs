@@ -33,7 +33,7 @@ public class TrainingDisplay : MonoBehaviour
 
     private void LoadTrainingInfo()
     {
-        _wasTrainingCompleted = 0;  //PlayerPrefs.GetFloat("WasTrainingCompleted");
+        _wasTrainingCompleted = PlayerPrefs.GetFloat("WasTrainingCompleted");
     }
 
     public void SetTrainingToComplete()
